@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
   const { error } = await resend.emails.send({
     from: 'Webbdev Studio <hej@webbdev.se>',
-    to: 'hej@webbdev.se',
+    to: 'webbdevstudio@gmail.com',
     replyTo: email,
     subject: `Ny förfrågan från ${name}`,
     html: `
