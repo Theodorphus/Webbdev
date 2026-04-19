@@ -109,7 +109,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px]" />
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-6 py-28 md:py-36">
+        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
           {/* Badge */}
           <div className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
             <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
@@ -171,9 +171,9 @@ export default function Home() {
       </section>
 
       {/* ── PROBLEM ──────────────────────────────────────────── */}
-      <section className="py-28">
+      <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-14">
+          <div className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Varför byta?</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Kostar din gamla hemsida affärer?
@@ -206,10 +206,10 @@ export default function Home() {
       </section>
 
       {/* ── TJÄNSTER ─────────────────────────────────────────── */}
-      <section id="tjanster" className="relative py-28 bg-grid">
+      <section id="tjanster" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-14">
+          <div className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Det jag levererar</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Teknik &amp; tjänster i världsklass
@@ -247,9 +247,9 @@ export default function Home() {
       </section>
 
       {/* ── PROCESS ──────────────────────────────────────────── */}
-      <section id="processen" className="py-28">
+      <section id="processen" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-14">
+          <div className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min process</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Från idé till live på 5 steg
@@ -290,9 +290,9 @@ export default function Home() {
       </section>
 
       {/* ── PORTFOLIO ─────────────────────────────────────────── */}
-      <section id="portfolio" className="py-28">
+      <section id="portfolio" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-14">
+          <div className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min portfölj</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
           </div>
@@ -356,10 +356,10 @@ export default function Home() {
       </section>
 
       {/* ── PRISER ───────────────────────────────────────────── */}
-      <section id="priser" className="relative py-28 bg-grid">
+      <section id="priser" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-14">
+          <div className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
           </div>
@@ -430,7 +430,7 @@ export default function Home() {
       </section>
 
       {/* ── OM MIG ───────────────────────────────────────────── */}
-      <section id="om-mig" className="py-28">
+      <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
             <div className="grid gap-12 md:grid-cols-2 md:items-center">
@@ -479,7 +479,7 @@ export default function Home() {
       </section>
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
-      <section id="kontakt" className="py-28">
+      <section id="kontakt" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-10 md:p-16">
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
