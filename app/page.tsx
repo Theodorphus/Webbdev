@@ -19,7 +19,15 @@ function IconArrow() {
   );
 }
 
-/* Small icons for problem cards */
+function IconSend() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
+  );
+}
+
 const problemIcons: Record<string, ReactElement> = {
   speed: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -60,13 +68,11 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-
     if (res.ok) {
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
@@ -116,26 +122,31 @@ export default function Home() {
             Webbutveckling för moderna företag
           </div>
 
-          {/* H1 */}
-          <h1 className="animate-fade-up-2 mt-7 max-w-4xl text-5xl font-bold leading-[1.06] tracking-tight md:text-[4rem] lg:text-[5rem]">
-            <span className="text-white">Din nästa hemsida —</span>
+          {/* H1 — kortare och mer slagkraftig */}
+          <h1 className="animate-fade-up-2 mt-6 max-w-3xl text-5xl font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-7xl">
+            <span className="text-white">Hemsidor som</span>
             <br />
             <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-              snabb, snygg och lönsam
+              faktiskt säljer
             </span>
           </h1>
 
-          {/* Subtext */}
-          <p className="animate-fade-up-3 mt-7 max-w-2xl text-lg leading-relaxed text-white/75">
-            Jag bygger professionella hemsidor som konverterar besökare till kunder — med
-            Next.js och modern design. Leverans på 3 dagar, fast pris, inga dolda kostnader.
-          </p>
+          {/* USP-rad */}
+          <div className="animate-fade-up-3 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
+            {['Leverans på 3 dagar', 'Fast pris', 'Inga dolda kostnader'].map((usp, i) => (
+              <span key={usp} className="flex items-center gap-2">
+                {i > 0 && <span className="hidden sm:inline text-white/20">·</span>}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><polyline points="20 6 9 17 4 12" /></svg>
+                {usp}
+              </span>
+            ))}
+          </div>
 
           {/* CTAs */}
-          <div className="animate-fade-up-3 mt-10 flex flex-wrap items-center gap-4">
+          <div className="animate-fade-up-3 mt-9 flex flex-wrap items-center gap-4">
             <a
               href="#kontakt"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] active:scale-[0.98]"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
             >
               Få en gratis analys
               <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
@@ -144,15 +155,9 @@ export default function Home() {
               href="#processen"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25"
             >
-              Se processen
+              Se hur det funkar
             </a>
           </div>
-
-          {/* Trust line */}
-          <p className="animate-fade-up-3 mt-5 text-xs text-white/35 flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-400 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-            Gratis analys · Inget bindande · Svar inom 24 h
-          </p>
 
           {/* Stats */}
           <div className="animate-fade-in mt-14 flex flex-wrap gap-10 border-t border-white/8 pt-10">
@@ -179,26 +184,24 @@ export default function Home() {
               Kostar din gamla hemsida affärer?
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: problemIcons.speed, label: 'Slöar försäljningen', desc: 'Gamla hemsidor avviker besökare på första sekunden — du förlorar kunder utan att ens veta om det.' },
-              { icon: problemIcons.ux,    label: 'Förvirrande UX', desc: 'Dålig navigation gör att kunder inte hittar det de söker. De lämnar och går till konkurrenten.' },
-              { icon: problemIcons.trust, label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad. Det skrämmer bort moderna kunder.' },
-              { icon: problemIcons.perf,  label: 'Dålig laddtid', desc: 'Varje sekund extra laddtid kostar dig konverteringar och Google-ranking.' },
-              { icon: problemIcons.mobile,label: 'Inte mobilvänlig', desc: '70% av trafiken är mobil. Utan responsiv design förlorar du mer än hälften av dina besökare.' },
-              { icon: problemIcons.seo,   label: 'Syns inte på Google', desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
+              { icon: problemIcons.speed, label: 'Slöar försäljningen',   desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
+              { icon: problemIcons.ux,    label: 'Förvirrande UX',        desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
+              { icon: problemIcons.trust, label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
+              { icon: problemIcons.perf,  label: 'Dålig laddtid',         desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
+              { icon: problemIcons.mobile,'label': 'Inte mobilvänlig',    desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
+              { icon: problemIcons.seo,   label: 'Syns inte på Google',   desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
             ].map((item) => (
               <div
                 key={item.label}
-                className="rounded-2xl border border-red-500/10 bg-red-500/5 p-6 transition-all hover:border-red-500/20 hover:bg-red-500/8"
+                className="rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8"
               >
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                    {item.icon}
-                  </div>
-                  <h3 className="font-semibold text-white/95">{item.label}</h3>
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+                  {item.icon}
                 </div>
-                <p className="text-sm leading-relaxed text-white/65">{item.desc}</p>
+                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
+                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -215,30 +218,29 @@ export default function Home() {
               Teknik &amp; tjänster i världsklass
             </h2>
           </div>
-          {/* 2 columns on desktop */}
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             {[
-              { title: 'Next.js & React', desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
-              { title: 'Supabase backend', desc: 'Säker databas med realtidsuppdateringar, autentisering och API ur lådan.', tag: 'Backend' },
-              { title: 'Admin-panel', desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.', tag: 'CMS' },
-              { title: 'Optimerad prestanda', desc: 'Lighthouse-score 95+. Core Web Vitals godkänt. Din sida rankar på Google.', tag: 'SEO' },
-              { title: 'Premium design', desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.', tag: 'Design' },
-              { title: 'Stripe-betalningar', desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.', tag: 'E-commerce' },
-              { title: 'Fast pris', desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.', tag: 'Pris' },
-              { title: '3 dagars leverans', desc: 'Från brief till live hemsida på 3 arbetsdagar. Snabbt när det gäller.', tag: 'Leverans' },
+              { title: 'Next.js & React',     desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
+              { title: 'Supabase backend',    desc: 'Säker databas med realtidsuppdateringar, autentisering och API ur lådan.',          tag: 'Backend' },
+              { title: 'Admin-panel',         desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.',         tag: 'CMS' },
+              { title: 'Optimerad prestanda', desc: 'Lighthouse-score 95+. Core Web Vitals godkänt. Din sida rankar på Google.',          tag: 'SEO' },
+              { title: 'Premium design',      desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.',         tag: 'Design' },
+              { title: 'Stripe-betalningar',  desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.',    tag: 'E-commerce' },
+              { title: 'Fast pris',           desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.',      tag: 'Pris' },
+              { title: '3 dagars leverans',   desc: 'Från brief till live hemsida på 3 arbetsdagar. Snabbt när det gäller.',              tag: 'Leverans' },
             ].map((item) => (
               <div
                 key={item.title}
-                className="group flex gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5"
+                className="group flex gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20"
               >
                 <div className="mt-0.5 flex-shrink-0">
-                  <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
+                  <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
                     {item.tag}
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white/90 group-hover:text-white">{item.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -255,36 +257,39 @@ export default function Home() {
               Från idé till live på 5 steg
             </h2>
           </div>
-          <div className="space-y-0">
+          {/* Kort-layout med stora cirklar */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { step: '01', title: 'Gratis analys', desc: 'Vi börjar med ett samtal om dina mål och din nuvarande situation. Jag analyserar konkurrenter och sätter ihop en strategi.' },
-              { step: '02', title: 'Designförslag', desc: 'Du får ett visuellt designförslag som visar exakt hur hemsidan kommer se ut — innan ett enda tecken kod skrivs.' },
-              { step: '03', title: 'Byggnation', desc: 'Jag bygger hemsidan med senaste tekniken. Full transparens — du kan följa framgången i realtid via ett delat Vercel-projekt.' },
-              { step: '04', title: 'Lansering', desc: 'Din hemsida är live. Jag hanterar domän, SSL, hosting och alla tekniska detaljer. Du behöver inte göra något.' },
-              { step: '05', title: 'Support & underhåll', desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam med din hemsida.' },
-            ].map((item, i) => (
+              { n: 1, title: 'Gratis analys',    desc: 'Vi börjar med ett samtal om dina mål. Jag analyserar din situation och sätter ihop en strategi.' },
+              { n: 2, title: 'Designförslag',    desc: 'Du får ett visuellt förslag som visar exakt hur hemsidan kommer se ut — innan ett tecken kod skrivs.' },
+              { n: 3, title: 'Byggnation',       desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framgången i realtid.' },
+              { n: 4, title: 'Lansering',        desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
+              { n: 5, title: 'Support',          desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
+            ].map((item) => (
               <div
-                key={item.step}
-                className="group relative flex gap-8 border-t border-white/8 py-10 transition-all hover:border-indigo-500/20"
+                key={item.n}
+                className="group rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5"
               >
-                <div className="hidden w-16 flex-shrink-0 md:block">
-                  <span className="font-mono text-4xl font-bold text-white/8 transition-colors group-hover:text-indigo-500/20">
-                    {item.step}
-                  </span>
+                {/* Stor cirkel med siffra */}
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200">
+                  {item.n}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-400">
-                      {i + 1}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white/90 group-hover:text-white">{item.title}</h3>
-                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/65">{item.desc}</p>
-                    </div>
-                  </div>
-                </div>
+                <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
               </div>
             ))}
+            {/* Sista "kort" — CTA */}
+            <div className="rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
+              <p className="text-sm leading-relaxed text-white/60">
+                Redo att komma igång? Det kostar ingenting att höra av sig.
+              </p>
+              <a
+                href="#kontakt"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                Boka gratis analys <IconArrow />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -301,18 +306,21 @@ export default function Home() {
               {
                 name: 'Karla Cleaning Crew',
                 desc: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.',
+                result: 'Snabb, mobiloptimerad och enkel att hitta på Google.',
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://karlacleaningcrew.se/',
               },
               {
                 name: 'Wellness Studio',
                 desc: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.',
+                result: 'Helautomatiserad bokningsprocess utan manuellt arbete.',
                 tech: ['Next.js', 'Tailwind', 'Supabase'],
                 url: 'https://bokning-taupe.vercel.app/',
               },
               {
-                name: 'Konstbyte — Marknadsplats',
+                name: 'Konstbyte',
                 desc: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.',
+                result: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.',
                 tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
                 url: 'https://www.konstbyte.se/',
               },
@@ -322,29 +330,34 @@ export default function Home() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block rounded-3xl border border-white/8 bg-white/[0.03] p-8 transition-all hover:border-indigo-500/25 hover:bg-indigo-500/5"
+                className="group block rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/30"
               >
-                <div className="mb-6 h-44 w-full overflow-hidden rounded-2xl border border-white/8 bg-gradient-to-br from-indigo-950/60 to-violet-950/60 flex items-center justify-center">
+                {/* Preview */}
+                <div className="mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 bg-gradient-to-br from-indigo-950/60 to-violet-950/60 flex items-center justify-center transition-all group-hover:border-indigo-500/20">
                   <div className="text-center">
-                    <div className="font-mono text-5xl font-bold text-white/10">{item.name[0]}</div>
-                    <div className="mt-2 text-xs text-white/20 uppercase tracking-widest">Besök projekt</div>
-                  </div>
-                </div>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-semibold text-white/90 group-hover:text-white">{item.name}</h3>
-                      <span className="rounded-full border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">Live</span>
+                    <div className="font-mono text-5xl font-bold text-white/10 group-hover:text-white/15 transition-colors">{item.name[0]}</div>
+                    <div className="mt-2 flex items-center gap-1 text-xs text-white/20 uppercase tracking-widest group-hover:text-indigo-400/60 transition-colors">
+                      Besök projekt <IconArrow />
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-white/65">{item.desc}</p>
                   </div>
-                  <span className="flex-shrink-0 text-white/30 transition-all group-hover:text-indigo-400 group-hover:translate-x-1">
-                    <IconArrow />
-                  </span>
                 </div>
-                <div className="mt-5 flex flex-wrap gap-2">
+
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <h3 className="text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.name}</h3>
+                  <span className="flex-shrink-0 rounded-full border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">Live</span>
+                </div>
+
+                <p className="text-sm leading-relaxed text-white/55 mb-3">{item.desc}</p>
+
+                {/* Kundresultat */}
+                <div className="flex items-start gap-2 rounded-lg border border-indigo-500/15 bg-indigo-500/5 px-3 py-2 mb-4">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
+                  <p className="text-xs text-indigo-300/80">{item.result}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
                   {item.tech.map((t) => (
-                    <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/50">
+                    <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/45">
                       {t}
                     </span>
                   ))}
@@ -363,7 +376,7 @@ export default function Home() {
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-3 items-start">
+          <div className="grid gap-6 md:grid-cols-3 md:items-end">
             {[
               {
                 tier: 'Bas',
@@ -389,10 +402,10 @@ export default function Home() {
             ].map((item) => (
               <div
                 key={item.tier}
-                className={`relative rounded-3xl p-9 transition-all ${
+                className={`relative rounded-3xl transition-all ${
                   item.highlighted
-                    ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/90 to-violet-950/70 shadow-2xl shadow-indigo-900/40 ring-1 ring-indigo-500/20'
-                    : 'border border-white/8 bg-white/[0.03]'
+                    ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/95 to-violet-950/80 p-9 shadow-2xl shadow-indigo-900/50 ring-1 ring-indigo-500/20'
+                    : 'border border-white/8 bg-white/[0.03] p-8'
                 }`}
               >
                 {item.highlighted && (
@@ -401,9 +414,13 @@ export default function Home() {
                   </div>
                 )}
                 <div className="mb-7">
-                  <h3 className="font-mono text-base font-bold text-white/70 uppercase tracking-wider">{item.tier}</h3>
-                  <div className="mt-4 text-5xl font-bold text-white">{item.price}</div>
-                  <p className="mt-2 text-sm text-white/55">{item.desc}</p>
+                  <h3 className={`font-mono font-bold uppercase tracking-wider ${item.highlighted ? 'text-indigo-300 text-sm' : 'text-white/60 text-sm'}`}>
+                    {item.tier}
+                  </h3>
+                  <div className={`mt-3 font-bold text-white ${item.highlighted ? 'text-6xl' : 'text-5xl'}`}>
+                    {item.price}
+                  </div>
+                  <p className="mt-2 text-sm text-white/50">{item.desc}</p>
                 </div>
                 <ul className="mb-8 space-y-3.5">
                   {item.features.map((f) => (
@@ -415,10 +432,10 @@ export default function Home() {
                 </ul>
                 <a
                   href="#kontakt"
-                  className={`block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-all ${
+                  className={`block w-full rounded-full py-4 text-center text-sm font-bold transition-all ${
                     item.highlighted
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-900/40'
-                      : 'border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+                      ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 hover:shadow-indigo-800/50'
+                      : 'border border-white/12 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   Kom igång
@@ -440,13 +457,12 @@ export default function Home() {
                 <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
                   <p>
                     Jag är en junior webbutvecklare med en examen i systemvetenskap från Göteborgs
-                    universitet och drygt 2 år av praktisk erfarenhet genom egna projekt och
-                    frilansuppdrag.
+                    universitet och drygt 2 år av praktisk erfarenhet genom egna projekt och frilansuppdrag.
                   </p>
                   <p>
                     Eftersom jag är i början av min karriär kan jag erbjuda prisvärda lösningar utan
-                    att kompromissa med kvaliteten. Jag har också gott om tid för support och
-                    är alltid tillgänglig för frågor och justeringar.
+                    att kompromissa med kvaliteten. Jag har också gott om tid för support och är alltid
+                    tillgänglig för frågor och justeringar.
                   </p>
                   <p>
                     Jag tar varje projekt på allvar och lägger ner den tid som krävs för att du ska
@@ -456,10 +472,10 @@ export default function Home() {
               </div>
               <div className="space-y-3">
                 {[
-                  { label: 'Utbildning', value: 'Systemvetenskap, GU', tag: 'EDU' },
-                  { label: 'Erfarenhet', value: '2+ år webbutveckling', tag: 'EXP' },
+                  { label: 'Utbildning',  value: 'Systemvetenskap, GU',       tag: 'EDU' },
+                  { label: 'Erfarenhet',  value: '2+ år webbutveckling',       tag: 'EXP' },
                   { label: 'Teknikstack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
-                  { label: 'Leveranstid', value: '3 arbetsdagar', tag: 'SPEED' },
+                  { label: 'Leveranstid', value: '3 arbetsdagar',               tag: 'SPEED' },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -467,7 +483,7 @@ export default function Home() {
                   >
                     <div className="flex items-center gap-4">
                       <span className="font-mono text-[10px] text-indigo-400/50 w-12 shrink-0">{row.tag}</span>
-                      <span className="text-xs text-white/60">{row.label}</span>
+                      <span className="text-xs text-white/55">{row.label}</span>
                     </div>
                     <span className="text-sm font-medium text-white/80">{row.value}</span>
                   </div>
@@ -489,8 +505,8 @@ export default function Home() {
               <h2 className="mt-4 text-center text-3xl font-bold text-white md:text-4xl">
                 Redo för din nya hemsida?
               </h2>
-              <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/70">
-                Fyll i formuläret nedan så hör jag av mig inom 24 timmar med en gratis analys.
+              <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/65">
+                Fyll i formuläret nedan så hör jag av mig med en gratis analys.
               </p>
               <form onSubmit={handleSubmit} className="mt-10 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -538,27 +554,28 @@ export default function Home() {
                     Något gick fel — försök igen senare.
                   </div>
                 )}
+
+                {/* Trust text tätt ovanför knappen */}
+                <div className="flex items-center justify-center gap-1.5 pt-1">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                  <p className="text-xs font-medium text-white/50">Jag svarar alltid inom 24 timmar · Ingen kostnad · Ingen förpliktelse</p>
+                </div>
+
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="group w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-4 text-base font-semibold text-white shadow-xl shadow-indigo-900/40 transition-all hover:bg-indigo-500 hover:scale-[1.01] disabled:opacity-60 active:scale-[0.99]"
+                  className="group w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-4.5 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
                 >
-                  {status === 'loading' ? 'Skickar...' : (
+                  {status === 'loading' ? (
+                    'Skickar...'
+                  ) : (
                     <>
+                      <IconSend />
                       Skicka förfrågan gratis
-                      <span className="transition-transform group-hover:translate-x-0.5"><IconArrow /></span>
                     </>
                   )}
                 </button>
               </form>
-              {/* Trust text */}
-              <div className="mt-5 flex flex-col items-center gap-1.5">
-                <p className="flex items-center gap-1.5 text-sm font-medium text-white/60">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                  Jag svarar alltid inom 24 timmar.
-                </p>
-                <p className="text-xs text-white/30">Ingen kostnad, ingen förpliktelse.</p>
-              </div>
             </div>
           </div>
         </div>
