@@ -16,6 +16,12 @@ export const metadata: Metadata = {
   title: "Webbdev Studio — Modern webbutveckling",
   description:
     "Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag. Next.js, React, Tailwind. Leverans på 3 dagar.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    images: [{ url: "/Og.png" }],
+  },
 };
 
 export default function RootLayout({
