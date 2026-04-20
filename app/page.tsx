@@ -309,13 +309,15 @@ export default function Home() {
                 result: 'Snabb, mobiloptimerad och enkel att hitta på Google.',
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://karlacleaningcrew.se/',
+                img: '/1.png',
               },
               {
                 name: 'Wellness Studio',
                 desc: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.',
                 result: 'Helautomatiserad bokningsprocess utan manuellt arbete.',
                 tech: ['Next.js', 'Tailwind', 'Supabase'],
-                url: 'https://bokning-taupe.vercel.app/',
+                url: 'https://bokning-gue0ah1a6-webbdev.vercel.app/',
+                img: '/2.png',
               },
               {
                 name: 'Konstbyte',
@@ -323,6 +325,7 @@ export default function Home() {
                 result: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.',
                 tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
                 url: 'https://www.konstbyte.se/',
+                img: '/3.png',
               },
             ].map((item) => (
               <a
@@ -333,13 +336,8 @@ export default function Home() {
                 className="group block rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/30"
               >
                 {/* Preview */}
-                <div className="mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 bg-gradient-to-br from-indigo-950/60 to-violet-950/60 flex items-center justify-center transition-all group-hover:border-indigo-500/20">
-                  <div className="text-center">
-                    <div className="font-mono text-5xl font-bold text-white/10 group-hover:text-white/15 transition-colors">{item.name[0]}</div>
-                    <div className="mt-2 flex items-center gap-1 text-xs text-white/20 uppercase tracking-widest group-hover:text-indigo-400/60 transition-colors">
-                      Besök projekt <IconArrow />
-                    </div>
-                  </div>
+                <div className="mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
+                  <img src={item.img} alt={item.name} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
                 </div>
 
                 <div className="flex items-start justify-between gap-3 mb-3">
