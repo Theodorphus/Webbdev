@@ -327,6 +327,22 @@ export default function Home() {
                 url: 'https://www.konstbyte.se/',
                 img: '/3.png',
               },
+              {
+                name: 'Prolink',
+                desc: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.',
+                result: 'Snygg och snabb sajt som stärker varumärket online.',
+                tech: ['Next.js', 'Tailwind', 'Vercel'],
+                url: 'https://www.prolink.se/',
+                img: '/4.png',
+              },
+              {
+                name: 'SwedenSweet',
+                desc: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.',
+                result: 'Komplett nätbutik med enkel navigation och snabb checkout.',
+                tech: ['Next.js', 'Tailwind', 'Vercel'],
+                url: 'https://swedensweet.vercel.app/',
+                img: '/5.png',
+              },
             ].map((item) => (
               <a
                 key={item.name}
