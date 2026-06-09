@@ -343,6 +343,14 @@ export default function Home() {
                 url: 'https://swedensweet.vercel.app/',
                 img: '/5.png',
               },
+              {
+                name: 'FlexLeague',
+                desc: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.',
+                result: 'Smidig liga-hantering med automatiska tabeller och statistik.',
+                tech: ['Next.js', 'Tailwind', 'Vercel'],
+                url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
+                img: '/Flex.png',
+              },
             ].map((item) => (
               <a
                 key={item.name}
@@ -464,7 +472,23 @@ export default function Home() {
       <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
-            <div className="grid gap-12 md:grid-cols-2 md:items-center">
+            <div className="grid gap-12 md:grid-cols-[minmax(0,280px)_1fr] md:items-center lg:gap-16">
+              {/* Porträtt */}
+              <div className="mx-auto w-full max-w-[280px] md:mx-0">
+                <div className="group relative">
+                  <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-indigo-500/25 via-violet-500/15 to-cyan-500/15 opacity-70 blur-2xl transition-opacity group-hover:opacity-100" />
+                  <div className="relative overflow-hidden rounded-3xl border border-white/10 ring-1 ring-white/5 shadow-2xl shadow-indigo-950/50">
+                    <img
+                      src="/pp.png"
+                      alt="Theodor — webbutvecklare bakom Webbdev Studio"
+                      className="aspect-[4/5] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06060f]/40 via-transparent to-transparent" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Text + fakta */}
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Om mig</p>
                 <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vem bygger din hemsida?</h2>
@@ -483,8 +507,7 @@ export default function Home() {
                     vara nöjd med resultatet.
                   </p>
                 </div>
-              </div>
-              <div className="space-y-3">
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {[
                   { label: 'Utbildning',  value: 'Systemvetenskap, GU',       tag: 'EDU' },
                   { label: 'Erfarenhet',  value: '2+ år webbutveckling',       tag: 'EXP' },
@@ -502,6 +525,7 @@ export default function Home() {
                     <span className="text-sm font-medium text-white/80">{row.value}</span>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
           </div>
