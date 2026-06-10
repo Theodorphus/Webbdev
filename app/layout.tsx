@@ -39,7 +39,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#06060f] text-[#e8eaf6]">
+        <div className="scroll-progress" aria-hidden="true" />
         {children}
+        <div className="noise-overlay" aria-hidden="true" />
         <Analytics />
       </body>
     </html>

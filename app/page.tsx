@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
+import Reveal from './components/Reveal';
 
 function IconCheck() {
   return (
@@ -64,6 +65,26 @@ const problemIcons: Record<string, ReactElement> = {
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement | null)?.closest?.('.card-spotlight') as HTMLElement | null;
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+    };
+    document.addEventListener('pointermove', onMove, { passive: true });
+    return () => document.removeEventListener('pointermove', onMove);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,17 +107,23 @@ export default function Home() {
     <div className="relative overflow-x-hidden">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#06060f]/80 backdrop-blur-xl">
+      <header
+        className={`fixed top-0 inset-x-0 z-50 border-b backdrop-blur-xl transition-all duration-300 ${
+          scrolled
+            ? 'border-white/10 bg-[#06060f]/90 shadow-lg shadow-indigo-950/20'
+            : 'border-white/5 bg-[#06060f]/80'
+        }`}
+      >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
             Webbdev<span className="text-white/30">.</span>Studio
           </span>
           <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
-            <a href="#tjanster" className="hover:text-white transition-colors">Tjänster</a>
-            <a href="#processen" className="hover:text-white transition-colors">Process</a>
-            <a href="#portfolio" className="hover:text-white transition-colors">Portfolio</a>
-            <a href="#priser" className="hover:text-white transition-colors">Priser</a>
-            <a href="#om-mig" className="hover:text-white transition-colors">Om mig</a>
+            <a href="#tjanster" className="nav-link hover:text-white transition-colors">Tjänster</a>
+            <a href="#processen" className="nav-link hover:text-white transition-colors">Process</a>
+            <a href="#portfolio" className="nav-link hover:text-white transition-colors">Portfolio</a>
+            <a href="#priser" className="nav-link hover:text-white transition-colors">Priser</a>
+            <a href="#om-mig" className="nav-link hover:text-white transition-colors">Om mig</a>
           </nav>
           <a
             href="#kontakt"
@@ -111,8 +138,8 @@ export default function Home() {
       <section className="relative flex min-h-screen items-center bg-grid pt-20">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-indigo-600/20 blur-[130px] animate-pulse-glow" />
-          <div className="absolute top-1/3 -right-32 h-[450px] w-[450px] rounded-full bg-violet-600/15 blur-[110px]" />
-          <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px]" />
+          <div className="absolute top-1/3 -right-32 h-[450px] w-[450px] rounded-full bg-violet-600/15 blur-[110px] animate-drift" />
+          <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px] animate-drift-slow" />
         </div>
 
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
@@ -126,7 +153,7 @@ export default function Home() {
           <h1 className="animate-fade-up-2 mt-6 max-w-3xl text-5xl font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-7xl">
             <span className="text-white">Hemsidor som</span>
             <br />
-            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
               faktiskt säljer
             </span>
           </h1>
@@ -146,7 +173,7 @@ export default function Home() {
           <div className="animate-fade-up-3 mt-9 flex flex-wrap items-center gap-4">
             <a
               href="#kontakt"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
+              className="group btn-shine inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
             >
               Få en gratis analys
               <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
@@ -178,12 +205,12 @@ export default function Home() {
       {/* ── PROBLEM ──────────────────────────────────────────── */}
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10">
+          <Reveal className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Varför byta?</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Kostar din gamla hemsida affärer?
             </h2>
-          </div>
+          </Reveal>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { icon: problemIcons.speed, label: 'Slöar försäljningen',   desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
@@ -192,17 +219,16 @@ export default function Home() {
               { icon: problemIcons.perf,  label: 'Dålig laddtid',         desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
               { icon: problemIcons.mobile,'label': 'Inte mobilvänlig',    desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
               { icon: problemIcons.seo,   label: 'Syns inte på Google',   desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                  {item.icon}
+            ].map((item, i) => (
+              <Reveal key={item.label} delay={i * 70}>
+                <div className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+                    {item.icon}
+                  </div>
+                  <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
+                  <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
                 </div>
-                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -212,12 +238,12 @@ export default function Home() {
       <section id="tjanster" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-10">
+          <Reveal className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Det jag levererar</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Teknik &amp; tjänster i världsklass
             </h2>
-          </div>
+          </Reveal>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { title: 'Next.js & React',     desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
@@ -228,21 +254,20 @@ export default function Home() {
               { title: 'Stripe-betalningar',  desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.',    tag: 'E-commerce' },
               { title: 'Fast pris',           desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.',      tag: 'Pris' },
               { title: '3 dagars leverans',   desc: 'Från brief till live hemsida på 3 arbetsdagar. Snabbt när det gäller.',              tag: 'Leverans' },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="group flex gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20"
-              >
-                <div className="mt-0.5 flex-shrink-0">
-                  <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
-                    {item.tag}
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={(i % 2) * 80}>
+                <div className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
+                  <div className="mt-0.5 flex-shrink-0">
+                    <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
+                      {item.tag}
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
                   </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -251,12 +276,12 @@ export default function Home() {
       {/* ── PROCESS ──────────────────────────────────────────── */}
       <section id="processen" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10">
+          <Reveal className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min process</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Från idé till live på 5 steg
             </h2>
-          </div>
+          </Reveal>
           {/* Kort-layout med stora cirklar */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
@@ -265,31 +290,32 @@ export default function Home() {
               { n: 3, title: 'Byggnation',       desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framgången i realtid.' },
               { n: 4, title: 'Lansering',        desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
               { n: 5, title: 'Support',          desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
-            ].map((item) => (
-              <div
-                key={item.n}
-                className="group rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5"
-              >
-                {/* Stor cirkel med siffra */}
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200">
-                  {item.n}
+            ].map((item, i) => (
+              <Reveal key={item.n} delay={i * 70}>
+                <div className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
+                  {/* Stor cirkel med siffra */}
+                  <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
+                    {item.n}
+                  </div>
+                  <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
                 </div>
-                <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
             {/* Sista "kort" — CTA */}
-            <div className="rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
-              <p className="text-sm leading-relaxed text-white/60">
-                Redo att komma igång? Det kostar ingenting att höra av sig.
-              </p>
-              <a
-                href="#kontakt"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
-              >
-                Boka gratis analys <IconArrow />
-              </a>
-            </div>
+            <Reveal delay={350}>
+              <div className="card-spotlight h-full rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
+                <p className="text-sm leading-relaxed text-white/60">
+                  Redo att komma igång? Det kostar ingenting att höra av sig.
+                </p>
+                <a
+                  href="#kontakt"
+                  className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Boka gratis analys <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+                </a>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -297,10 +323,10 @@ export default function Home() {
       {/* ── PORTFOLIO ─────────────────────────────────────────── */}
       <section id="portfolio" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10">
+          <Reveal className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min portfölj</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
@@ -351,13 +377,13 @@ export default function Home() {
                 url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
                 img: '/Flex.png',
               },
-            ].map((item) => (
+            ].map((item, i) => (
+              <Reveal key={item.name} delay={(i % 3) * 90}>
               <a
-                key={item.name}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/30"
+                className="group card-spotlight block h-full rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/30"
               >
                 {/* Preview */}
                 <div className="mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
@@ -385,6 +411,7 @@ export default function Home() {
                   ))}
                 </div>
               </a>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -394,10 +421,10 @@ export default function Home() {
       <section id="priser" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-10">
+          <Reveal className="mb-10">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-3 md:items-end">
             {[
               {
@@ -421,13 +448,13 @@ export default function Home() {
                 features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'],
                 highlighted: false,
               },
-            ].map((item) => (
+            ].map((item, i) => (
+              <Reveal key={item.tier} delay={i * 100}>
               <div
-                key={item.tier}
-                className={`relative rounded-3xl transition-all ${
+                className={`relative rounded-3xl transition-all duration-300 ${
                   item.highlighted
-                    ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/95 to-violet-950/80 p-9 shadow-2xl shadow-indigo-900/50 ring-1 ring-indigo-500/20'
-                    : 'border border-white/8 bg-white/[0.03] p-8'
+                    ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/95 to-violet-950/80 p-9 shadow-2xl shadow-indigo-900/50 ring-1 ring-indigo-500/20 hover:shadow-indigo-800/60 hover:-translate-y-1.5'
+                    : 'border border-white/8 bg-white/[0.03] p-8 hover:border-white/15 hover:-translate-y-1'
                 }`}
               >
                 {item.highlighted && (
@@ -456,13 +483,14 @@ export default function Home() {
                   href="#kontakt"
                   className={`block w-full rounded-full py-4 text-center text-sm font-bold transition-all ${
                     item.highlighted
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 hover:shadow-indigo-800/50'
+                      ? 'btn-shine bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 hover:shadow-indigo-800/50'
                       : 'border border-white/12 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   Kom igång
                 </a>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -471,6 +499,7 @@ export default function Home() {
       {/* ── OM MIG ───────────────────────────────────────────── */}
       <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
+          <Reveal>
           <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
             <div className="grid gap-12 md:grid-cols-[minmax(0,280px)_1fr] md:items-center lg:gap-16">
               {/* Porträtt */}
@@ -529,12 +558,14 @@ export default function Home() {
               </div>
             </div>
           </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
       <section id="kontakt" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
+          <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-10 md:p-16">
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
             <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
@@ -602,7 +633,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="group w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-4.5 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
+                  className="group btn-shine w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-4.5 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
                 >
                   {status === 'loading' ? (
                     'Skickar...'
@@ -616,6 +647,7 @@ export default function Home() {
               </form>
             </div>
           </div>
+          </Reveal>
         </div>
       </section>
 
