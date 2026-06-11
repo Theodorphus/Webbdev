@@ -1,6 +1,35 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
+/**
+ * Enkel rate-limit i minnet: max 3 förfrågningar per IP per 10 minuter.
+ * (Per serverless-instans — best effort, men stoppar burst-spam.)
+ */
+const RATE_LIMIT = 3;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= RATE_LIMIT) {
+    hits.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  hits.set(ip, recent);
+  return false;
+}
+
+/** Skydda mejlets HTML mot injicerad markup. */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 export async function POST(req: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -8,13 +37,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
   }
 
-  const resend = new Resend(apiKey);
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'För många förfrågningar — försök igen om en stund.' },
+      { status: 429 },
+    );
+  }
 
-  const { name, email, message } = await req.json();
+  const { name, email, message, company } = await req.json();
+
+  // Honeypot: fältet är osynligt för människor — bottar fyller i det.
+  // Svara 200 så botten tror att den lyckades.
+  if (company) {
+    return NextResponse.json({ ok: true });
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: 'Alla fält måste fyllas i.' }, { status: 400 });
   }
+  if (
+    typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string' ||
+    name.length > 200 || email.length > 200 || message.length > 5000
+  ) {
+    return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
+  }
+
+  const resend = new Resend(apiKey);
 
   const { data, error } = await resend.emails.send({
     from: 'Webbdev Studio <onboarding@resend.dev>',
@@ -22,10 +71,10 @@ export async function POST(req: Request) {
     replyTo: email,
     subject: `Ny förfrågan från ${name}`,
     html: `
-      <p><strong>Namn:</strong> ${name}</p>
-      <p><strong>E-post:</strong> ${email}</p>
+      <p><strong>Namn:</strong> ${escapeHtml(name)}</p>
+      <p><strong>E-post:</strong> ${escapeHtml(email)}</p>
       <p><strong>Meddelande:</strong></p>
-      <p>${message.replace(/\n/g, '<br>')}</p>
+      <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
     `,
   });
 

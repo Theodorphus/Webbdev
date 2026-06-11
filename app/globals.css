@@ -83,18 +83,11 @@ body {
   background-size: 64px 64px;
 }
 
-/* ── Scroll reveal ──────────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+/* ── Prispaket: fokusera hovrat kort, dimma syskonen ────── */
+.pricing-grid:hover .pricing-card:not(:hover) {
+  opacity: 0.5;
+  transform: scale(0.97);
+  filter: saturate(0.7) brightness(0.85);
 }
 
 /* ── Shimmering gradient text ───────────────────────────── */
@@ -185,7 +178,8 @@ body {
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.is-active::after {
   transform: scaleX(1);
 }
 
@@ -229,10 +223,10 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
+  .pricing-grid:hover .pricing-card:not(:hover) {
     opacity: 1;
     transform: none;
-    transition: none;
+    filter: none;
   }
   .animate-gradient-x,
   .animate-drift,

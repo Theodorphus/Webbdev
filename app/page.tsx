@@ -1,7 +1,10 @@
 'use client';
 
-import { useEffect, useState, type ReactElement } from 'react';
-import Reveal from './components/Reveal';
+import Image from 'next/image';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
+import useAnimations from './components/animations/useAnimations';
+import { faqItems } from './faq';
+import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
 
 function IconCheck() {
   return (
@@ -63,9 +66,31 @@ const problemIcons: Record<string, ReactElement> = {
 };
 
 export default function Home() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const scopeRef = useRef<HTMLDivElement>(null);
+
+  useAnimations(scopeRef);
+
+  // Markera aktiv sektion i nav medan man scrollar
+  useEffect(() => {
+    const ids = ['tjanster', 'processen', 'portfolio', 'priser', 'om-mig'];
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        }
+      },
+      { rootMargin: '-35% 0px -55% 0px' },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -96,7 +121,7 @@ export default function Home() {
     });
     if (res.ok) {
       setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', message: '', company: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } else {
       setStatus('error');
@@ -104,7 +129,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div ref={scopeRef} className="relative overflow-x-hidden">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
       <header
@@ -114,16 +139,32 @@ export default function Home() {
             : 'border-white/5 bg-[#06060f]/80'
         }`}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div
+          className={`mx-auto flex max-w-6xl items-center justify-between px-6 transition-all duration-300 ${
+            scrolled ? 'py-2.5' : 'py-4'
+          }`}
+        >
           <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
             Webbdev<span className="text-white/30">.</span>Studio
           </span>
           <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
-            <a href="#tjanster" className="nav-link hover:text-white transition-colors">Tjänster</a>
-            <a href="#processen" className="nav-link hover:text-white transition-colors">Process</a>
-            <a href="#portfolio" className="nav-link hover:text-white transition-colors">Portfolio</a>
-            <a href="#priser" className="nav-link hover:text-white transition-colors">Priser</a>
-            <a href="#om-mig" className="nav-link hover:text-white transition-colors">Om mig</a>
+            {[
+              { id: 'tjanster', label: 'Tjänster' },
+              { id: 'processen', label: 'Process' },
+              { id: 'portfolio', label: 'Portfolio' },
+              { id: 'priser', label: 'Priser' },
+              { id: 'om-mig', label: 'Om mig' },
+            ].map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                className={`nav-link transition-colors hover:text-white ${
+                  activeSection === link.id ? 'is-active text-white' : ''
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
           <a
             href="#kontakt"
@@ -135,31 +176,43 @@ export default function Home() {
       </header>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative flex min-h-screen items-center bg-grid pt-20">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-indigo-600/20 blur-[130px] animate-pulse-glow" />
-          <div className="absolute top-1/3 -right-32 h-[450px] w-[450px] rounded-full bg-violet-600/15 blur-[110px] animate-drift" />
-          <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px] animate-drift-slow" />
+      <section data-hero className="relative flex min-h-screen items-center bg-grid pt-20">
+        {/* Parallax-lager: yttre div = scroll-parallax + mus-depth, inre = orb med drift */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div data-parallax="-22" data-depth="1" className="absolute -top-40 left-1/2 -translate-x-1/2">
+            <div className="h-[700px] w-[700px] rounded-full bg-indigo-600/20 blur-[130px] animate-pulse-glow" />
+          </div>
+          <div data-parallax="-34" data-depth="1.6" className="absolute top-1/3 -right-32">
+            <div className="h-[450px] w-[450px] rounded-full bg-violet-600/15 blur-[110px] animate-drift" />
+          </div>
+          <div data-parallax="-14" data-depth="1.3" className="absolute bottom-0 left-0">
+            <div className="h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px] animate-drift-slow" />
+          </div>
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <Stagger className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
           {/* Badge */}
-          <div className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-            Webbutveckling för moderna företag
-          </div>
+          <Item className="inline-flex">
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+              Webbutveckling för moderna företag
+            </div>
+          </Item>
 
-          {/* H1 — kortare och mer slagkraftig */}
-          <h1 className="animate-fade-up-2 mt-6 max-w-3xl text-5xl font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-7xl">
-            <span className="text-white">Hemsidor som</span>
-            <br />
-            <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-              faktiskt säljer
-            </span>
+          {/* H1 — cinematic mask-reveal per rad */}
+          <h1 className="mt-6 max-w-3xl text-5xl font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-7xl">
+            <MaskReveal>
+              <span className="text-white">Hemsidor som</span>
+            </MaskReveal>
+            <MaskReveal>
+              <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                faktiskt säljer
+              </span>
+            </MaskReveal>
           </h1>
 
           {/* USP-rad */}
-          <div className="animate-fade-up-3 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
+          <Item className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
             {['Leverans på 3 dagar', 'Fast pris', 'Inga dolda kostnader'].map((usp, i) => (
               <span key={usp} className="flex items-center gap-2">
                 {i > 0 && <span className="hidden sm:inline text-white/20">·</span>}
@@ -167,51 +220,57 @@ export default function Home() {
                 {usp}
               </span>
             ))}
-          </div>
+          </Item>
 
-          {/* CTAs */}
-          <div className="animate-fade-up-3 mt-9 flex flex-wrap items-center gap-4">
-            <a
-              href="#kontakt"
-              className="group btn-shine inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
-            >
-              Få en gratis analys
-              <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-            </a>
-            <a
-              href="#processen"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25"
-            >
-              Se hur det funkar
-            </a>
-          </div>
+          {/* CTAs — magnetiska */}
+          <Item className="mt-9 flex flex-wrap items-center gap-4">
+            <Magnetic>
+              <a
+                href="#kontakt"
+                className="group btn-shine inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
+              >
+                Få en gratis analys
+                <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.15}>
+              <a
+                href="#processen"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25"
+              >
+                Se hur det funkar
+              </a>
+            </Magnetic>
+          </Item>
 
-          {/* Stats */}
-          <div className="animate-fade-in mt-14 flex flex-wrap gap-10 border-t border-white/8 pt-10">
+          {/* Stats — räknar upp när de blir synliga */}
+          <Item className="mt-14 flex flex-wrap gap-10 border-t border-white/8 pt-10">
             {[
-              { value: '3 dagar', label: 'Snabb leverans' },
-              { value: '2+ år', label: 'Erfarenhet' },
-              { value: '100%', label: 'Fast pris' },
+              { to: 3, suffix: ' dagar', label: 'Snabb leverans' },
+              { to: 2, suffix: '+ år', label: 'Erfarenhet' },
+              { to: 100, suffix: '%', label: 'Fast pris' },
             ].map((s) => (
               <div key={s.label}>
-                <div className="text-3xl font-bold text-white">{s.value}</div>
+                <div className="text-3xl font-bold text-white">
+                  <CountUp to={s.to} suffix={s.suffix} />
+                </div>
                 <div className="mt-1 text-xs text-white/40 uppercase tracking-widest">{s.label}</div>
               </div>
             ))}
-          </div>
-        </div>
+          </Item>
+        </Stagger>
       </section>
 
       {/* ── PROBLEM ──────────────────────────────────────────── */}
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <Reveal className="mb-10">
+          <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Varför byta?</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Kostar din gamla hemsida affärer?
             </h2>
-          </Reveal>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
             {[
               { icon: problemIcons.speed, label: 'Slöar försäljningen',   desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
               { icon: problemIcons.ux,    label: 'Förvirrande UX',        desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
@@ -219,16 +278,14 @@ export default function Home() {
               { icon: problemIcons.perf,  label: 'Dålig laddtid',         desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
               { icon: problemIcons.mobile,'label': 'Inte mobilvänlig',    desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
               { icon: problemIcons.seo,   label: 'Syns inte på Google',   desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
-            ].map((item, i) => (
-              <Reveal key={item.label} delay={i * 70}>
-                <div className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                    {item.icon}
-                  </div>
-                  <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
-                  <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
+            ].map((item) => (
+              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+                  {item.icon}
                 </div>
-              </Reveal>
+                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
+                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -237,14 +294,22 @@ export default function Home() {
       {/* ── TJÄNSTER ─────────────────────────────────────────── */}
       <section id="tjanster" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div data-parallax="-26" className="absolute top-1/4 -left-40">
+            <div className="h-[400px] w-[400px] rounded-full bg-indigo-600/10 blur-[110px]" />
+          </div>
+          <div data-parallax="-42" className="absolute bottom-0 -right-32">
+            <div className="h-[350px] w-[350px] rounded-full bg-violet-600/10 blur-[100px]" />
+          </div>
+        </div>
         <div className="relative mx-auto max-w-6xl px-6">
-          <Reveal className="mb-10">
+          <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Det jag levererar</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Teknik &amp; tjänster i världsklass
             </h2>
-          </Reveal>
-          <div className="grid gap-4 sm:grid-cols-2">
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
             {[
               { title: 'Next.js & React',     desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
               { title: 'Supabase backend',    desc: 'Säker databas med realtidsuppdateringar, autentisering och API ur lådan.',          tag: 'Backend' },
@@ -254,20 +319,18 @@ export default function Home() {
               { title: 'Stripe-betalningar',  desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.',    tag: 'E-commerce' },
               { title: 'Fast pris',           desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.',      tag: 'Pris' },
               { title: '3 dagars leverans',   desc: 'Från brief till live hemsida på 3 arbetsdagar. Snabbt när det gäller.',              tag: 'Leverans' },
-            ].map((item, i) => (
-              <Reveal key={item.title} delay={(i % 2) * 80}>
-                <div className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
-                  <div className="mt-0.5 flex-shrink-0">
-                    <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
-                      {item.tag}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
+            ].map((item) => (
+              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
+                <div className="mt-0.5 flex-shrink-0">
+                  <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
+                    {item.tag}
                   </div>
                 </div>
-              </Reveal>
+                <div>
+                  <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -276,46 +339,42 @@ export default function Home() {
       {/* ── PROCESS ──────────────────────────────────────────── */}
       <section id="processen" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <Reveal className="mb-10">
+          <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min process</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Från idé till live på 5 steg
             </h2>
-          </Reveal>
+          </div>
           {/* Kort-layout med stora cirklar */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {[
               { n: 1, title: 'Gratis analys',    desc: 'Vi börjar med ett samtal om dina mål. Jag analyserar din situation och sätter ihop en strategi.' },
               { n: 2, title: 'Designförslag',    desc: 'Du får ett visuellt förslag som visar exakt hur hemsidan kommer se ut — innan ett tecken kod skrivs.' },
               { n: 3, title: 'Byggnation',       desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framgången i realtid.' },
               { n: 4, title: 'Lansering',        desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
               { n: 5, title: 'Support',          desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
-            ].map((item, i) => (
-              <Reveal key={item.n} delay={i * 70}>
-                <div className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
-                  {/* Stor cirkel med siffra */}
-                  <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
-                    {item.n}
-                  </div>
-                  <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                  <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
+            ].map((item) => (
+              <div key={item.n} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
+                {/* Stor cirkel med siffra */}
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
+                  {item.n}
                 </div>
-              </Reveal>
+                <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
+              </div>
             ))}
             {/* Sista "kort" — CTA */}
-            <Reveal delay={350}>
-              <div className="card-spotlight h-full rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
-                <p className="text-sm leading-relaxed text-white/60">
-                  Redo att komma igång? Det kostar ingenting att höra av sig.
-                </p>
-                <a
-                  href="#kontakt"
-                  className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
-                >
-                  Boka gratis analys <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-                </a>
-              </div>
-            </Reveal>
+            <div className="card-spotlight h-full rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
+              <p className="text-sm leading-relaxed text-white/60">
+                Redo att komma igång? Det kostar ingenting att höra av sig.
+              </p>
+              <a
+                href="#kontakt"
+                className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                Boka gratis analys <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -323,11 +382,11 @@ export default function Home() {
       {/* ── PORTFOLIO ─────────────────────────────────────────── */}
       <section id="portfolio" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <Reveal className="mb-10">
+          <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min portfölj</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
-          </Reveal>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {[
               {
                 name: 'Karla Cleaning Crew',
@@ -377,17 +436,39 @@ export default function Home() {
                 url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
                 img: '/Flex.png',
               },
-            ].map((item, i) => (
-              <Reveal key={item.name} delay={(i % 3) * 90}>
+              {
+                name: 'Erotikmässan',
+                desc: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.',
+                result: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.',
+                tech: ['Next.js', 'Tailwind', 'Vercel'],
+                url: 'https://erotikm-ssan.vercel.app/',
+                img: '/7.png',
+              },
+              {
+                name: 'Widkull Payroll AB',
+                desc: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.',
+                result: 'Trovärdig och modern sajt som stärker varumärket online.',
+                tech: ['Next.js', 'Tailwind', 'Vercel'],
+                url: 'https://widkull.vercel.app/',
+                img: '/6.png',
+              },
+            ].map((item) => (
+              <TiltCard key={item.name} className="h-full">
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group card-spotlight block h-full rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/30"
+                className="group card-spotlight block h-full rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-2xl hover:shadow-indigo-900/30"
               >
                 {/* Preview */}
-                <div className="mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
-                  <img src={item.img} alt={item.name} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+                <div className="relative mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
+                  <Image
+                    src={item.img}
+                    alt={item.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
 
                 <div className="flex items-start justify-between gap-3 mb-3">
@@ -411,7 +492,63 @@ export default function Home() {
                   ))}
                 </div>
               </a>
-              </Reveal>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── OMDÖMEN ──────────────────────────────────────────── */}
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-10" data-animate="header">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Omdömen</p>
+            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vad kunderna säger</h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3" data-animate-group data-stagger="0.12">
+            {[
+              {
+                quote: 'Snabbt, smidigt och resultatet blev mycket snyggare än jag väntat mig. Hela processen var enkel från start till mål.',
+                name: 'Karla',
+                company: 'Karla Cleaning Crew',
+              },
+              {
+                quote: 'Theodor förstod direkt vad vi behövde. Plattformen fungerar felfritt och våra kunder älskar den nya designen.',
+                name: 'Konstbyte',
+                company: 'konstbyte.se',
+              },
+              {
+                quote: 'Professionellt bemötande och snabba svar på alla frågor. Hemsidan levererades på utsatt tid till fast pris.',
+                name: 'Widkull',
+                company: 'Widkull Payroll AB',
+              },
+            ].map((item) => (
+              <figure
+                key={item.company}
+                className="card-spotlight flex h-full flex-col justify-between rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5"
+              >
+                <div>
+                  <div className="mb-4 flex gap-1 text-indigo-400" aria-label="5 av 5 stjärnor">
+                    {Array.from({ length: 5 }).map((_, star) => (
+                      <svg key={star} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l2.9 6.26L21.5 9.27l-4.75 4.37L17.8 20 12 16.6 6.2 20l1.05-6.36L2.5 9.27l6.6-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <blockquote className="text-sm leading-relaxed text-white/70">
+                    &ldquo;{item.quote}&rdquo;
+                  </blockquote>
+                </div>
+                <figcaption className="mt-6 flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-300">
+                    {item.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-white/85">{item.name}</div>
+                    <div className="text-xs text-white/40">{item.company}</div>
+                  </div>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>
@@ -420,12 +557,20 @@ export default function Home() {
       {/* ── PRISER ───────────────────────────────────────────── */}
       <section id="priser" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div data-parallax="-30" className="absolute top-0 -right-40">
+            <div className="h-[420px] w-[420px] rounded-full bg-violet-600/10 blur-[110px]" />
+          </div>
+          <div data-parallax="-18" className="absolute bottom-0 -left-32">
+            <div className="h-[320px] w-[320px] rounded-full bg-cyan-500/8 blur-[100px]" />
+          </div>
+        </div>
         <div className="relative mx-auto max-w-6xl px-6">
-          <Reveal className="mb-10">
+          <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
-          </Reveal>
-          <div className="grid gap-6 md:grid-cols-3 md:items-end">
+          </div>
+          <div className="pricing-grid grid gap-6 md:grid-cols-3 md:items-end" data-animate-group data-stagger="0.12">
             {[
               {
                 tier: 'Bas',
@@ -448,10 +593,10 @@ export default function Home() {
                 features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'],
                 highlighted: false,
               },
-            ].map((item, i) => (
-              <Reveal key={item.tier} delay={i * 100}>
+            ].map((item) => (
               <div
-                className={`relative rounded-3xl transition-all duration-300 ${
+                key={item.tier}
+                className={`pricing-card relative rounded-3xl transition-all duration-300 ${
                   item.highlighted
                     ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/95 to-violet-950/80 p-9 shadow-2xl shadow-indigo-900/50 ring-1 ring-indigo-500/20 hover:shadow-indigo-800/60 hover:-translate-y-1.5'
                     : 'border border-white/8 bg-white/[0.03] p-8 hover:border-white/15 hover:-translate-y-1'
@@ -490,7 +635,6 @@ export default function Home() {
                   Kom igång
                 </a>
               </div>
-              </Reveal>
             ))}
           </div>
         </div>
@@ -499,19 +643,22 @@ export default function Home() {
       {/* ── OM MIG ───────────────────────────────────────────── */}
       <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <Reveal>
-          <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
+          <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
             <div className="grid gap-12 md:grid-cols-[minmax(0,280px)_1fr] md:items-center lg:gap-16">
               {/* Porträtt */}
               <div className="mx-auto w-full max-w-[280px] md:mx-0">
                 <div className="group relative">
                   <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-indigo-500/25 via-violet-500/15 to-cyan-500/15 opacity-70 blur-2xl transition-opacity group-hover:opacity-100" />
                   <div className="relative overflow-hidden rounded-3xl border border-white/10 ring-1 ring-white/5 shadow-2xl shadow-indigo-950/50">
-                    <img
-                      src="/pp.png"
-                      alt="Theodor — webbutvecklare bakom Webbdev Studio"
-                      className="aspect-[4/5] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
+                    <div data-animate="image" className="relative aspect-[4/5] w-full will-change-transform">
+                      <Image
+                        src="/pp.png"
+                        alt="Theodor — webbutvecklare bakom Webbdev Studio"
+                        fill
+                        sizes="280px"
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                    </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06060f]/40 via-transparent to-transparent" />
                   </div>
                 </div>
@@ -558,15 +705,43 @@ export default function Home() {
               </div>
             </div>
           </div>
-          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FAQ ──────────────────────────────────────────────── */}
+      <section id="faq" className="py-20">
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="mb-10" data-animate="header">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Vanliga frågor</p>
+            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Bra att veta</h2>
+          </div>
+          <div className="space-y-3" data-animate-group data-stagger="0.07">
+            {faqItems.map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-2xl border border-white/8 bg-white/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-white/15"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-white/85 [&::-webkit-details-marker]:hidden">
+                  {item.q}
+                  <svg
+                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    className="flex-shrink-0 text-indigo-400 transition-transform duration-300 group-open:rotate-180"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <p className="px-6 pb-5 text-sm leading-relaxed text-white/60">{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
       <section id="kontakt" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-10 md:p-16">
+          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-10 md:p-16">
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
             <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
             <div className="relative mx-auto max-w-2xl">
@@ -578,6 +753,17 @@ export default function Home() {
                 Fyll i formuläret nedan så hör jag av mig med en gratis analys.
               </p>
               <form onSubmit={handleSubmit} className="mt-10 space-y-4">
+                {/* Honeypot — osynligt för människor, fångar spam-bottar */}
+                <input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-xs font-medium text-white/50">Namn</label>
@@ -644,10 +830,20 @@ export default function Home() {
                     </>
                   )}
                 </button>
+
+                {/* Direktkontakt för den som inte gillar formulär */}
+                <p className="pt-2 text-center text-xs text-white/40">
+                  Föredrar du mejl?{' '}
+                  <a
+                    href="mailto:webbdevstudio@gmail.com"
+                    className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+                  >
+                    webbdevstudio@gmail.com
+                  </a>
+                </p>
               </form>
             </div>
           </div>
-          </Reveal>
         </div>
       </section>
 
