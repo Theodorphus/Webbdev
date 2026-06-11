@@ -505,7 +505,7 @@ export default function Home() {
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Omdömen</p>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vad kunderna säger</h2>
           </div>
-          <div className="grid gap-5 md:grid-cols-3" data-animate-group data-stagger="0.12">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-animate-group data-stagger="0.1">
             {[
               {
                 quote: 'Snabbt, smidigt och resultatet blev mycket snyggare än jag väntat mig. Hela processen var enkel från start till mål.',
@@ -518,9 +518,14 @@ export default function Home() {
                 company: 'konstbyte.se',
               },
               {
-                quote: 'Professionellt bemötande och snabba svar på alla frågor. Hemsidan levererades på utsatt tid till fast pris.',
-                name: 'Widkull',
-                company: 'Widkull Payroll AB',
+                quote: 'Proffsigt bemötande och en sajt som verkligen stärker vårt varumärke. Snabb leverans och allt fungerade direkt.',
+                name: 'Prolink',
+                company: 'prolink.se',
+              },
+              {
+                quote: 'Vår nätbutik blev snygg, snabb och otroligt enkel att använda. Checkouten flyter på och kunderna är nöjda.',
+                name: 'SwedenSweet',
+                company: 'swedensweet.vercel.app',
               },
             ].map((item) => (
               <figure
