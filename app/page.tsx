@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import useAnimations from './components/animations/useAnimations';
 import { faqItems } from './faq';
 import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
+import StickyCta from './components/StickyCta';
 
 function IconCheck() {
   return (
@@ -262,6 +264,34 @@ export default function Home() {
             ))}
           </Item>
         </Stagger>
+      </section>
+
+      {/* ── TRUST-BAR (företag jag byggt för) ─────────────────── */}
+      <section className="border-y border-white/5 bg-white/[0.015] py-8" aria-label="Företag jag byggt för">
+        <div className="mx-auto max-w-6xl px-6">
+          <p className="text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/30">
+            Företag jag har byggt för
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14">
+            {[
+              { name: 'Karla Cleaning Crew', url: 'https://karlacleaningcrew.se/' },
+              { name: 'Konstbyte', url: 'https://www.konstbyte.se/' },
+              { name: 'Prolink', url: 'https://www.prolink.se/' },
+              { name: 'SwedenSweet', url: 'https://swedensweet.vercel.app/' },
+              { name: 'Widkull', url: 'https://widkull.vercel.app/' },
+            ].map((brand) => (
+              <a
+                key={brand.name}
+                href={brand.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold tracking-tight text-white/40 transition-colors hover:text-white/80"
+              >
+                {brand.name}
+              </a>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ── PROBLEM ──────────────────────────────────────────── */}
@@ -635,7 +665,7 @@ export default function Home() {
                   { label: 'Utbildning',  value: 'Systemvetenskap, GU',       tag: 'EDU' },
                   { label: 'Erfarenhet',  value: '2+ år webbutveckling',       tag: 'EXP' },
                   { label: 'Teknikstack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
-                  { label: 'Leveranstid', value: '3 arbetsdagar',               tag: 'SPEED' },
+                  { label: 'Leveranstid', value: '3–7 arbetsdagar',             tag: 'SPEED' },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -816,6 +846,15 @@ export default function Home() {
                     webbdevstudio@gmail.com
                   </a>
                 </p>
+
+                {/* GDPR-notis */}
+                <p className="text-center text-[11px] leading-relaxed text-white/30">
+                  Genom att skicka godkänner du att vi behandlar dina uppgifter enligt vår{' '}
+                  <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
+                    integritetspolicy
+                  </Link>
+                  .
+                </p>
               </form>
             </div>
           </div>
@@ -875,11 +914,18 @@ export default function Home() {
             <p className="text-xs text-white/25">
               © {new Date().getFullYear()} Webbdev Studio — webbdev.se
             </p>
-            <p className="text-xs text-white/25">Org.nr 199507216498</p>
+            <div className="flex items-center gap-4 text-xs text-white/25">
+              <Link href="/integritetspolicy" className="transition-colors hover:text-white/50">
+                Integritetspolicy
+              </Link>
+              <span aria-hidden>·</span>
+              <span>Org.nr 199507216498</span>
+            </div>
           </div>
         </div>
       </footer>
 
+      <StickyCta />
     </div>
   );
 }
