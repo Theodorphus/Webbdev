@@ -111,6 +111,7 @@ export function Magnetic({
   const sy = useSpring(y, { stiffness: 200, damping: 18 });
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse') return; // hoppa över touch/penna
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     x.set((e.clientX - (rect.left + rect.width / 2)) * strength);
@@ -191,6 +192,7 @@ export function TiltCard({
   const sry = useSpring(ry, { stiffness: 260, damping: 20 });
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse') return; // hoppa över touch/penna
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;

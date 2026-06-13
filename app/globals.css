@@ -14,7 +14,12 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 72px;
+}
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 88px;
+  }
 }
 
 body {
@@ -216,6 +221,22 @@ body {
   opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
+}
+
+/* ── Touch-enheter: hover triggas aldrig, så ge korten liv ─ */
+/* På touch saknas pekarbaserade hover-states. Spotlight-glowen
+   (musföljande) är meningslös där, men korten ska ändå inte se
+   "döda" ut — vi tonar in en subtil ram/bakgrund permanent. */
+@media (hover: none) {
+  .card-spotlight::before {
+    display: none;
+  }
+  /* Prisgrid-dimningen bygger på :hover på syskon — stäng av på touch. */
+  .pricing-grid:hover .pricing-card:not(:hover) {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 /* ── Reduced motion ─────────────────────────────────────── */

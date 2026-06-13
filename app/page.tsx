@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import useAnimations from './components/animations/useAnimations';
 import { faqItems } from './faq';
 import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
+import MobileNav from './components/MobileNav';
 
 function IconCheck() {
   return (
@@ -101,6 +102,7 @@ export default function Home() {
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return; // spotlight är musbaserad
       const card = (e.target as HTMLElement | null)?.closest?.('.card-spotlight') as HTMLElement | null;
       if (!card) return;
       const rect = card.getBoundingClientRect();
@@ -168,10 +170,11 @@ export default function Home() {
           </nav>
           <a
             href="#kontakt"
-            className="rounded-full border border-indigo-500/40 bg-indigo-500/10 px-5 py-2.5 text-sm font-semibold text-indigo-300 transition-all hover:bg-indigo-500/20 hover:border-indigo-400/60 hover:text-indigo-200"
+            className="hidden md:inline-flex rounded-full border border-indigo-500/40 bg-indigo-500/10 px-5 py-2.5 text-sm font-semibold text-indigo-300 transition-all hover:bg-indigo-500/20 hover:border-indigo-400/60 hover:text-indigo-200"
           >
             Kontakta mig
           </a>
+          <MobileNav activeSection={activeSection} />
         </div>
       </header>
 
@@ -200,11 +203,11 @@ export default function Home() {
           </Item>
 
           {/* H1 — cinematic mask-reveal per rad */}
-          <h1 className="mt-6 max-w-3xl text-5xl font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-7xl">
-            <MaskReveal>
+          <h1 className="mt-6 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <MaskReveal className="pb-1">
               <span className="text-white">Hemsidor som</span>
             </MaskReveal>
-            <MaskReveal>
+            <MaskReveal className="pb-1">
               <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 faktiskt säljer
               </span>
@@ -223,20 +226,20 @@ export default function Home() {
           </Item>
 
           {/* CTAs — magnetiska */}
-          <Item className="mt-9 flex flex-wrap items-center gap-4">
-            <Magnetic>
+          <Item className="mt-9 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+            <Magnetic className="w-full sm:w-auto">
               <a
                 href="#kontakt"
-                className="group btn-shine inline-flex items-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98]"
+                className="group btn-shine inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98] sm:w-auto sm:justify-start"
               >
                 Få en gratis analys
                 <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
               </a>
             </Magnetic>
-            <Magnetic strength={0.15}>
+            <Magnetic strength={0.15} className="w-full sm:w-auto">
               <a
                 href="#processen"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25 sm:w-auto"
               >
                 Se hur det funkar
               </a>
@@ -244,7 +247,7 @@ export default function Home() {
           </Item>
 
           {/* Stats — räknar upp när de blir synliga */}
-          <Item className="mt-14 flex flex-wrap gap-10 border-t border-white/8 pt-10">
+          <Item className="mt-14 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/8 pt-10 sm:gap-10">
             {[
               { to: 3, suffix: ' dagar', label: 'Snabb leverans' },
               { to: 2, suffix: '+ år', label: 'Erfarenhet' },
@@ -498,67 +501,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── OMDÖMEN ──────────────────────────────────────────── */}
-      <section className="py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Omdömen</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vad kunderna säger</h2>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-animate-group data-stagger="0.1">
-            {[
-              {
-                quote: 'Snabbt, smidigt och resultatet blev mycket snyggare än jag väntat mig. Hela processen var enkel från start till mål.',
-                name: 'Karla',
-                company: 'Karla Cleaning Crew',
-              },
-              {
-                quote: 'Theodor förstod direkt vad vi behövde. Plattformen fungerar felfritt och våra kunder älskar den nya designen.',
-                name: 'Konstbyte',
-                company: 'konstbyte.se',
-              },
-              {
-                quote: 'Proffsigt bemötande och en sajt som verkligen stärker vårt varumärke. Snabb leverans och allt fungerade direkt.',
-                name: 'Prolink',
-                company: 'prolink.se',
-              },
-              {
-                quote: 'Vår nätbutik blev snygg, snabb och otroligt enkel att använda. Checkouten flyter på och kunderna är nöjda.',
-                name: 'SwedenSweet',
-                company: 'swedensweet.vercel.app',
-              },
-            ].map((item) => (
-              <figure
-                key={item.company}
-                className="card-spotlight flex h-full flex-col justify-between rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5"
-              >
-                <div>
-                  <div className="mb-4 flex gap-1 text-indigo-400" aria-label="5 av 5 stjärnor">
-                    {Array.from({ length: 5 }).map((_, star) => (
-                      <svg key={star} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l2.9 6.26L21.5 9.27l-4.75 4.37L17.8 20 12 16.6 6.2 20l1.05-6.36L2.5 9.27l6.6-1.01L12 2z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <blockquote className="text-sm leading-relaxed text-white/70">
-                    &ldquo;{item.quote}&rdquo;
-                  </blockquote>
-                </div>
-                <figcaption className="mt-6 flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-indigo-300">
-                    {item.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-white/85">{item.name}</div>
-                    <div className="text-xs text-white/40">{item.company}</div>
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── PRISER ───────────────────────────────────────────── */}
       <section id="priser" className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
@@ -616,7 +558,7 @@ export default function Home() {
                   <h3 className={`font-mono font-bold uppercase tracking-wider ${item.highlighted ? 'text-indigo-300 text-sm' : 'text-white/60 text-sm'}`}>
                     {item.tier}
                   </h3>
-                  <div className={`mt-3 font-bold text-white ${item.highlighted ? 'text-6xl' : 'text-5xl'}`}>
+                  <div className={`mt-3 font-bold text-white ${item.highlighted ? 'text-5xl sm:text-6xl' : 'text-4xl sm:text-5xl'}`}>
                     {item.price}
                   </div>
                   <p className="mt-2 text-sm text-white/50">{item.desc}</p>
@@ -648,7 +590,7 @@ export default function Home() {
       {/* ── OM MIG ───────────────────────────────────────────── */}
       <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-10 md:p-14">
+          <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
             <div className="grid gap-12 md:grid-cols-[minmax(0,280px)_1fr] md:items-center lg:gap-16">
               {/* Porträtt */}
               <div className="mx-auto w-full max-w-[280px] md:mx-0">
@@ -707,6 +649,34 @@ export default function Home() {
                   </div>
                 ))}
                 </div>
+
+                {/* Sociala länkar — bygger trovärdighet */}
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <a
+                    href="https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Theodor på LinkedIn"
+                    className="group inline-flex items-center gap-2.5 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/70 transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:text-white"
+                  >
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="text-indigo-400 transition-colors group-hover:text-indigo-300">
+                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
+                    </svg>
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://www.facebook.com/theo.hakansson.5/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Theodor på Facebook"
+                    className="group inline-flex items-center gap-2.5 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/70 transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:text-white"
+                  >
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="text-indigo-400 transition-colors group-hover:text-indigo-300">
+                      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z" />
+                    </svg>
+                    Facebook
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -746,7 +716,7 @@ export default function Home() {
       {/* ── KONTAKT ──────────────────────────────────────────── */}
       <section id="kontakt" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-10 md:p-16">
+          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-6 sm:p-10 md:p-16">
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
             <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
             <div className="relative mx-auto max-w-2xl">
@@ -853,17 +823,60 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-white/5 py-10">
-        <div className="mx-auto max-w-6xl px-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
-            Webbdev<span className="text-white/20">.</span>Studio
-          </span>
-          <p className="text-xs text-white/25">
-            © {new Date().getFullYear()} Webbdev Studio — webbdev.se
-          </p>
-          <a href="mailto:webbdevstudio@gmail.com" className="text-xs text-white/40 hover:text-white/70 transition-colors">
-            webbdevstudio@gmail.com
-          </a>
+      <footer className="border-t border-white/5 py-12">
+        <div className="mx-auto max-w-6xl px-6">
+          {/* Företagsuppgifter */}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
+                Webbdev<span className="text-white/20">.</span>Studio
+              </span>
+              <p className="mt-3 text-xs leading-relaxed text-white/35">
+                Modern webbutveckling för företag — snabba, konverterings­optimerade hemsidor.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Företag</h3>
+              <address className="mt-3 space-y-1.5 text-xs not-italic leading-relaxed text-white/50">
+                <p>Webbdev Studio — Enskild firma</p>
+                <p>Org.nr: 199507216498</p>
+                <p>Momsregistrerad: Nej</p>
+              </address>
+            </div>
+
+            <div>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Adress</h3>
+              <address className="mt-3 text-xs not-italic leading-relaxed text-white/50">
+                Västra Gunnesgärde 41<br />
+                417 47 Göteborg
+              </address>
+            </div>
+
+            <div>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Kontakt</h3>
+              <div className="mt-3 space-y-1.5 text-xs leading-relaxed">
+                <p>
+                  <a href="tel:+46709525822" className="text-white/50 transition-colors hover:text-indigo-300">
+                    070‑952 58 22
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:webbdevstudio@gmail.com" className="text-white/50 transition-colors hover:text-indigo-300">
+                    webbdevstudio@gmail.com
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright-rad */}
+          <div className="mt-10 flex flex-col items-center gap-2 border-t border-white/5 pt-6 sm:flex-row sm:justify-between">
+            <p className="text-xs text-white/25">
+              © {new Date().getFullYear()} Webbdev Studio — webbdev.se
+            </p>
+            <p className="text-xs text-white/25">Org.nr 199507216498</p>
+          </div>
         </div>
       </footer>
 

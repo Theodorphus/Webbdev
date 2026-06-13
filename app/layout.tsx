@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { faqItems } from "./faq";
@@ -16,9 +16,21 @@ const jsonLd = [
       "Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor byggda med Next.js. Leverans på 3 dagar till fast pris.",
     url: SITE_URL,
     email: "webbdevstudio@gmail.com",
+    telephone: "+46709525822",
     image: `${SITE_URL}/opengraph-image`,
     priceRange: "2000–6000 SEK",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Västra Gunnesgärde 41",
+      postalCode: "417 47",
+      addressLocality: "Göteborg",
+      addressCountry: "SE",
+    },
     areaServed: { "@type": "Country", name: "Sverige" },
+    sameAs: [
+      "https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/",
+      "https://www.facebook.com/theo.hakansson.5/",
+    ],
     founder: { "@type": "Person", name: "Theodor" },
     knowsAbout: ["Webbutveckling", "Next.js", "React", "SEO", "E-handel"],
   },
@@ -51,6 +63,12 @@ export const metadata: Metadata = {
   description:
     "Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag. Next.js, React, Tailwind. Leverans på 3 dagar.",
   // OG-bilden genereras automatiskt av app/opengraph-image.tsx (1200×630).
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#06060f",
 };
 
 export default function RootLayout({
