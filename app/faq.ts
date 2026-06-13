@@ -1,7 +1,7 @@
 /** FAQ-innehåll — används både av FAQ-sektionen och JSON-LD (FAQPage-schema). */
 export const faqItems = [
   {
-    q: 'Hur kan det gå så snabbt som 3 dagar?',
+    q: 'Hur kan det gå så snabbt som 3–7 dagar?',
     a: 'Jag arbetar med en beprövad modern teknikstack (Next.js, Tailwind, Vercel) och en tydlig process. Eftersom designförslaget godkänns innan byggnationen startar försvinner onödiga vändor — jag kan fokusera helt på att bygga klart.',
   },
   {

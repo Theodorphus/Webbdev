@@ -32,7 +32,7 @@ async function loadGoogleFont(font: string, weight: number, text: string) {
 export default async function Image() {
   const title = "Webbdev Studio";
   const tagline = "Moderna, snabba hemsidor — Next.js · React · Tailwind";
-  const allText = title + tagline + "Leverans på 3 dagar";
+  const allText = title + tagline + "webbdev.se · Leverans på 3–7 dagar";
 
   const [bold, regular] = await Promise.all([
     loadGoogleFont("Inter", 700, allText),
@@ -164,7 +164,7 @@ export default async function Image() {
             color: "#7b80a6",
           }}
         >
-          webbdev.se · Leverans på 3 dagar
+          webbdev.se · Leverans på 3–7 dagar
         </div>
       </div>
     ),

@@ -13,7 +13,7 @@ const jsonLd = [
     "@type": "ProfessionalService",
     name: "Webbdev Studio",
     description:
-      "Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor byggda med Next.js. Leverans på 3 dagar till fast pris.",
+      "Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor byggda med Next.js. Leverans på 3–7 dagar till fast pris.",
     url: SITE_URL,
     email: "webbdevstudio@gmail.com",
     telephone: "+46709525822",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   ),
   title: "Webbdev Studio — Modern webbutveckling",
   description:
-    "Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag. Next.js, React, Tailwind. Leverans på 3 dagar.",
+    "Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag. Next.js, React, Tailwind. Leverans på 3–7 dagar.",
   // OG-bilden genereras automatiskt av app/opengraph-image.tsx (1200×630).
 };
 

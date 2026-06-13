@@ -83,11 +83,17 @@ export default function Home() {
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
+    // Spåra vilka sektioner som korsar "bandet" och välj den översta.
+    // Nollställs när ingen är i vyn (t.ex. uppe i hero) så markeringen inte fastnar.
+    const visible = new Set<string>();
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
         }
+        const topMost = ids.find((id) => visible.has(id));
+        setActiveSection(topMost ?? '');
       },
       { rootMargin: '-35% 0px -55% 0px' },
     );
@@ -218,7 +224,7 @@ export default function Home() {
 
           {/* USP-rad */}
           <Item className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
-            {['Leverans på 3 dagar', 'Fast pris', 'Inga dolda kostnader'].map((usp, i) => (
+            {['Leverans på 3–7 dagar', 'Fast pris', 'Inga dolda kostnader'].map((usp, i) => (
               <span key={usp} className="flex items-center gap-2">
                 {i > 0 && <span className="hidden sm:inline text-white/20">·</span>}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><polyline points="20 6 9 17 4 12" /></svg>
@@ -251,13 +257,13 @@ export default function Home() {
           {/* Stats — räknar upp när de blir synliga */}
           <Item className="mt-14 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/8 pt-10 sm:gap-10">
             {[
-              { to: 3, suffix: ' dagar', label: 'Snabb leverans' },
-              { to: 2, suffix: '+ år', label: 'Erfarenhet' },
+              { to: 7, prefix: '3–', suffix: ' dagar', label: 'Snabb leverans' },
+              { to: 3, suffix: ' år', label: 'Erfarenhet' },
               { to: 100, suffix: '%', label: 'Fast pris' },
             ].map((s) => (
               <div key={s.label}>
                 <div className="text-3xl font-bold text-white">
-                  <CountUp to={s.to} suffix={s.suffix} />
+                  <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
                 </div>
                 <div className="mt-1 text-xs text-white/40 uppercase tracking-widest">{s.label}</div>
               </div>
@@ -309,7 +315,7 @@ export default function Home() {
               { icon: problemIcons.ux,    label: 'Förvirrande UX',        desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
               { icon: problemIcons.trust, label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
               { icon: problemIcons.perf,  label: 'Dålig laddtid',         desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
-              { icon: problemIcons.mobile,'label': 'Inte mobilvänlig',    desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
+              { icon: problemIcons.mobile, label: 'Inte mobilvänlig',     desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
               { icon: problemIcons.seo,   label: 'Syns inte på Google',   desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
             ].map((item) => (
               <div key={item.label} className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
@@ -351,7 +357,7 @@ export default function Home() {
               { title: 'Premium design',      desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.',         tag: 'Design' },
               { title: 'Stripe-betalningar',  desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.',    tag: 'E-commerce' },
               { title: 'Fast pris',           desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.',      tag: 'Pris' },
-              { title: '3 dagars leverans',   desc: 'Från brief till live hemsida på 3 arbetsdagar. Snabbt när det gäller.',              tag: 'Leverans' },
+              { title: '3–7 dagars leverans', desc: 'Från brief till live hemsida på 3–7 arbetsdagar. Snabbt när det gäller.',           tag: 'Leverans' },
             ].map((item) => (
               <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
                 <div className="mt-0.5 flex-shrink-0">
@@ -647,12 +653,12 @@ export default function Home() {
                 <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vem bygger din hemsida?</h2>
                 <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
                   <p>
-                    Jag är en junior webbutvecklare med en examen i systemvetenskap från Göteborgs
-                    universitet och drygt 2 år av praktisk erfarenhet genom egna projekt och frilansuppdrag.
+                    Jag är webbutvecklare med en examen i systemvetenskap från Göteborgs
+                    universitet och 3 års praktisk erfarenhet genom egna projekt och frilansuppdrag.
                   </p>
                   <p>
-                    Eftersom jag är i början av min karriär kan jag erbjuda prisvärda lösningar utan
-                    att kompromissa med kvaliteten. Jag har också gott om tid för support och är alltid
+                    Jag erbjuder prisvärda lösningar utan att kompromissa med kvaliteten. Du får
+                    en personlig kontakt rakt igenom — gott om tid för support och alltid
                     tillgänglig för frågor och justeringar.
                   </p>
                   <p>
@@ -663,7 +669,7 @@ export default function Home() {
                 <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {[
                   { label: 'Utbildning',  value: 'Systemvetenskap, GU',       tag: 'EDU' },
-                  { label: 'Erfarenhet',  value: '2+ år webbutveckling',       tag: 'EXP' },
+                  { label: 'Erfarenhet',  value: '3 år webbutveckling',         tag: 'EXP' },
                   { label: 'Teknikstack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
                   { label: 'Leveranstid', value: '3–7 arbetsdagar',             tag: 'SPEED' },
                 ].map((row) => (
@@ -824,7 +830,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="group btn-shine w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-4.5 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
+                  className="group btn-shine w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
                 >
                   {status === 'loading' ? (
                     'Skickar...'
