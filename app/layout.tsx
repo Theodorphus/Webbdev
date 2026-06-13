@@ -24,9 +24,19 @@ const jsonLd = [
       streetAddress: "Västra Gunnesgärde 41",
       postalCode: "417 47",
       addressLocality: "Göteborg",
+      addressRegion: "Västra Götaland",
       addressCountry: "SE",
     },
-    areaServed: { "@type": "Country", name: "Sverige" },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 57.7089,
+      longitude: 11.9746,
+    },
+    areaServed: [
+      { "@type": "City", name: "Göteborg" },
+      { "@type": "City", name: "Skövde" },
+      { "@type": "Country", name: "Sverige" },
+    ],
     sameAs: [
       "https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/",
       "https://www.facebook.com/theo.hakansson.5/",
@@ -66,9 +76,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se",
   ),
-  title: "Webbdev Studio — Modern webbutveckling",
+  // Title-template: undersidor sätter sin egen titel, startsidan använder default.
+  title: {
+    default: "Webbutveckling i Göteborg — Webbdev Studio",
+    template: "%s | Webbdev Studio",
+  },
   description:
-    "Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag. Next.js, React, Tailwind. Leverans på 3–7 dagar.",
+    "Webbutveckling i Göteborg. Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag — Next.js, React, Tailwind. Leverans på 3–7 dagar till fast pris.",
+  keywords: [
+    "webbutveckling Göteborg",
+    "webbdesign Göteborg",
+    "webbproduktion Göteborg",
+    "hemsida företag Göteborg",
+    "webbutveckling Skövde",
+    "webbyrå",
+  ],
+  alternates: { canonical: "/" },
   // OG-bilden genereras automatiskt av app/opengraph-image.tsx (1200×630).
 };
 

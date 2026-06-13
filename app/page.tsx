@@ -215,7 +215,7 @@ export default function Home() {
           <Item className="inline-flex">
             <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
               <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              Webbutveckling för moderna företag
+              Webbutveckling i Göteborg
             </div>
           </Item>
 
@@ -230,6 +230,12 @@ export default function Home() {
               </span>
             </MaskReveal>
           </h1>
+
+          {/* Lokal-rad — matchar sökningar som "webbutveckling göteborg" */}
+          <Item className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
+            Webbutveckling i Göteborg för företag som vill synas. Snabba, moderna
+            hemsidor byggda i Next.js — till fast pris.
+          </Item>
 
           {/* USP-rad */}
           <Item className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
@@ -900,8 +906,16 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Adress</h3>
-              <address className="mt-3 text-xs not-italic leading-relaxed text-white/50">
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Orter</h3>
+              <nav className="mt-3 flex flex-col gap-1.5 text-xs leading-relaxed">
+                <Link href="/webbutveckling/goteborg" className="text-white/50 transition-colors hover:text-indigo-300">
+                  Webbutveckling i Göteborg
+                </Link>
+                <Link href="/webbutveckling/skovde" className="text-white/50 transition-colors hover:text-indigo-300">
+                  Webbutveckling i Skövde
+                </Link>
+              </nav>
+              <address className="mt-4 text-xs not-italic leading-relaxed text-white/40">
                 Västra Gunnesgärde 41<br />
                 417 47 Göteborg
               </address>
