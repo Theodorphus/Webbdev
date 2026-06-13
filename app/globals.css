@@ -3,6 +3,13 @@
 :root {
   --background: #06060f;
   --foreground: #e8eaf6;
+
+  /* Ytnivåer — ger korten en faktisk djuphierarki istället för en enda ton. */
+  --surface-1: rgba(255, 255, 255, 0.025); /* lugna basytor */
+  --surface-2: rgba(255, 255, 255, 0.045); /* lyfta kort */
+  --surface-3: rgba(255, 255, 255, 0.07); /* framträdande/hovrat */
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
 }
 
 @theme inline {
@@ -10,6 +17,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+}
+
+/* Rubriker bär display-fonten med en aning tightare spårning. */
+.font-display {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 html {
@@ -123,6 +137,25 @@ body {
   position: relative;
   overflow: hidden;
 }
+/* Subtil ljusare kant längst upp på korten — klassisk premium-djupsignal
+   i mörka gränssnitt. Ligger ovanpå ramen, under innehållet. */
+.card-spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding-top: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12),
+    transparent 12%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+}
 .card-spotlight::before {
   content: "";
   position: absolute;
@@ -209,6 +242,42 @@ body {
   .scroll-progress {
     animation: grow-progress linear both;
     animation-timeline: scroll();
+  }
+}
+
+/* ── Hero cursor glow (mjuk ljuskälla som följer musen) ──── */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  background: radial-gradient(
+    500px circle at var(--hx, 50%) var(--hy, 50%),
+    rgba(129, 140, 248, 0.08),
+    transparent 70%
+  );
+}
+[data-hero]:hover .hero-glow {
+  opacity: 1;
+}
+@media (hover: none) {
+  .hero-glow {
+    display: none;
+  }
+}
+
+/* ── Mjuka sidövergångar (native MPA View Transitions) ──── */
+/* Opt-in på webbläsarnivå — ingen JS, ingen experimentell flagga.
+   Stöds progressivt; saknas stöd får man en vanlig navigering. */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.35s;
   }
 }
 

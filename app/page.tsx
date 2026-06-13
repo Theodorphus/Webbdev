@@ -109,8 +109,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const heroGlow = document.querySelector<HTMLElement>('[data-hero] .hero-glow');
     const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse') return; // spotlight är musbaserad
+      if (e.pointerType !== 'mouse') return; // glow/spotlight är musbaserade
+      // Hero-glowen följer musen så länge pekaren är över heron.
+      const hero = (e.target as HTMLElement | null)?.closest?.('[data-hero]') as HTMLElement | null;
+      if (hero && heroGlow) {
+        const r = hero.getBoundingClientRect();
+        heroGlow.style.setProperty('--hx', `${e.clientX - r.left}px`);
+        heroGlow.style.setProperty('--hy', `${e.clientY - r.top}px`);
+      }
       const card = (e.target as HTMLElement | null)?.closest?.('.card-spotlight') as HTMLElement | null;
       if (!card) return;
       const rect = card.getBoundingClientRect();
@@ -188,6 +196,7 @@ export default function Home() {
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section data-hero className="relative flex min-h-screen items-center bg-grid pt-20">
+        <div className="hero-glow" aria-hidden />
         {/* Parallax-lager: yttre div = scroll-parallax + mus-depth, inre = orb med drift */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div data-parallax="-22" data-depth="1" className="absolute -top-40 left-1/2 -translate-x-1/2">
@@ -211,7 +220,7 @@ export default function Home() {
           </Item>
 
           {/* H1 — cinematic mask-reveal per rad */}
-          <h1 className="mt-6 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display mt-6 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             <MaskReveal className="pb-1">
               <span className="text-white">Hemsidor som</span>
             </MaskReveal>
@@ -262,7 +271,7 @@ export default function Home() {
               { to: 100, suffix: '%', label: 'Fast pris' },
             ].map((s) => (
               <div key={s.label}>
-                <div className="text-3xl font-bold text-white">
+                <div className="font-display text-3xl font-bold text-white">
                   <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
                 </div>
                 <div className="mt-1 text-xs text-white/40 uppercase tracking-widest">{s.label}</div>
@@ -305,7 +314,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Varför byta?</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               Kostar din gamla hemsida affärer?
             </h2>
           </div>
@@ -344,7 +353,7 @@ export default function Home() {
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Det jag levererar</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               Teknik &amp; tjänster i världsklass
             </h2>
           </div>
@@ -380,7 +389,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min process</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               Från idé till live på 5 steg
             </h2>
           </div>
@@ -423,7 +432,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min portfölj</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {[
@@ -551,7 +560,7 @@ export default function Home() {
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
           </div>
           <div className="pricing-grid grid gap-6 md:grid-cols-3 md:items-end" data-animate-group data-stagger="0.12">
             {[
@@ -594,7 +603,7 @@ export default function Home() {
                   <h3 className={`font-mono font-bold uppercase tracking-wider ${item.highlighted ? 'text-indigo-300 text-sm' : 'text-white/60 text-sm'}`}>
                     {item.tier}
                   </h3>
-                  <div className={`mt-3 font-bold text-white ${item.highlighted ? 'text-5xl sm:text-6xl' : 'text-4xl sm:text-5xl'}`}>
+                  <div className={`font-display mt-3 font-bold text-white ${item.highlighted ? 'text-5xl sm:text-6xl' : 'text-4xl sm:text-5xl'}`}>
                     {item.price}
                   </div>
                   <p className="mt-2 text-sm text-white/50">{item.desc}</p>
@@ -650,7 +659,7 @@ export default function Home() {
               {/* Text + fakta */}
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Om mig</p>
-                <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Vem bygger din hemsida?</h2>
+                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Vem bygger din hemsida?</h2>
                 <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
                   <p>
                     Jag är webbutvecklare med en examen i systemvetenskap från Göteborgs
@@ -724,7 +733,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Vanliga frågor</p>
-            <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">Bra att veta</h2>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Bra att veta</h2>
           </div>
           <div className="space-y-3" data-animate-group data-stagger="0.07">
             {faqItems.map((item) => (
@@ -757,7 +766,7 @@ export default function Home() {
             <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
             <div className="relative mx-auto max-w-2xl">
               <p className="text-center font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Kom igång</p>
-              <h2 className="mt-4 text-center text-3xl font-bold text-white md:text-4xl">
+              <h2 className="font-display mt-4 text-center text-3xl font-bold text-white md:text-4xl">
                 Redo för din nya hemsida?
               </h2>
               <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/65">
