@@ -1,11 +1,12 @@
 // Ortsdata för lokala landningssidor (/webbutveckling/[ort]).
-// Varje ort har UNIKT innehåll — Google straffar nära-dubbletter, så
-// rubriker, brödtext och FAQ skiljer sig genuint åt mellan orterna.
+// Varje ort har UNIKT innehåll — Google straffar nära-dubbletter
+// ("doorway pages"), så rubriker, brödtext, poänger och närområden
+// skiljer sig genuint åt mellan orterna.
 
 export type Ort = {
   slug: string;
   namn: string; // "Göteborg"
-  iNamn: string; // "i Göteborg" / "i Skövde"
+  iNamn: string; // "i Göteborg" / "i Mölndal"
   region: string;
   title: string;
   description: string;
@@ -72,6 +73,174 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Skara", "Falköping", "Tibro", "Mariestad", "Lidköping"],
+  },
+  {
+    slug: "molndal",
+    namn: "Mölndal",
+    iNamn: "i Mölndal",
+    region: "Västra Götaland",
+    title: "Webbutveckling i Mölndal",
+    description:
+      "Webbutveckling i Mölndal för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+    intro: [
+      "Mölndal har ett starkt och växande näringsliv, och allt fler företag här inser att en daterad hemsida kostar kunder. Jag bygger moderna, snabba sajter för Mölndalsföretag som vill ta nästa steg online.",
+      "Som granne i Göteborgsområdet är jag aldrig långt borta. Du får en utvecklare som tar projektet på allvar och en hemsida som står sig mot konkurrenterna.",
+    ],
+    poanger: [
+      {
+        rubrik: "Nära Mölndal",
+        text: "Granne i Göteborgsområdet — enkelt att ses på plats om du föredrar det personliga mötet.",
+      },
+      {
+        rubrik: "För det lokala näringslivet",
+        text: "Från butiker och hantverkare till tjänsteföretag i Mölndal — jag anpassar sajten efter din bransch.",
+      },
+      {
+        rubrik: "Konverteringsfokus",
+        text: "Snygg design räcker inte. Jag bygger sajter som faktiskt får besökare att höra av sig.",
+      },
+    ],
+    narliggande: ["Kållered", "Lindome", "Göteborg", "Kungsbacka", "Pixbo"],
+  },
+  {
+    slug: "partille",
+    namn: "Partille",
+    iNamn: "i Partille",
+    region: "Västra Götaland",
+    title: "Webbutveckling i Partille",
+    description:
+      "Webbutveckling i Partille för företag som vill synas online. Moderna hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+    intro: [
+      "Driver du företag i Partille och vill ha en hemsida som matchar kvaliteten på det du erbjuder? Jag bygger moderna sajter för lokala företag som vill synas och växa.",
+      "Du slipper krångel med stora byråer. Istället får du en personlig utvecklare, ett fast pris och en sajt live på under en vecka.",
+    ],
+    poanger: [
+      {
+        rubrik: "Lokalt och personligt",
+        text: "Strax öster om Göteborg — vi kan träffas på plats eller sköta allt smidigt på distans.",
+      },
+      {
+        rubrik: "Allt ingår",
+        text: "Domän, hosting, SSL och första månadens support — du behöver inte fundera på tekniken.",
+      },
+      {
+        rubrik: "Syns på Google",
+        text: "Lokal SEO så att Partilleborna hittar ditt företag när de söker.",
+      },
+    ],
+    narliggande: ["Sävedalen", "Jonsered", "Göteborg", "Lerum", "Öjersjö"],
+  },
+  {
+    slug: "kungsbacka",
+    namn: "Kungsbacka",
+    iNamn: "i Kungsbacka",
+    region: "Halland",
+    title: "Webbutveckling i Kungsbacka",
+    description:
+      "Webbutveckling i Kungsbacka för lokala företag i norra Halland. Snabba, moderna hemsidor i Next.js till fast pris.",
+    intro: [
+      "Kungsbacka är en av Sveriges snabbast växande kommuner med ett livaktigt näringsliv. Jag hjälper företag här att få en hemsida som tar vara på tillväxten istället för att hålla tillbaka den.",
+      "Oavsett om du är ny eller vill modernisera en gammal sajt får du en snabb, professionell lösning till fast pris — och en utvecklare du faktiskt når.",
+    ],
+    poanger: [
+      {
+        rubrik: "Norra Halland",
+        text: "Jag jobbar med företag i hela Kungsbacka-området och längs Västkusten.",
+      },
+      {
+        rubrik: "Byggt för tillväxt",
+        text: "Sajter som skalar med ditt företag — lägg till sidor, produkter och funktioner när du växer.",
+      },
+      {
+        rubrik: "Mobilen först",
+        text: "Majoriteten av dina kunder surfar i mobilen. Din sajt byggs för att se perfekt ut där.",
+      },
+    ],
+    narliggande: ["Onsala", "Fjärås", "Anneberg", "Åsa", "Frillesås"],
+  },
+  {
+    slug: "lerum",
+    namn: "Lerum",
+    iNamn: "i Lerum",
+    region: "Västra Götaland",
+    title: "Webbutveckling i Lerum",
+    description:
+      "Webbutveckling i Lerum för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+    intro: [
+      "Lerum har många små och medelstora företag som förtjänar en hemsida i toppklass. Jag bygger moderna sajter för lokala verksamheter som vill sticka ut och nå fler kunder.",
+      "Du jobbar direkt med utvecklaren från start till mål. Inga mellanhänder, inga överraskningar — bara en snabb och snygg hemsida till ett fast pris.",
+    ],
+    poanger: [
+      {
+        rubrik: "I Lerums närhet",
+        text: "Längs Göteborg–Alingsås-stråket — enkelt att samarbeta oavsett om du vill ses eller köra digitalt.",
+      },
+      {
+        rubrik: "För småföretagaren",
+        text: "Prisvärda lösningar anpassade för mindre företag som vill ha proffsig kvalitet utan storbyrå-pris.",
+      },
+      {
+        rubrik: "Enkelt att uppdatera",
+        text: "Admin-panel så att du själv kan hantera innehållet — utan att kunna en rad kod.",
+      },
+    ],
+    narliggande: ["Gråbo", "Floda", "Stenkullen", "Sjövik", "Partille"],
+  },
+  {
+    slug: "boras",
+    namn: "Borås",
+    iNamn: "i Borås",
+    region: "Västra Götaland",
+    title: "Webbutveckling i Borås",
+    description:
+      "Webbutveckling i Borås för företag i Sjuhärad. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+    intro: [
+      "Borås är navet i Sjuhärad med en stark tradition av handel och entreprenörskap. Jag bygger moderna hemsidor för Boråsföretag som vill ta sin närvaro online till nästa nivå.",
+      "Från e-handel till företagspresentationer — du får en snabb, konverteringsoptimerad sajt och en personlig utvecklare som finns där genom hela projektet.",
+    ],
+    poanger: [
+      {
+        rubrik: "För Sjuhärad",
+        text: "Jag hjälper företag i Borås med omnejd att synas och sälja bättre på nätet.",
+      },
+      {
+        rubrik: "Stark på e-handel",
+        text: "Med Borås handelstradition i ryggen bygger jag nätbutiker med Stripe som faktiskt säljer.",
+      },
+      {
+        rubrik: "Helt på distans",
+        text: "Hela processen kan skötas digitalt med videomöten och delade förslag — smidigt och snabbt.",
+      },
+    ],
+    narliggande: ["Fristad", "Sandared", "Dalsjöfors", "Viskafors", "Ulricehamn"],
+  },
+  {
+    slug: "skara",
+    namn: "Skara",
+    iNamn: "i Skara",
+    region: "Västra Götaland",
+    title: "Webbutveckling i Skara",
+    description:
+      "Webbutveckling i Skara för lokala företag i Skaraborg. Moderna, snabba hemsidor i Next.js till fast pris.",
+    intro: [
+      "Skara är en av Sveriges äldsta städer med ett stadigt lokalt näringsliv. Jag bygger moderna hemsidor för företag här som vill kombinera lokal förankring med en professionell närvaro online.",
+      "Du får en utvecklare som tar sig tid, ett fast pris utan dolda kostnader och en sajt som är live på bara några dagar.",
+    ],
+    poanger: [
+      {
+        rubrik: "Mitt i Skaraborg",
+        text: "Tillsammans med Skövde-sidan täcker jag företag i hela Skaraborgsregionen.",
+      },
+      {
+        rubrik: "Lokal förankring online",
+        text: "Sajter som lyfter fram din lokala koppling och bygger förtroende hos Skaraborna.",
+      },
+      {
+        rubrik: "Snabbt och prisvärt",
+        text: "Fast pris, tydlig process och leverans på 3–7 arbetsdagar.",
+      },
+    ],
+    narliggande: ["Axvall", "Varnhem", "Skövde", "Götene", "Vara"],
   },
 ];
 

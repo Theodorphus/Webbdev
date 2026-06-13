@@ -8,6 +8,7 @@ import { faqItems } from './faq';
 import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
+import { orter } from './webbutveckling/orter';
 
 function IconCheck() {
   return (
@@ -908,12 +909,15 @@ export default function Home() {
             <div>
               <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Orter</h3>
               <nav className="mt-3 flex flex-col gap-1.5 text-xs leading-relaxed">
-                <Link href="/webbutveckling/goteborg" className="text-white/50 transition-colors hover:text-indigo-300">
-                  Webbutveckling i Göteborg
-                </Link>
-                <Link href="/webbutveckling/skovde" className="text-white/50 transition-colors hover:text-indigo-300">
-                  Webbutveckling i Skövde
-                </Link>
+                {orter.map((o) => (
+                  <Link
+                    key={o.slug}
+                    href={`/webbutveckling/${o.slug}`}
+                    className="text-white/50 transition-colors hover:text-indigo-300"
+                  >
+                    Webbutveckling {o.iNamn}
+                  </Link>
+                ))}
               </nav>
               <address className="mt-4 text-xs not-italic leading-relaxed text-white/40">
                 Västra Gunnesgärde 41<br />
