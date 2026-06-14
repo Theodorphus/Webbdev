@@ -148,6 +148,7 @@ export default async function OrtPage({ params }: Props) {
           </Link>
           {orter
             .filter((o) => o.slug !== ort.slug)
+            .slice(0, 4)
             .map((o) => (
               <Link
                 key={o.slug}

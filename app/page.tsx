@@ -4,11 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import useAnimations from './components/animations/useAnimations';
-import { faqItems } from './faq';
+import { faqByLang } from './faq';
 import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
 import { orter } from './webbutveckling/orter';
+import { useLang } from './i18n/LanguageProvider';
+import LanguageToggle from './i18n/LanguageToggle';
 
 function IconCheck() {
   return (
@@ -75,6 +77,8 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const scopeRef = useRef<HTMLDivElement>(null);
+  const { lang, t } = useLang();
+  const faqItems = faqByLang[lang];
 
   useAnimations(scopeRef);
 
@@ -168,11 +172,11 @@ export default function Home() {
           </span>
           <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
             {[
-              { id: 'tjanster', label: 'Tjänster' },
-              { id: 'processen', label: 'Process' },
-              { id: 'portfolio', label: 'Portfolio' },
-              { id: 'priser', label: 'Priser' },
-              { id: 'om-mig', label: 'Om mig' },
+              { id: 'tjanster', label: t.nav.tjanster },
+              { id: 'processen', label: t.nav.processen },
+              { id: 'portfolio', label: t.nav.portfolio },
+              { id: 'priser', label: t.nav.priser },
+              { id: 'om-mig', label: t.nav.omMig },
             ].map((link) => (
               <a
                 key={link.id}
@@ -185,12 +189,15 @@ export default function Home() {
               </a>
             ))}
           </nav>
-          <a
-            href="#kontakt"
-            className="hidden md:inline-flex rounded-full border border-indigo-500/40 bg-indigo-500/10 px-5 py-2.5 text-sm font-semibold text-indigo-300 transition-all hover:bg-indigo-500/20 hover:border-indigo-400/60 hover:text-indigo-200"
-          >
-            Kontakta mig
-          </a>
+          <div className="hidden md:flex items-center gap-3">
+            <LanguageToggle />
+            <a
+              href="#kontakt"
+              className="inline-flex rounded-full border border-indigo-500/40 bg-indigo-500/10 px-5 py-2.5 text-sm font-semibold text-indigo-300 transition-all hover:bg-indigo-500/20 hover:border-indigo-400/60 hover:text-indigo-200"
+            >
+              {t.nav.kontakt}
+            </a>
+          </div>
           <MobileNav activeSection={activeSection} />
         </div>
       </header>
@@ -216,31 +223,30 @@ export default function Home() {
           <Item className="inline-flex">
             <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
               <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              Webbutveckling i Göteborg
+              {t.hero.badge}
             </div>
           </Item>
 
           {/* H1 — cinematic mask-reveal per rad */}
           <h1 className="font-display mt-6 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             <MaskReveal className="pb-1">
-              <span className="text-white">Hemsidor som</span>
+              <span className="text-white">{t.hero.titel1}</span>
             </MaskReveal>
             <MaskReveal className="pb-1">
               <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                faktiskt säljer
+                {t.hero.titel2}
               </span>
             </MaskReveal>
           </h1>
 
           {/* Lokal-rad — matchar sökningar som "webbutveckling göteborg" */}
           <Item className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
-            Webbutveckling i Göteborg för företag som vill synas. Snabba, moderna
-            hemsidor byggda i Next.js — till fast pris.
+            {t.hero.lokal}
           </Item>
 
           {/* USP-rad */}
           <Item className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
-            {['Leverans på 3–7 dagar', 'Fast pris', 'Inga dolda kostnader'].map((usp, i) => (
+            {t.hero.usp.map((usp, i) => (
               <span key={usp} className="flex items-center gap-2">
                 {i > 0 && <span className="hidden sm:inline text-white/20">·</span>}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><polyline points="20 6 9 17 4 12" /></svg>
@@ -256,7 +262,7 @@ export default function Home() {
                 href="#kontakt"
                 className="group btn-shine inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98] sm:w-auto sm:justify-start"
               >
-                Få en gratis analys
+                {t.hero.ctaPrimar}
                 <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
               </a>
             </Magnetic>
@@ -265,18 +271,14 @@ export default function Home() {
                 href="#processen"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25 sm:w-auto"
               >
-                Se hur det funkar
+                {t.hero.ctaSekundar}
               </a>
             </Magnetic>
           </Item>
 
           {/* Stats — räknar upp när de blir synliga */}
           <Item className="mt-14 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/8 pt-10 sm:gap-10">
-            {[
-              { to: 7, prefix: '3–', suffix: ' dagar', label: 'Snabb leverans' },
-              { to: 3, suffix: ' år', label: 'Erfarenhet' },
-              { to: 100, suffix: '%', label: 'Fast pris' },
-            ].map((s) => (
+            {t.hero.stats.map((s) => (
               <div key={s.label}>
                 <div className="font-display text-3xl font-bold text-white">
                   <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
@@ -289,10 +291,10 @@ export default function Home() {
       </section>
 
       {/* ── TRUST-BAR (företag jag byggt för) ─────────────────── */}
-      <section className="border-y border-white/5 bg-white/[0.015] py-8" aria-label="Företag jag byggt för">
+      <section className="border-y border-white/5 bg-white/[0.015] py-8" aria-label={t.trust.rubrik}>
         <div className="mx-auto max-w-6xl px-6">
           <p className="text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/30">
-            Företag jag har byggt för
+            {t.trust.rubrik}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14">
             {[
@@ -320,20 +322,13 @@ export default function Home() {
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Varför byta?</p>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.problem.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              Kostar din gamla hemsida affärer?
+              {t.problem.rubrik}
             </h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
-            {[
-              { icon: problemIcons.speed, label: 'Slöar försäljningen',   desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
-              { icon: problemIcons.ux,    label: 'Förvirrande UX',        desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
-              { icon: problemIcons.trust, label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
-              { icon: problemIcons.perf,  label: 'Dålig laddtid',         desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
-              { icon: problemIcons.mobile, label: 'Inte mobilvänlig',     desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
-              { icon: problemIcons.seo,   label: 'Syns inte på Google',   desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
-            ].map((item) => (
+            {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
               <div key={item.label} className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
                   {item.icon}
@@ -359,22 +354,13 @@ export default function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Det jag levererar</p>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.tjanster.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              Teknik &amp; tjänster i världsklass
+              {t.tjanster.rubrik}
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
-            {[
-              { title: 'Next.js & React',     desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
-              { title: 'Supabase backend',    desc: 'Säker databas med realtidsuppdateringar, autentisering och API ur lådan.',          tag: 'Backend' },
-              { title: 'Admin-panel',         desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.',         tag: 'CMS' },
-              { title: 'Optimerad prestanda', desc: 'Lighthouse-score 95+. Core Web Vitals godkänt. Din sida rankar på Google.',          tag: 'SEO' },
-              { title: 'Premium design',      desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.',         tag: 'Design' },
-              { title: 'Stripe-betalningar',  desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.',    tag: 'E-commerce' },
-              { title: 'Fast pris',           desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.',      tag: 'Pris' },
-              { title: '3–7 dagars leverans', desc: 'Från brief till live hemsida på 3–7 arbetsdagar. Snabbt när det gäller.',           tag: 'Leverans' },
-            ].map((item) => (
+            {t.tjanster.items.map((item) => (
               <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
                 <div className="mt-0.5 flex-shrink-0">
                   <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
@@ -395,24 +381,18 @@ export default function Home() {
       <section id="processen" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min process</p>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.process.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              Från idé till live på 5 steg
+              {t.process.rubrik}
             </h2>
           </div>
           {/* Kort-layout med stora cirklar */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
-            {[
-              { n: 1, title: 'Gratis analys',    desc: 'Vi börjar med ett samtal om dina mål. Jag analyserar din situation och sätter ihop en strategi.' },
-              { n: 2, title: 'Designförslag',    desc: 'Du får ett visuellt förslag som visar exakt hur hemsidan kommer se ut — innan ett tecken kod skrivs.' },
-              { n: 3, title: 'Byggnation',       desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framgången i realtid.' },
-              { n: 4, title: 'Lansering',        desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
-              { n: 5, title: 'Support',          desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
-            ].map((item) => (
-              <div key={item.n} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
+            {t.process.steg.map((item, i) => (
+              <div key={item.title} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
                 {/* Stor cirkel med siffra */}
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
-                  {item.n}
+                  {i + 1}
                 </div>
                 <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
@@ -421,13 +401,13 @@ export default function Home() {
             {/* Sista "kort" — CTA */}
             <div className="card-spotlight h-full rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
               <p className="text-sm leading-relaxed text-white/60">
-                Redo att komma igång? Det kostar ingenting att höra av sig.
+                {t.process.ctaText}
               </p>
               <a
                 href="#kontakt"
                 className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
               >
-                Boka gratis analys <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+                {t.process.ctaLank} <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
               </a>
             </div>
           </div>
@@ -438,71 +418,71 @@ export default function Home() {
       <section id="portfolio" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Min portfölj</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Projekt jag har byggt</h2>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.portfolio.etikett}</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.portfolio.rubrik}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {[
               {
                 name: 'Karla Cleaning Crew',
-                desc: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.',
-                result: 'Snabb, mobiloptimerad och enkel att hitta på Google.',
+                desc: { sv: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', en: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.' },
+                result: { sv: 'Snabb, mobiloptimerad och enkel att hitta på Google.', en: 'Fast, mobile-optimized and easy to find on Google.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://karlacleaningcrew.se/',
                 img: '/1.png',
               },
               {
                 name: 'Wellness Studio',
-                desc: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.',
-                result: 'Helautomatiserad bokningsprocess utan manuellt arbete.',
+                desc: { sv: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.', en: 'Modern booking site for spa and wellness services with integrated Stripe payments and automated email.' },
+                result: { sv: 'Helautomatiserad bokningsprocess utan manuellt arbete.', en: 'Fully automated booking flow with no manual work.' },
                 tech: ['Next.js', 'Tailwind', 'Supabase'],
                 url: 'https://bokning-gue0ah1a6-webbdev.vercel.app/',
                 img: '/2.png',
               },
               {
                 name: 'Konstbyte',
-                desc: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.',
-                result: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.',
+                desc: { sv: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', en: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.' },
+                result: { sv: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.', en: 'Scalable platform with AI features and Stripe payments.' },
                 tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
                 url: 'https://www.konstbyte.se/',
                 img: '/3.png',
               },
               {
                 name: 'Prolink',
-                desc: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.',
-                result: 'Snygg och snabb sajt som stärker varumärket online.',
+                desc: { sv: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.', en: 'Modern corporate website focused on a clear presentation of services and professional design.' },
+                result: { sv: 'Snygg och snabb sajt som stärker varumärket online.', en: 'Sleek, fast site that strengthens the brand online.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://www.prolink.se/',
                 img: '/4.png',
               },
               {
                 name: 'SwedenSweet',
-                desc: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.',
-                result: 'Komplett nätbutik med enkel navigation och snabb checkout.',
+                desc: { sv: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.', en: 'E-commerce platform for Swedish treats with a seamless shopping experience and modern design.' },
+                result: { sv: 'Komplett nätbutik med enkel navigation och snabb checkout.', en: 'Complete online store with easy navigation and fast checkout.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://swedensweet.vercel.app/',
                 img: '/5.png',
               },
               {
                 name: 'FlexLeague',
-                desc: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.',
-                result: 'Smidig liga-hantering med automatiska tabeller och statistik.',
+                desc: { sv: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.', en: 'Platform for creating and managing leagues and tournaments with schedules, standings and live results.' },
+                result: { sv: 'Smidig liga-hantering med automatiska tabeller och statistik.', en: 'Smooth league management with automatic standings and stats.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
                 img: '/Flex.png',
               },
               {
                 name: 'Erotikmässan',
-                desc: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.',
-                result: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.',
+                desc: { sv: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.', en: 'Modern event website with clean design, program overview and a clear presentation of exhibitors.' },
+                result: { sv: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.', en: 'Eye-catching site that elevates the event and drives ticket sales.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://erotikm-ssan.vercel.app/',
                 img: '/7.png',
               },
               {
                 name: 'Widkull Payroll AB',
-                desc: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.',
-                result: 'Trovärdig och modern sajt som stärker varumärket online.',
+                desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
+                result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
                 tech: ['Next.js', 'Tailwind', 'Vercel'],
                 url: 'https://widkull.vercel.app/',
                 img: '/6.png',
@@ -528,21 +508,21 @@ export default function Home() {
 
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <h3 className="text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.name}</h3>
-                  <span className="flex-shrink-0 rounded-full border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">Live</span>
+                  <span className="flex-shrink-0 rounded-full border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">{t.portfolio.live}</span>
                 </div>
 
-                <p className="text-sm leading-relaxed text-white/55 mb-3">{item.desc}</p>
+                <p className="text-sm leading-relaxed text-white/55 mb-3">{item.desc[lang]}</p>
 
                 {/* Kundresultat */}
                 <div className="flex items-start gap-2 rounded-lg border border-indigo-500/15 bg-indigo-500/5 px-3 py-2 mb-4">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
-                  <p className="text-xs text-indigo-300/80">{item.result}</p>
+                  <p className="text-xs text-indigo-300/80">{item.result[lang]}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {item.tech.map((t) => (
-                    <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/45">
-                      {t}
+                  {item.tech.map((tech) => (
+                    <span key={tech} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/45">
+                      {tech}
                     </span>
                   ))}
                 </div>
@@ -566,33 +546,13 @@ export default function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Priser</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Välj rätt paket för dig</h2>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.priser.etikett}</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.priser.rubrik}</h2>
           </div>
           <div className="pricing-grid grid gap-6 md:grid-cols-3 md:items-end" data-animate-group data-stagger="0.12">
-            {[
-              {
-                tier: 'Bas',
-                price: '2 000 kr',
-                desc: 'Perfekt för att komma igång snabbt',
-                features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'],
-                highlighted: false,
-              },
-              {
-                tier: 'Premium',
-                price: '4 000 kr',
-                desc: 'Det mest populära alternativet',
-                features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'],
-                highlighted: true,
-              },
-              {
-                tier: 'Full Service',
-                price: '6 000 kr',
-                desc: 'Komplett lösning med allt inkluderat',
-                features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'],
-                highlighted: false,
-              },
-            ].map((item) => (
+            {t.priser.paket
+              .map((p, i) => ({ ...p, price: ['2 000 kr', '4 000 kr', '6 000 kr'][i], highlighted: i === 1 }))
+              .map((item) => (
               <div
                 key={item.tier}
                 className={`pricing-card relative rounded-3xl transition-all duration-300 ${
@@ -603,7 +563,7 @@ export default function Home() {
               >
                 {item.highlighted && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full border border-indigo-400/50 bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white whitespace-nowrap shadow-lg shadow-indigo-900/40">
-                    ★ Mest populär
+                    {t.priser.mestPopular}
                   </div>
                 )}
                 <div className="mb-7">
@@ -631,7 +591,7 @@ export default function Home() {
                       : 'border border-white/12 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                 >
-                  Kom igång
+                  {t.priser.komIgang}
                 </a>
               </div>
             ))}
@@ -665,30 +625,15 @@ export default function Home() {
 
               {/* Text + fakta */}
               <div>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Om mig</p>
-                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Vem bygger din hemsida?</h2>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.omMig.etikett}</p>
+                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.omMig.rubrik}</h2>
                 <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
-                  <p>
-                    Jag är webbutvecklare med en examen i systemvetenskap från Göteborgs
-                    universitet och 3 års praktisk erfarenhet genom egna projekt och frilansuppdrag.
-                  </p>
-                  <p>
-                    Jag erbjuder prisvärda lösningar utan att kompromissa med kvaliteten. Du får
-                    en personlig kontakt rakt igenom — gott om tid för support och alltid
-                    tillgänglig för frågor och justeringar.
-                  </p>
-                  <p>
-                    Jag tar varje projekt på allvar och lägger ner den tid som krävs för att du ska
-                    vara nöjd med resultatet.
-                  </p>
+                  {t.omMig.stycken.map((p) => (
+                    <p key={p.slice(0, 24)}>{p}</p>
+                  ))}
                 </div>
                 <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {[
-                  { label: 'Utbildning',  value: 'Systemvetenskap, GU',       tag: 'EDU' },
-                  { label: 'Erfarenhet',  value: '3 år webbutveckling',         tag: 'EXP' },
-                  { label: 'Teknikstack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
-                  { label: 'Leveranstid', value: '3–7 arbetsdagar',             tag: 'SPEED' },
-                ].map((row) => (
+                {t.omMig.fakta.map((row) => (
                   <div
                     key={row.label}
                     className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-5 py-4"
@@ -739,8 +684,8 @@ export default function Home() {
       <section id="faq" className="py-20">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Vanliga frågor</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">Bra att veta</h2>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.faqRubrik.etikett}</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.faqRubrik.rubrik}</h2>
           </div>
           <div className="space-y-3" data-animate-group data-stagger="0.07">
             {faqItems.map((item) => (
@@ -772,12 +717,12 @@ export default function Home() {
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
             <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
             <div className="relative mx-auto max-w-2xl">
-              <p className="text-center font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Kom igång</p>
+              <p className="text-center font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.kontakt.etikett}</p>
               <h2 className="font-display mt-4 text-center text-3xl font-bold text-white md:text-4xl">
-                Redo för din nya hemsida?
+                {t.kontakt.rubrik}
               </h2>
               <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/65">
-                Fyll i formuläret nedan så hör jag av mig med en gratis analys.
+                {t.kontakt.ingress}
               </p>
               <form onSubmit={handleSubmit} className="mt-10 space-y-4">
                 {/* Honeypot — osynligt för människor, fångar spam-bottar */}
@@ -793,10 +738,10 @@ export default function Home() {
                 />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-white/50">Namn</label>
+                    <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.namn}</label>
                     <input
                       type="text"
-                      placeholder="Ditt namn"
+                      placeholder={t.kontakt.namnPlaceholder}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
@@ -804,10 +749,10 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-white/50">E-post</label>
+                    <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.epost}</label>
                     <input
                       type="email"
-                      placeholder="namn@foretag.se"
+                      placeholder={t.kontakt.epostPlaceholder}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
@@ -816,10 +761,10 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-white/50">Berätta om ditt projekt</label>
+                  <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.meddelande}</label>
                   <textarea
                     rows={4}
-                    placeholder="Vad behöver du hjälp med? Berätta om ditt företag och dina mål..."
+                    placeholder={t.kontakt.meddelandePlaceholder}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
@@ -828,19 +773,19 @@ export default function Home() {
                 </div>
                 {status === 'success' && (
                   <div className="rounded-xl border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-                    Tack! Jag kontaktar dig inom 24 timmar.
+                    {t.kontakt.success}
                   </div>
                 )}
                 {status === 'error' && (
                   <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                    Något gick fel — försök igen senare.
+                    {t.kontakt.error}
                   </div>
                 )}
 
                 {/* Trust text tätt ovanför knappen */}
                 <div className="flex items-center justify-center gap-1.5 pt-1">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                  <p className="text-xs font-medium text-white/50">Jag svarar alltid inom 24 timmar · Ingen kostnad · Ingen förpliktelse</p>
+                  <p className="text-xs font-medium text-white/50">{t.kontakt.trust}</p>
                 </div>
 
                 <button
@@ -849,18 +794,18 @@ export default function Home() {
                   className="group btn-shine w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
                 >
                   {status === 'loading' ? (
-                    'Skickar...'
+                    t.kontakt.skickar
                   ) : (
                     <>
                       <IconSend />
-                      Skicka förfrågan gratis
+                      {t.kontakt.skicka}
                     </>
                   )}
                 </button>
 
                 {/* Direktkontakt för den som inte gillar formulär */}
                 <p className="pt-2 text-center text-xs text-white/40">
-                  Föredrar du mejl?{' '}
+                  {t.kontakt.mejlFraga}{' '}
                   <a
                     href="mailto:webbdevstudio@gmail.com"
                     className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
@@ -871,9 +816,9 @@ export default function Home() {
 
                 {/* GDPR-notis */}
                 <p className="text-center text-[11px] leading-relaxed text-white/30">
-                  Genom att skicka godkänner du att vi behandlar dina uppgifter enligt vår{' '}
+                  {t.kontakt.gdpr1}{' '}
                   <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
-                    integritetspolicy
+                    {t.kontakt.gdpr2}
                   </Link>
                   .
                 </p>
@@ -893,21 +838,21 @@ export default function Home() {
                 Webbdev<span className="text-white/20">.</span>Studio
               </span>
               <p className="mt-3 text-xs leading-relaxed text-white/35">
-                Modern webbutveckling för företag — snabba, konverterings­optimerade hemsidor.
+                {t.footer.tagline}
               </p>
             </div>
 
             <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Företag</h3>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.foretag}</h3>
               <address className="mt-3 space-y-1.5 text-xs not-italic leading-relaxed text-white/50">
-                <p>Webbdev Studio — Enskild firma</p>
-                <p>Org.nr: 199507216498</p>
-                <p>Momsregistrerad: Nej</p>
+                {t.footer.foretagRader.map((rad) => (
+                  <p key={rad}>{rad}</p>
+                ))}
               </address>
             </div>
 
             <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Orter</h3>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.orter}</h3>
               <nav className="mt-3 flex flex-col gap-1.5 text-xs leading-relaxed">
                 {orter.map((o) => (
                   <Link
@@ -926,7 +871,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">Kontakt</h3>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.kontakt}</h3>
               <div className="mt-3 space-y-1.5 text-xs leading-relaxed">
                 <p>
                   <a href="tel:+46709525822" className="text-white/50 transition-colors hover:text-indigo-300">
@@ -949,7 +894,7 @@ export default function Home() {
             </p>
             <div className="flex items-center gap-4 text-xs text-white/25">
               <Link href="/integritetspolicy" className="transition-colors hover:text-white/50">
-                Integritetspolicy
+                {t.footer.integritetspolicy}
               </Link>
               <span aria-hidden>·</span>
               <span>Org.nr 199507216498</span>

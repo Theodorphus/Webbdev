@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLang } from '../i18n/LanguageProvider';
 
 /**
  * Sticky CTA för mobil — fast knapp längst ner på skärmen.
@@ -9,6 +10,7 @@ import { useEffect, useState } from 'react';
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>('[data-hero]');
@@ -56,7 +58,7 @@ export default function StickyCta() {
         href="#kontakt"
         className="btn-shine flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 py-3.5 text-base font-bold text-white shadow-xl shadow-indigo-900/50 transition-colors hover:bg-indigo-500 active:scale-[0.99]"
       >
-        Få en gratis analys
+        {t.sticky.cta}
       </a>
     </div>
   );

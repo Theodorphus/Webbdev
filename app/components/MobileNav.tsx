@@ -1,14 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-const links = [
-  { id: 'tjanster', label: 'Tjänster' },
-  { id: 'processen', label: 'Process' },
-  { id: 'portfolio', label: 'Portfolio' },
-  { id: 'priser', label: 'Priser' },
-  { id: 'om-mig', label: 'Om mig' },
-];
+import { useLang } from '../i18n/LanguageProvider';
+import LanguageToggle from '../i18n/LanguageToggle';
 
 /**
  * Mobilnavigering — hamburgerknapp som öppnar en fullskärms-overlay.
@@ -16,6 +10,15 @@ const links = [
  */
 export default function MobileNav({ activeSection }: { activeSection: string }) {
   const [open, setOpen] = useState(false);
+  const { t } = useLang();
+
+  const links = [
+    { id: 'tjanster', label: t.nav.tjanster },
+    { id: 'processen', label: t.nav.processen },
+    { id: 'portfolio', label: t.nav.portfolio },
+    { id: 'priser', label: t.nav.priser },
+    { id: 'om-mig', label: t.nav.omMig },
+  ];
 
   // Lås bakgrundsscroll medan menyn är öppen + stäng på Escape.
   useEffect(() => {
@@ -37,12 +40,12 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Stäng meny' : 'Öppna meny'}
+        aria-label={open ? t.nav.stangMeny : t.nav.oppnaMeny}
         aria-expanded={open}
         aria-controls="mobile-menu"
         className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
       >
-        <span className="sr-only">Meny</span>
+        <span className="sr-only">{t.nav.meny}</span>
         {/* Hamburger → X */}
         <span className="relative block h-4 w-5" aria-hidden>
           <span
@@ -90,8 +93,11 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
             onClick={() => setOpen(false)}
             className="mt-4 w-full max-w-xs rounded-full border border-indigo-500/40 bg-indigo-500/10 px-6 py-4 text-center text-lg font-semibold text-indigo-300 transition-colors hover:bg-indigo-500/20"
           >
-            Kontakta mig
+            {t.nav.kontakt}
           </a>
+          <div className="mt-6">
+            <LanguageToggle compact />
+          </div>
         </nav>
       </div>
     </div>

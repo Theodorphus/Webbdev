@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { faqItems } from "./faq";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se";
@@ -117,7 +118,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <div className="scroll-progress" aria-hidden="true" />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
         <div className="noise-overlay" aria-hidden="true" />
         <Analytics />
       </body>
