@@ -24,14 +24,12 @@ const STORAGE_KEY = 'webbdev-lang';
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>('sv');
 
-  // Återställ sparat val (eller gissa engelska för icke-svenska webbläsare)
-  // efter mount — undviker hydration-mismatch genom att starta på 'sv'.
+  // Återställ ett sparat val efter mount. Svenska är alltid standard —
+  // engelska visas bara om besökaren själv valt det.
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY) as Lang | null;
     if (saved === 'sv' || saved === 'en') {
       setLangState(saved);
-    } else if (typeof navigator !== 'undefined' && !navigator.language.startsWith('sv')) {
-      setLangState('en');
     }
   }, []);
 
