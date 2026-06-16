@@ -46,6 +46,51 @@ function IconSend() {
   );
 }
 
+// Hero-blickfång: en stiliserad kod-editor där JSX "skrivs" rad för rad.
+// Ren CSS-typewriter (inga RAF-loopar) — varje rad får antal tecken (--w/--steps)
+// och en staplad fördröjning (--delay) så de avslöjas i sekvens.
+function HeroCodeWindow() {
+  // Varje rad: tecken i synligt innehåll styr --w (ch) och --steps.
+  // Raderna läser som äkta kod men varje prop är ett säljlöfte:
+  // snabb leverans, fast pris, inga dolda avgifter.
+  const lines: { chars: number; delay: number; content: ReactElement; caret?: boolean }[] = [
+    { chars: 14, delay: 0.2, content: <><span className="tok-com">{'// webbdev.se'}</span></> },
+    { chars: 18, delay: 0.7, content: <><span className="tok-key">const</span> <span className="tok-fn">hemsida</span> <span className="tok-pun">= {`{`}</span></> },
+    { chars: 26, delay: 1.2, content: <>{'  '}<span className="tok-fn">leverans</span><span className="tok-pun">:</span> <span className="tok-str">{'"3–7 dagar"'}</span><span className="tok-pun">,</span></> },
+    { chars: 16, delay: 1.6, content: <>{'  '}<span className="tok-fn">pris</span><span className="tok-pun">:</span> <span className="tok-str">{'"fast"'}</span><span className="tok-pun">,</span></> },
+    { chars: 26, delay: 2.0, content: <>{'  '}<span className="tok-fn">dolda_avgifter</span><span className="tok-pun">:</span> <span className="tok-key">false</span><span className="tok-pun">,</span></> },
+    { chars: 28, delay: 2.4, content: <>{'  '}<span className="tok-fn">resultat</span><span className="tok-pun">:</span> <span className="tok-str">{'"fler kunder"'}</span><span className="tok-pun">,</span></> },
+    { chars: 2, delay: 2.8, content: <><span className="tok-pun">{`}`}</span></>, caret: true },
+  ];
+  return (
+    <div className="code-window card-spotlight rounded-2xl border border-white/10 bg-[#0a0a16]/90 shadow-2xl shadow-indigo-950/40 backdrop-blur-sm">
+      {/* Fönstertitelrad */}
+      <div className="flex items-center gap-2 border-b border-white/8 px-4 py-3">
+        <span className="h-3 w-3 rounded-full bg-red-400/70" />
+        <span className="h-3 w-3 rounded-full bg-amber-400/70" />
+        <span className="h-3 w-3 rounded-full bg-green-400/70" />
+        <span className="ml-3 rounded-md bg-white/5 px-2.5 py-1 text-[11px] text-white/45">page.tsx</span>
+      </div>
+      {/* Kodyta */}
+      <div className="px-5 py-5 text-[13px] leading-[1.7]">
+        {lines.map((l, i) => (
+          <span
+            key={i}
+            className={`code-line ${l.caret ? 'code-caret' : ''}`}
+            style={{
+              ['--w' as string]: `${l.chars}ch`,
+              ['--steps' as string]: l.chars,
+              ['--delay' as string]: `${l.delay}s`,
+            }}
+          >
+            {l.content}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const problemIcons: Record<string, ReactElement> = {
   speed: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -146,7 +191,7 @@ const projects = [
     desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
     result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
     tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://widkull.vercel.app/',
+    url: 'https://www.wildkullpayroll.se/',
     img: '/6.png',
   },
 ];
@@ -285,7 +330,9 @@ export function Home() {
       </header>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section data-hero className="relative flex min-h-screen items-center bg-grid pt-20">
+      <section data-hero className="relative flex min-h-screen items-center overflow-hidden bg-grid pt-20">
+        {/* Levande mesh-gradient i botten — ren CSS, väger inget */}
+        <div className="mesh-gradient" aria-hidden />
         <div className="hero-glow" aria-hidden />
         {/* Parallax-lager: yttre div = scroll-parallax + mus-depth, inre = orb med drift */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -300,7 +347,8 @@ export function Home() {
           </div>
         </div>
 
-        <Stagger className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:py-28 lg:grid-cols-[1.1fr_0.9fr]">
+        <Stagger className="relative">
           {/* Badge */}
           <Item className="inline-flex">
             <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
@@ -324,17 +372,6 @@ export function Home() {
           {/* Lokal-rad — matchar sökningar som "webbutveckling göteborg" */}
           <Item className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
             {t.hero.lokal}
-          </Item>
-
-          {/* USP-rad */}
-          <Item className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-white/60">
-            {t.hero.usp.map((usp, i) => (
-              <span key={usp} className="flex items-center gap-2">
-                {i > 0 && <span className="hidden sm:inline text-white/20">·</span>}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><polyline points="20 6 9 17 4 12" /></svg>
-                {usp}
-              </span>
-            ))}
           </Item>
 
           {/* CTAs — magnetiska */}
@@ -370,6 +407,12 @@ export function Home() {
             ))}
           </Item>
         </Stagger>
+
+        {/* Höger: animerad kod-editor — speglar "byggt i Next.js" */}
+        <div className="hidden lg:block animate-fade-in" aria-hidden>
+          <HeroCodeWindow />
+        </div>
+        </div>
       </section>
 
       {/* ── TRUST-BAR (företag jag byggt för) ─────────────────── */}
@@ -384,7 +427,7 @@ export function Home() {
               { name: 'Konstbyte', url: 'https://www.konstbyte.se/' },
               { name: 'Prolink', url: 'https://www.prolink.se/' },
               { name: 'SwedenSweet', url: 'https://swedensweet.vercel.app/' },
-              { name: 'Widkull', url: 'https://widkull.vercel.app/' },
+              { name: 'Widkull', url: 'https://www.wildkullpayroll.se/' },
             ].map((brand) => (
               <a
                 key={brand.name}
@@ -404,14 +447,14 @@ export function Home() {
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.problem.etikett}</p>
+            <p className="eyebrow">{t.problem.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               {t.problem.rubrik}
             </h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
             {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
-              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-7 transition-all hover:border-red-500/25 hover:bg-red-500/8">
+              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
                   {item.icon}
                 </div>
@@ -436,14 +479,14 @@ export function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.tjanster.etikett}</p>
+            <p className="eyebrow">{t.tjanster.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               {t.tjanster.rubrik}
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
             {t.tjanster.items.map((item) => (
-              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
+              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
                 <div className="mt-0.5 flex-shrink-0">
                   <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
                     {item.tag}
@@ -460,10 +503,10 @@ export function Home() {
       </section>
 
       {/* ── PROCESS ──────────────────────────────────────────── */}
-      <section id="processen" className="py-20">
+      <section id="processen" className="bg-grid py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.process.etikett}</p>
+            <p className="eyebrow">{t.process.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               {t.process.rubrik}
             </h2>
@@ -471,7 +514,7 @@ export function Home() {
           {/* Kort-layout med stora cirklar */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {t.process.steg.map((item, i) => (
-              <div key={item.title} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5">
+              <div key={item.title} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
                 {/* Stor cirkel med siffra */}
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
                   {i + 1}
@@ -497,10 +540,10 @@ export function Home() {
       </section>
 
       {/* ── PORTFOLIO ─────────────────────────────────────────── */}
-      <section id="portfolio" className="py-20">
+      <section id="portfolio" className="section-alt py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.portfolio.etikett}</p>
+            <p className="eyebrow">{t.portfolio.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.portfolio.rubrik}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
@@ -579,10 +622,10 @@ export function Home() {
       </section>
 
       {/* ── RECENSIONER ──────────────────────────────────────── */}
-      <section id="recensioner" className="py-20">
+      <section id="recensioner" className="section-alt py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.recensioner.etikett}</p>
+            <p className="eyebrow">{t.recensioner.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.recensioner.rubrik}</h2>
             <div className="mt-4 flex items-center gap-2">
               <span className="flex gap-0.5">
@@ -625,9 +668,27 @@ export function Home() {
         </div>
       </section>
 
+      <hr className="section-divider" aria-hidden />
+
       {/* ── PRISER ───────────────────────────────────────────── */}
-      <section id="priser" className="relative py-20 bg-grid">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
+      <section id="priser" className="relative overflow-hidden py-24 bg-grid md:py-28">
+        {/* Dämpad eko av kontakt-CTA:ns video — lägre intensitet (opacity-20)
+            så de två levande sektionerna inte konkurrerar. Befintliga top/-
+            bottom-gradienten nedan fejdar videon mot sidbakgrunden. */}
+        <video
+          className="cta-video-bg pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/cta-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/cta-bg.webm" type="video/webm" />
+          <source src="/cta-bg.mp4" type="video/mp4" />
+        </video>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-[#06060f]/60 to-[#06060f]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div data-parallax="-30" className="absolute top-0 -right-40">
             <div className="h-[420px] w-[420px] rounded-full bg-violet-600/10 blur-[110px]" />
@@ -638,7 +699,7 @@ export function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.priser.etikett}</p>
+            <p className="eyebrow">{t.priser.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.priser.rubrik}</h2>
           </div>
           <div className="pricing-grid grid gap-6 md:grid-cols-3 md:items-end" data-animate-group data-stagger="0.12">
@@ -692,13 +753,19 @@ export function Home() {
       </section>
 
       {/* ── OM MIG ───────────────────────────────────────────── */}
-      <section id="om-mig" className="py-20">
-        <div className="mx-auto max-w-6xl px-6">
+      <section id="om-mig" className="relative overflow-hidden py-20">
+        {/* Mjuk radiell glow bakom kortet — varm, personlig känsla utan rutnät */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div data-parallax="-16" className="absolute top-1/4 left-1/2 -translate-x-1/2">
+            <div className="h-[460px] w-[680px] rounded-full bg-indigo-600/8 blur-[120px]" />
+          </div>
+        </div>
+        <div className="relative mx-auto max-w-6xl px-6">
           <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
             <div>
               {/* Text + fakta */}
               <div>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.omMig.etikett}</p>
+                <p className="eyebrow">{t.omMig.etikett}</p>
                 <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.omMig.rubrik}</h2>
                 <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
                   {t.omMig.stycken.map((p) => (
@@ -757,7 +824,7 @@ export function Home() {
       <section id="faq" className="py-20">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-10" data-animate="header">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.faqRubrik.etikett}</p>
+            <p className="eyebrow">{t.faqRubrik.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.faqRubrik.rubrik}</h2>
           </div>
           <div className="space-y-3" data-animate-group data-stagger="0.07">
@@ -784,13 +851,32 @@ export function Home() {
       </section>
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
-      <section id="kontakt" className="py-20">
+      <section id="kontakt" className="relative overflow-hidden py-24 md:py-28">
+        {/* Bakgrundsvideo bakom HELA sektionen — partiklar i paletten.
+            Döljs på små skärmar (cta-video-bg → display:none under sm) och
+            vid reduced-motion; postern täcker innan videon laddat. */}
+        <video
+          className="cta-video-bg pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/cta-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/cta-bg.webm" type="video/webm" />
+          <source src="/cta-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Mjuk fejd upptill/nedtill + dämpning så sektionen smälter in i
+            sidan och texten alltid är läsbar ovanpå videon. */}
+        <div className="cta-video-fade pointer-events-none absolute inset-0" aria-hidden />
         <div className="mx-auto max-w-6xl px-6">
-          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/80 via-[#06060f] to-violet-950/60 p-6 sm:p-10 md:p-16">
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[80px]" />
-            <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[60px]" />
+          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-white/12 bg-[#0a0a18]/50 p-6 shadow-2xl shadow-indigo-950/40 backdrop-blur-[5px] sm:p-10 md:p-16">
+            <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[90px]" />
+            <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[80px]" />
             <div className="relative mx-auto max-w-2xl">
-              <p className="text-center font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.kontakt.etikett}</p>
+              <p className="eyebrow flex justify-center">{t.kontakt.etikett}</p>
               <h2 className="font-display mt-4 text-center text-3xl font-bold text-white md:text-4xl">
                 {t.kontakt.rubrik}
               </h2>
@@ -933,7 +1019,7 @@ export function Home() {
                     href={`/webbutveckling/${o.slug}`}
                     className="text-white/50 transition-colors hover:text-indigo-300"
                   >
-                    Webbutveckling {o.iNamn}
+                    {o.namn}
                   </Link>
                 ))}
               </nav>
