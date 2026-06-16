@@ -10,6 +10,7 @@ export const dictionary = {
       tjanster: 'Tjänster',
       processen: 'Process',
       portfolio: 'Portfolio',
+      recensioner: 'Recensioner',
       priser: 'Priser',
       omMig: 'Om mig',
       kontakt: 'Kontakta mig',
@@ -80,6 +81,22 @@ export const dictionary = {
       live: 'Live',
       sida: 'Sida',
     },
+    recensioner: {
+      etikett: 'Recensioner',
+      rubrik: 'Vad kunder säger',
+      betygText: '5,0 av 5 baserat på 4 recensioner på Google',
+      lankText: 'Läs alla recensioner på Google',
+      lista: [
+        {
+          namn: 'Martin Bucko',
+          text: 'Otroligt bra service och resultatet blev en ny hemsida över förväntan! Kan varmt rekommendera denna tjänst. 🔥',
+        },
+        {
+          namn: 'Michael Håkansson',
+          text: 'Jag fick hjälp med att designa en sida relaterad till mitt spelföretag. Mycket trevlig och noggrann utförd tjänst. Tack Webbdev!',
+        },
+      ],
+    },
     priser: {
       etikett: 'Priser',
       rubrik: 'Välj rätt paket för dig',
@@ -147,6 +164,7 @@ export const dictionary = {
       tjanster: 'Services',
       processen: 'Process',
       portfolio: 'Portfolio',
+      recensioner: 'Reviews',
       priser: 'Pricing',
       omMig: 'About',
       kontakt: 'Get in touch',
@@ -216,6 +234,22 @@ export const dictionary = {
       rubrik: 'Projects I have built',
       live: 'Live',
       sida: 'Page',
+    },
+    recensioner: {
+      etikett: 'Reviews',
+      rubrik: 'What clients say',
+      betygText: '5.0 out of 5 based on 4 reviews on Google',
+      lankText: 'Read all reviews on Google',
+      lista: [
+        {
+          namn: 'Martin Bucko',
+          text: 'Incredibly good service and the result was a new website beyond expectations! Can warmly recommend this service. 🔥',
+        },
+        {
+          namn: 'Michael Håkansson',
+          text: 'I got help designing a site for my gaming company. Very pleasant and meticulously done work. Thank you Webbdev!',
+        },
+      ],
     },
     priser: {
       etikett: 'Pricing',

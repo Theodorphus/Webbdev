@@ -5,7 +5,7 @@ import { faqItems } from "./faq";
 import { LanguageProvider } from "./i18n/LanguageProvider";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
 /** Strukturerad data för Google: företaget + FAQ. */
 const jsonLd = [
@@ -44,6 +44,29 @@ const jsonLd = [
     ],
     founder: { "@type": "Person", name: "Theodor" },
     knowsAbout: ["Webbutveckling", "Next.js", "React", "SEO", "E-handel"],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5.0",
+      reviewCount: "4",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Martin Bucko" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Otroligt bra service och resultatet blev en ny hemsida över förväntan! Kan varmt rekommendera denna tjänst.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Michael Håkansson" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Jag fick hjälp med att designa en sida relaterad till mitt spelföretag. Mycket trevlig och noggrann utförd tjänst. Tack Webbdev!",
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
@@ -75,7 +98,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se",
   ),
   // Title-template: undersidor sätter sin egen titel, startsidan använder default.
   title: {

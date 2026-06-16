@@ -21,6 +21,14 @@ function IconCheck() {
   );
 }
 
+function StarIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#facc15" aria-hidden>
+      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01L12 2z" />
+    </svg>
+  );
+}
+
 function IconArrow() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -72,6 +80,9 @@ const problemIcons: Record<string, ReactElement> = {
 };
 
 const PROJECTS_PER_PAGE = 6;
+
+// Länk till Google-företagsprofilens recensioner.
+const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
 
 const projects = [
   {
@@ -154,7 +165,7 @@ export default function Home() {
 
   // Markera aktiv sektion i nav medan man scrollar
   useEffect(() => {
-    const ids = ['tjanster', 'processen', 'portfolio', 'priser', 'om-mig'];
+    const ids = ['tjanster', 'processen', 'portfolio', 'recensioner', 'priser', 'om-mig'];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
@@ -245,6 +256,7 @@ export default function Home() {
               { id: 'tjanster', label: t.nav.tjanster },
               { id: 'processen', label: t.nav.processen },
               { id: 'portfolio', label: t.nav.portfolio },
+              { id: 'recensioner', label: t.nav.recensioner },
               { id: 'priser', label: t.nav.priser },
               { id: 'om-mig', label: t.nav.omMig },
             ].map((link) => (
@@ -563,6 +575,53 @@ export default function Home() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ── RECENSIONER ──────────────────────────────────────── */}
+      <section id="recensioner" className="py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-10" data-animate="header">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.recensioner.etikett}</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.recensioner.rubrik}</h2>
+            <div className="mt-4 flex items-center gap-2">
+              <span className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <StarIcon key={i} />
+                ))}
+              </span>
+              <span className="text-sm text-white/55">{t.recensioner.betygText}</span>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2" data-animate-group data-stagger="0.1">
+            {t.recensioner.lista.map((r) => (
+              <div
+                key={r.namn}
+                className="card-spotlight flex h-full flex-col rounded-3xl border border-white/8 bg-white/[0.03] p-7"
+              >
+                <span className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <StarIcon key={i} />
+                  ))}
+                </span>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-white/70">“{r.text}”</p>
+                <p className="mt-5 text-sm font-semibold text-white/90">{r.namn}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8" data-animate="block">
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-indigo-300 transition-colors hover:text-indigo-200"
+            >
+              {t.recensioner.lankText}
+              <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+            </a>
+          </div>
         </div>
       </section>
 

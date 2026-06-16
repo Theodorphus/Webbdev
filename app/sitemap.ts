@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { orter } from "./webbutveckling/orter";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

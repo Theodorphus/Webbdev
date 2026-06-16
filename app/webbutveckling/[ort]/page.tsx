@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { orter, getOrt } from "../orter";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://webbdev.se";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
 type Props = { params: Promise<{ ort: string }> };
 

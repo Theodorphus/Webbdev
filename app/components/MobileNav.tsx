@@ -16,6 +16,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
     { id: 'tjanster', label: t.nav.tjanster },
     { id: 'processen', label: t.nav.processen },
     { id: 'portfolio', label: t.nav.portfolio },
+    { id: 'recensioner', label: t.nav.recensioner },
     { id: 'priser', label: t.nav.priser },
     { id: 'om-mig', label: t.nav.omMig },
   ];
