@@ -151,7 +151,7 @@ const projects = [
   },
 ];
 
-export default function Home() {
+export function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [scrolled, setScrolled] = useState(false);
@@ -979,4 +979,8 @@ export default function Home() {
       <StickyCta />
     </div>
   );
+}
+
+export default function HomePage() {
+  return <Home />;
 }

@@ -115,7 +115,13 @@ export const metadata: Metadata = {
     "webbutveckling Skövde",
     "webbyrå",
   ],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: {
+      "sv-SE": "/",
+      "en-US": "/en",
+    },
+  },
   // OG-bilden genereras automatiskt av app/opengraph-image.tsx (1200×630).
 };
 
