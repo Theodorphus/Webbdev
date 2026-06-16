@@ -71,11 +71,81 @@ const problemIcons: Record<string, ReactElement> = {
   ),
 };
 
+const PROJECTS_PER_PAGE = 6;
+
+const projects = [
+  {
+    name: 'Karla Cleaning Crew',
+    desc: { sv: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', en: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.' },
+    result: { sv: 'Snabb, mobiloptimerad och enkel att hitta på Google.', en: 'Fast, mobile-optimized and easy to find on Google.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://karlacleaningcrew.se/',
+    img: '/1.png',
+  },
+  {
+    name: 'Wellness Studio',
+    desc: { sv: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.', en: 'Modern booking site for spa and wellness services with integrated Stripe payments and automated email.' },
+    result: { sv: 'Helautomatiserad bokningsprocess utan manuellt arbete.', en: 'Fully automated booking flow with no manual work.' },
+    tech: ['Next.js', 'Tailwind', 'Supabase'],
+    url: 'https://bokning-gue0ah1a6-webbdev.vercel.app/',
+    img: '/2.png',
+  },
+  {
+    name: 'Konstbyte',
+    desc: { sv: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', en: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.' },
+    result: { sv: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.', en: 'Scalable platform with AI features and Stripe payments.' },
+    tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
+    url: 'https://www.konstbyte.se/',
+    img: '/3.png',
+  },
+  {
+    name: 'Prolink',
+    desc: { sv: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.', en: 'Modern corporate website focused on a clear presentation of services and professional design.' },
+    result: { sv: 'Snygg och snabb sajt som stärker varumärket online.', en: 'Sleek, fast site that strengthens the brand online.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://www.prolink.se/',
+    img: '/4.png',
+  },
+  {
+    name: 'SwedenSweet',
+    desc: { sv: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.', en: 'E-commerce platform for Swedish treats with a seamless shopping experience and modern design.' },
+    result: { sv: 'Komplett nätbutik med enkel navigation och snabb checkout.', en: 'Complete online store with easy navigation and fast checkout.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://swedensweet.vercel.app/',
+    img: '/5.png',
+  },
+  {
+    name: 'FlexLeague',
+    desc: { sv: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.', en: 'Platform for creating and managing leagues and tournaments with schedules, standings and live results.' },
+    result: { sv: 'Smidig liga-hantering med automatiska tabeller och statistik.', en: 'Smooth league management with automatic standings and stats.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
+    img: '/Flex.png',
+  },
+  {
+    name: 'Erotikmässan',
+    desc: { sv: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.', en: 'Modern event website with clean design, program overview and a clear presentation of exhibitors.' },
+    result: { sv: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.', en: 'Eye-catching site that elevates the event and drives ticket sales.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://erotikm-ssan.vercel.app/',
+    img: '/7.png',
+  },
+  {
+    name: 'Widkull Payroll AB',
+    desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
+    result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://widkull.vercel.app/',
+    img: '/6.png',
+  },
+];
+
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [portfolioPage, setPortfolioPage] = useState(0);
   const scopeRef = useRef<HTMLDivElement>(null);
   const { lang, t } = useLang();
   const faqItems = faqByLang[lang];
@@ -422,72 +492,9 @@ export default function Home() {
             <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.portfolio.rubrik}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
-            {[
-              {
-                name: 'Karla Cleaning Crew',
-                desc: { sv: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', en: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.' },
-                result: { sv: 'Snabb, mobiloptimerad och enkel att hitta på Google.', en: 'Fast, mobile-optimized and easy to find on Google.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://karlacleaningcrew.se/',
-                img: '/1.png',
-              },
-              {
-                name: 'Wellness Studio',
-                desc: { sv: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.', en: 'Modern booking site for spa and wellness services with integrated Stripe payments and automated email.' },
-                result: { sv: 'Helautomatiserad bokningsprocess utan manuellt arbete.', en: 'Fully automated booking flow with no manual work.' },
-                tech: ['Next.js', 'Tailwind', 'Supabase'],
-                url: 'https://bokning-gue0ah1a6-webbdev.vercel.app/',
-                img: '/2.png',
-              },
-              {
-                name: 'Konstbyte',
-                desc: { sv: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', en: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.' },
-                result: { sv: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.', en: 'Scalable platform with AI features and Stripe payments.' },
-                tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
-                url: 'https://www.konstbyte.se/',
-                img: '/3.png',
-              },
-              {
-                name: 'Prolink',
-                desc: { sv: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.', en: 'Modern corporate website focused on a clear presentation of services and professional design.' },
-                result: { sv: 'Snygg och snabb sajt som stärker varumärket online.', en: 'Sleek, fast site that strengthens the brand online.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://www.prolink.se/',
-                img: '/4.png',
-              },
-              {
-                name: 'SwedenSweet',
-                desc: { sv: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.', en: 'E-commerce platform for Swedish treats with a seamless shopping experience and modern design.' },
-                result: { sv: 'Komplett nätbutik med enkel navigation och snabb checkout.', en: 'Complete online store with easy navigation and fast checkout.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://swedensweet.vercel.app/',
-                img: '/5.png',
-              },
-              {
-                name: 'FlexLeague',
-                desc: { sv: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.', en: 'Platform for creating and managing leagues and tournaments with schedules, standings and live results.' },
-                result: { sv: 'Smidig liga-hantering med automatiska tabeller och statistik.', en: 'Smooth league management with automatic standings and stats.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
-                img: '/Flex.png',
-              },
-              {
-                name: 'Erotikmässan',
-                desc: { sv: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.', en: 'Modern event website with clean design, program overview and a clear presentation of exhibitors.' },
-                result: { sv: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.', en: 'Eye-catching site that elevates the event and drives ticket sales.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://erotikm-ssan.vercel.app/',
-                img: '/7.png',
-              },
-              {
-                name: 'Widkull Payroll AB',
-                desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
-                result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
-                tech: ['Next.js', 'Tailwind', 'Vercel'],
-                url: 'https://widkull.vercel.app/',
-                img: '/6.png',
-              },
-            ].map((item) => (
+            {projects
+              .slice(portfolioPage * PROJECTS_PER_PAGE, portfolioPage * PROJECTS_PER_PAGE + PROJECTS_PER_PAGE)
+              .map((item, index) => (
               <TiltCard key={item.name} className="h-full">
               <a
                 href={item.url}
@@ -502,6 +509,7 @@ export default function Home() {
                     alt={item.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    {...(index === 0 ? { loading: 'eager' as const, fetchPriority: 'high' as const } : {})}
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -530,6 +538,31 @@ export default function Home() {
               </TiltCard>
             ))}
           </div>
+
+          {/* Paginering */}
+          {projects.length > PROJECTS_PER_PAGE && (
+            <div className="mt-10 flex items-center justify-center gap-3">
+              {Array.from({ length: Math.ceil(projects.length / PROJECTS_PER_PAGE) }).map((_, page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => {
+                    setPortfolioPage(page);
+                    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  aria-label={`${t.portfolio.sida} ${page + 1}`}
+                  aria-current={portfolioPage === page ? 'page' : undefined}
+                  className={`h-10 min-w-10 cursor-pointer rounded-xl border px-3 text-sm font-medium transition-all ${
+                    portfolioPage === page
+                      ? 'border-indigo-500/50 bg-indigo-500/15 text-white'
+                      : 'border-white/10 bg-white/[0.03] text-white/55 hover:border-indigo-500/30 hover:text-white'
+                  }`}
+                >
+                  {page + 1}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -603,26 +636,7 @@ export default function Home() {
       <section id="om-mig" className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
-            <div className="grid gap-12 md:grid-cols-[minmax(0,280px)_1fr] md:items-center lg:gap-16">
-              {/* Porträtt */}
-              <div className="mx-auto w-full max-w-[280px] md:mx-0">
-                <div className="group relative">
-                  <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-indigo-500/25 via-violet-500/15 to-cyan-500/15 opacity-70 blur-2xl transition-opacity group-hover:opacity-100" />
-                  <div className="relative overflow-hidden rounded-3xl border border-white/10 ring-1 ring-white/5 shadow-2xl shadow-indigo-950/50">
-                    <div data-animate="image" className="relative aspect-[4/5] w-full will-change-transform">
-                      <Image
-                        src="/pp.png"
-                        alt="Theodor — webbutvecklare bakom Webbdev Studio"
-                        fill
-                        sizes="280px"
-                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                      />
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06060f]/40 via-transparent to-transparent" />
-                  </div>
-                </div>
-              </div>
-
+            <div>
               {/* Text + fakta */}
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">{t.omMig.etikett}</p>

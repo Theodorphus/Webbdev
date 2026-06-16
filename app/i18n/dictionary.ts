@@ -78,6 +78,7 @@ export const dictionary = {
       etikett: 'Min portfölj',
       rubrik: 'Projekt jag har byggt',
       live: 'Live',
+      sida: 'Sida',
     },
     priser: {
       etikett: 'Priser',
@@ -94,9 +95,9 @@ export const dictionary = {
       etikett: 'Om mig',
       rubrik: 'Vem bygger din hemsida?',
       stycken: [
-        'Jag är webbutvecklare med en examen i systemvetenskap från Göteborgs universitet och 3 års praktisk erfarenhet genom egna projekt och frilansuppdrag.',
-        'Jag erbjuder prisvärda lösningar utan att kompromissa med kvaliteten. Du får en personlig kontakt rakt igenom — gott om tid för support och alltid tillgänglig för frågor och justeringar.',
-        'Jag tar varje projekt på allvar och lägger ner den tid som krävs för att du ska vara nöjd med resultatet.',
+        'Hej, jag heter Theo. Jag bygger snabba, snygga hemsidor för småföretag och egenföretagare som vill synas på riktigt — utan byråpriser och utan krångel.',
+        'Hos mig pratar du alltid med personen som faktiskt bygger sidan. Det betyder snabba svar, gott om tid för dina frågor och en sida som blir precis som du tänkt dig — inte en mall som tusen andra använder.',
+        'Jag tar varje projekt på allvar och är inte nöjd förrän du är det. Hör av dig så tar vi en förutsättningslös pratstund om din idé.',
       ],
       fakta: [
         { label: 'Utbildning', value: 'Systemvetenskap, GU', tag: 'EDU' },
@@ -214,6 +215,7 @@ export const dictionary = {
       etikett: 'My portfolio',
       rubrik: 'Projects I have built',
       live: 'Live',
+      sida: 'Page',
     },
     priser: {
       etikett: 'Pricing',
@@ -230,9 +232,9 @@ export const dictionary = {
       etikett: 'About',
       rubrik: 'Who builds your website?',
       stycken: [
-        'I’m a web developer with a degree in Information Systems from the University of Gothenburg and 3 years of hands-on experience through my own projects and freelance work.',
-        'I offer affordable solutions without compromising on quality. You get personal contact throughout — plenty of time for support and always available for questions and tweaks.',
-        'I take every project seriously and put in the time it takes for you to be happy with the result.',
+        'Hi, I’m Theo. I build fast, good-looking websites for small businesses and sole traders who want to truly stand out — without agency prices and without the hassle.',
+        'With me, you always talk to the person actually building your site. That means quick replies, plenty of time for your questions, and a site that turns out exactly as you imagined — not a template a thousand others use.',
+        'I take every project seriously and I’m not satisfied until you are. Get in touch and we’ll have a no-obligation chat about your idea.',
       ],
       fakta: [
         { label: 'Education', value: 'Information Systems, GU', tag: 'EDU' },
