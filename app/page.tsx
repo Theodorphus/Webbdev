@@ -561,7 +561,7 @@ export function Home() {
                 <div className="relative mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
                   <Image
                     src={item.img}
-                    alt={item.name}
+                    alt={`${item.name} — webbprojekt byggt av Webbdev Studio`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     {...(index === 0 ? { loading: 'eager' as const, fetchPriority: 'high' as const } : {})}
@@ -1008,6 +1008,12 @@ export function Home() {
                   <p key={rad}>{rad}</p>
                 ))}
               </address>
+              <Link
+                href="/blogg"
+                className="mt-3 inline-block text-xs text-white/50 transition-colors hover:text-indigo-300"
+              >
+                Blogg
+              </Link>
             </div>
 
             <div>

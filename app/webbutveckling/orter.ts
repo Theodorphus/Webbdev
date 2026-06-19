@@ -247,3 +247,27 @@ export const orter: Ort[] = [
 export function getOrt(slug: string): Ort | undefined {
   return orter.find((o) => o.slug === slug);
 }
+
+// Lokal FAQ per ort — byggd från ortens egen data så varje sida får
+// unik, djup text (bättre indexering) och kan visa FAQ-rich-results i Google.
+export function getOrtFaq(ort: Ort): { q: string; a: string }[] {
+  const grannar = ort.narliggande.slice(0, 3).join(", ");
+  return [
+    {
+      q: `Vad kostar en hemsida ${ort.iNamn}?`,
+      a: `Jag bygger hemsidor till fast pris från 2 000 kr för en enklare sajt upp till 6 000 kr för en mer komplett lösning med fler funktioner. Du får alltid priset innan vi börjar, utan dolda kostnader. Priset är detsamma oavsett om du sitter ${ort.iNamn} eller i någon av grannkommunerna.`,
+    },
+    {
+      q: `Hur lång tid tar det att bygga en hemsida ${ort.iNamn}?`,
+      a: `De flesta hemsidor är klara och live på 3–7 arbetsdagar. Du jobbar direkt med utvecklaren, så vi slipper långa väntetider och mellanhänder. Behöver du något mer omfattande tar vi det i etapper.`,
+    },
+    {
+      q: `Bygger du hemsidor åt företag utanför ${ort.namn}?`,
+      a: `Ja. Förutom ${ort.namn} hjälper jag företag i bland annat ${grannar} och övriga ${ort.region}. Hela processen kan skötas digitalt med videomöten och delade förslag, så avståndet spelar ingen roll.`,
+    },
+    {
+      q: `Kommer min hemsida synas på Google?`,
+      a: `Ja — alla sajter jag bygger är SEO-optimerade från grunden med snabb laddtid, strukturerad data och innehåll anpassat för lokala sökningar som "${ort.title.toLowerCase()}". Det ger dig bästa möjliga förutsättningar att ranka och hittas av kunder ${ort.iNamn}.`,
+    },
+  ];
+}

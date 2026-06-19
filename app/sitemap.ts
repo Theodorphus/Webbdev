@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { orter } from "./webbutveckling/orter";
+import { posts } from "./blogg/posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -24,6 +25,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    // Blogg — index + inlägg.
+    {
+      url: `${SITE_URL}/blogg`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    ...posts.map((p) => ({
+      url: `${SITE_URL}/blogg/${p.slug}`,
+      lastModified: new Date(p.published),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
     {
       url: `${SITE_URL}/integritetspolicy`,

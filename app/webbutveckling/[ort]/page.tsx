@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { orter, getOrt } from "../orter";
+import { orter, getOrt, getOrtFaq } from "../orter";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -36,6 +36,8 @@ export default async function OrtPage({ params }: Props) {
   const ort = getOrt(slug);
   if (!ort) notFound();
 
+  const faq = getOrtFaq(ort);
+
   // Lokal LocalBusiness-schema för just den här orten.
   const jsonLd = {
     "@context": "https://schema.org",
@@ -58,11 +60,26 @@ export default async function OrtPage({ params }: Props) {
     },
   };
 
+  // FAQPage-schema — kan ge FAQ-rich-results i Google för just den här orten.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}
@@ -139,6 +156,33 @@ export default async function OrtPage({ params }: Props) {
             {ort.narliggande[ort.narliggande.length - 1]}. Oavsett var du sitter
             sköts hela processen smidigt — på plats eller digitalt.
           </p>
+        </div>
+
+        {/* Lokal FAQ — unik text per ort + FAQPage-schema för rich results */}
+        <div className="mt-16">
+          <h2 className="font-display text-2xl font-bold text-white">
+            Vanliga frågor om webbutveckling {ort.iNamn}
+          </h2>
+          <div className="mt-6 space-y-3">
+            {faq.map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-2xl border border-white/8 bg-white/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-white/15"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-white/85 [&::-webkit-details-marker]:hidden">
+                  {item.q}
+                  <svg
+                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    className="flex-shrink-0 text-indigo-400 transition-transform duration-300 group-open:rotate-180"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <p className="px-6 pb-5 text-sm leading-relaxed text-white/60">{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
 
         {/* Tillbaka till startsidan / övriga orter */}
