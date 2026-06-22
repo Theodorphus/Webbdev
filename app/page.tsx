@@ -10,6 +10,7 @@ import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
 import { orter } from './webbutveckling/orter';
 import { useLang } from './i18n/LanguageProvider';
+import { trackConversion } from './lib/gtag';
 import LanguageToggle from './i18n/LanguageToggle';
 
 function IconCheck() {
@@ -270,6 +271,7 @@ export function Home() {
     });
     if (res.ok) {
       setStatus('success');
+      trackConversion('formSubmit');
       setFormData({ name: '', email: '', message: '', company: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } else {
@@ -1039,7 +1041,11 @@ export function Home() {
               <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.kontakt}</h3>
               <div className="mt-3 space-y-1.5 text-xs leading-relaxed">
                 <p>
-                  <a href="tel:+46709525822" className="text-white/50 transition-colors hover:text-indigo-300">
+                  <a
+                    href="tel:+46709525822"
+                    onClick={() => trackConversion('phoneClick')}
+                    className="text-white/50 transition-colors hover:text-indigo-300"
+                  >
                     070‑952 58 22
                   </a>
                 </p>

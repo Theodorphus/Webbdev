@@ -1,11 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import { faqItems } from "./faq";
 import { LanguageProvider } from "./i18n/LanguageProvider";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
+
+// Google Ads-konverteringsspårning. Hämta ditt ID under Verktyg → Konverteringar
+// i Google Ads (formatet är "AW-XXXXXXXXXX"). Läggs i .env.local som
+// NEXT_PUBLIC_GOOGLE_ADS_ID så det inte behöver hårdkodas.
+const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
 /** Strukturerad data för Google: företaget + FAQ. */
 const jsonLd = [
@@ -146,6 +152,22 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {GOOGLE_ADS_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-ads-gtag" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GOOGLE_ADS_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <div className="scroll-progress" aria-hidden="true" />
         <LanguageProvider>{children}</LanguageProvider>
         <div className="noise-overlay" aria-hidden="true" />
