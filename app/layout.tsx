@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import { faqItems } from "./faq";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import Chatbot from "./components/Chatbot";
+import ExitIntent from "./components/ExitIntent";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
@@ -169,7 +171,11 @@ export default function RootLayout({
           </>
         )}
         <div className="scroll-progress" aria-hidden="true" />
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          {children}
+          <Chatbot />
+          <ExitIntent />
+        </LanguageProvider>
         <div className="noise-overlay" aria-hidden="true" />
         <Analytics />
       </body>

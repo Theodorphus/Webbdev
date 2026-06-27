@@ -456,6 +456,106 @@ body {
   }
 }
 
+/* ── Chatt-widget ───────────────────────────────────────── */
+/* Pulserande glow-ring runt chatt-knappen — drar ögat utan att
+   skrika. Samma indigo/violett som heron. */
+.chat-fab {
+  position: relative;
+}
+.chat-fab::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.55), rgba(139, 92, 246, 0.45));
+  z-index: -1;
+  opacity: 0.75;
+  animation: chat-ring 2.6s ease-in-out infinite;
+}
+@keyframes chat-ring {
+  0%, 100% { transform: scale(1);    opacity: 0.55; }
+  50%      { transform: scale(1.18); opacity: 0;    }
+}
+
+/* Liten "andnings"-glow på själva knappen. */
+.chat-fab-glow {
+  box-shadow:
+    0 10px 30px -8px rgba(79, 70, 229, 0.7),
+    0 0 0 0 rgba(99, 102, 241, 0.45);
+  animation: chat-breathe 3.4s ease-in-out infinite;
+}
+@keyframes chat-breathe {
+  0%, 100% { box-shadow: 0 10px 30px -8px rgba(79, 70, 229, 0.6), 0 0 0 0 rgba(99, 102, 241, 0.0); }
+  50%      { box-shadow: 0 12px 36px -8px rgba(79, 70, 229, 0.85), 0 0 0 6px rgba(99, 102, 241, 0.12); }
+}
+
+/* Engångs-uppmärksamhet: knappen studsar lätt strax efter att sidan
+   laddats, så besökaren hinner märka den. */
+.chat-fab-attention {
+  animation: chat-attention 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s 2 both;
+}
+@keyframes chat-attention {
+  0%, 100% { transform: translateY(0)   rotate(0deg); }
+  30%      { transform: translateY(-7px) rotate(-7deg); }
+  60%      { transform: translateY(-2px) rotate(5deg); }
+}
+
+/* Etikett-bubbla bredvid knappen. */
+.chat-label {
+  animation: chat-label-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes chat-label-in {
+  from { opacity: 0; transform: translateX(8px) scale(0.92); }
+  to   { opacity: 1; transform: translateX(0)   scale(1); }
+}
+
+/* ── Exit-intent popup ──────────────────────────────────── */
+.exit-card {
+  animation: exit-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes exit-pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ── Priskalkylator: range-slider ───────────────────────── */
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #6366f1;
+  border: 3px solid #0a0a18;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5), 0 2px 8px rgba(67, 56, 202, 0.5);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.calc-range::-webkit-slider-thumb:hover {
+  background: #818cf8;
+  transform: scale(1.12);
+}
+.calc-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #6366f1;
+  border: 3px solid #0a0a18;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5), 0 2px 8px rgba(67, 56, 202, 0.5);
+  cursor: pointer;
+}
+.calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.45);
+}
+
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -477,6 +577,7 @@ body {
   .scroll-progress,
   .code-window,
   .code-caret::after,
+  .exit-card,
   .mesh-gradient {
     animation: none;
   }
@@ -494,5 +595,12 @@ body {
   /* Stillbild i stället för rörlig video vid reduced-motion. */
   .cta-video-bg {
     display: none;
+  }
+  /* Dämpa chatt-knappens rörelse — behåll en statisk glow. */
+  .chat-fab::before,
+  .chat-fab-glow,
+  .chat-fab-attention,
+  .chat-label {
+    animation: none;
   }
 }

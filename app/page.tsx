@@ -8,6 +8,7 @@ import { faqByLang } from './faq';
 import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
+import PriceCalculator from './components/PriceCalculator';
 import { orter } from './webbutveckling/orter';
 import { useLang } from './i18n/LanguageProvider';
 import { trackConversion } from './lib/gtag';
@@ -397,6 +398,25 @@ export function Home() {
             </Magnetic>
           </Item>
 
+          {/* Trust-rad direkt under CTA — socialt bevis innan scroll */}
+          <Item className="mt-5">
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2.5 text-sm text-white/55 transition-colors hover:text-white/80"
+            >
+              <span className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <StarIcon key={i} />
+                ))}
+              </span>
+              <span className="font-semibold text-white/80">{t.heroTrust.betyg}</span>
+              <span aria-hidden className="text-white/25">·</span>
+              <span>{t.heroTrust.text}</span>
+            </a>
+          </Item>
+
           {/* Stats — räknar upp när de blir synliga */}
           <Item className="mt-14 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/8 pt-10 sm:gap-10">
             {t.hero.stats.map((s) => (
@@ -751,6 +771,9 @@ export function Home() {
               </div>
             ))}
           </div>
+
+          {/* Priskalkylator — interaktivt estimat som länkar till offert */}
+          <PriceCalculator />
         </div>
       </section>
 
@@ -963,6 +986,11 @@ export function Home() {
                     </>
                   )}
                 </button>
+
+                {/* Riskreducering precis vid beslutspunkten */}
+                <p className="flex flex-wrap items-center justify-center gap-x-1 text-center text-[11px] font-medium text-white/45">
+                  {t.kontakt.risk}
+                </p>
 
                 {/* Direktkontakt för den som inte gillar formulär */}
                 <p className="pt-2 text-center text-xs text-white/40">
