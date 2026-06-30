@@ -180,7 +180,7 @@ export const dictionary = {
     footer: {
       tagline: 'Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor.',
       foretag: 'Företag',
-      foretagRader: ['Webbdev Studio — Enskild firma', 'Org.nr: 199507216498', 'Momsregistrerad: Ja'],
+      foretagRader: ['Webbdev Studio — Enskild firma', 'Org.nr: 19950721-XXXX', 'Momsregistrerad: Ja'],
       orter: 'Orter',
       kontakt: 'Kontakt',
       integritetspolicy: 'Integritetspolicy',
@@ -415,7 +415,7 @@ export const dictionary = {
     footer: {
       tagline: 'Modern web development for companies — fast, conversion-optimized websites.',
       foretag: 'Company',
-      foretagRader: ['Webbdev Studio — Sole proprietorship', 'Reg. no: 199507216498', 'VAT registered: Yes'],
+      foretagRader: ['Webbdev Studio — Sole proprietorship', 'Reg. no: 19950721-XXXX', 'VAT registered: Yes'],
       orter: 'Locations',
       kontakt: 'Contact',
       integritetspolicy: 'Privacy policy',

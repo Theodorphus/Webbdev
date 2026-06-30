@@ -56,13 +56,18 @@ export default function Chatbot() {
     return () => clearTimeout(id);
   }, []);
 
-  // Markera som "sedd" så fort chatten öppnas, och dölj etiketten.
+  // Markera som "sedd" i sessionen så fort chatten öppnas (extern sync, ok i
+  // effekt). Själva etiketten döljs redan i renderingen via `!open`, och
+  // hålls borta permanent när vi öppnar genom att nollställa showLabel i
+  // klick-hanteraren — så ingen setState behövs här.
   useEffect(() => {
-    if (open) {
-      setShowLabel(false);
-      sessionStorage.setItem('webbdev-chat-seen', '1');
-    }
+    if (open) sessionStorage.setItem('webbdev-chat-seen', '1');
   }, [open]);
+
+  function openChat() {
+    setShowLabel(false);
+    setOpen(true);
+  }
 
   // Stäng med Escape.
   useEffect(() => {
@@ -184,7 +189,7 @@ export default function Chatbot() {
         {showLabel && !open && (
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={openChat}
             className="chat-label hidden items-center gap-2 rounded-full border border-white/10 bg-[#06060f]/90 py-2.5 pl-4 pr-4 text-sm font-medium text-[#e8eaf6] shadow-xl shadow-black/40 backdrop-blur-xl transition-colors hover:bg-white/5 sm:flex"
           >
             <span className="relative flex h-2 w-2">

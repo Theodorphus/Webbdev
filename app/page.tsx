@@ -787,7 +787,23 @@ export function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
-            <div>
+            <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-12">
+              {/* Porträtt */}
+              <div className="relative mx-auto w-full max-w-[280px] md:mx-0 md:max-w-none">
+                <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-indigo-950/40">
+                  <Image
+                    src="/pp2.png"
+                    alt="Theodor Håkansson — webbutvecklare på Webbdev Studio"
+                    width={1024}
+                    height={1024}
+                    sizes="(max-width: 768px) 280px, 33vw"
+                    className="h-full w-full object-cover"
+                  />
+                  {/* Mjuk gradient nedtill så porträttet smälter in i temat */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06060f]/40 via-transparent to-transparent" />
+                </div>
+              </div>
+
               {/* Text + fakta */}
               <div>
                 <p className="eyebrow">{t.omMig.etikett}</p>
@@ -801,13 +817,13 @@ export function Home() {
                 {t.omMig.fakta.map((row) => (
                   <div
                     key={row.label}
-                    className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-5 py-4"
+                    className="rounded-xl border border-white/8 bg-white/[0.03] px-5 py-4"
                   >
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-[10px] text-indigo-400/50 w-12 shrink-0">{row.tag}</span>
-                      <span className="text-xs text-white/55">{row.label}</span>
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-mono text-[10px] text-indigo-400/50 shrink-0">{row.tag}</span>
+                      <span className="text-[11px] uppercase tracking-wide text-white/45">{row.label}</span>
                     </div>
-                    <span className="text-sm font-medium text-white/80">{row.value}</span>
+                    <span className="mt-1.5 block text-sm font-medium text-white/85">{row.value}</span>
                   </div>
                 ))}
                 </div>
@@ -1096,7 +1112,7 @@ export function Home() {
                 {t.footer.integritetspolicy}
               </Link>
               <span aria-hidden>·</span>
-              <span>Org.nr 199507216498</span>
+              <span>Org.nr 19950721-XXXX</span>
             </div>
           </div>
         </div>

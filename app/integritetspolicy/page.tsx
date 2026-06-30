@@ -43,7 +43,7 @@ export default function IntegritetspolicyPage() {
         <div className="mt-12 space-y-10">
           <Section title="1. Personuppgiftsansvarig">
             <p>
-              Webbdev Studio (enskild firma, org.nr 199507216498) är
+              Webbdev Studio (enskild firma, org.nr 19950721-XXXX) är
               personuppgiftsansvarig för de uppgifter som behandlas via denna
               webbplats. Du når oss på{" "}
               <a href="mailto:webbdevstudio@gmail.com" className="text-indigo-400 hover:text-indigo-300">

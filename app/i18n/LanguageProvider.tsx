@@ -32,15 +32,18 @@ export function LanguageProvider({
   const [lang, setLangState] = useState<Lang>(initialLang ?? 'sv');
 
   // Om routen anger ett språk (t.ex. /en) vinner det och sparas som val.
+  // (Statet initieras redan med initialLang, så ingen setState behövs här.)
   // Annars: återställ ett tidigare sparat val. Svenska är standard.
   useEffect(() => {
     if (initialLang) {
-      setLangState(initialLang);
       localStorage.setItem(STORAGE_KEY, initialLang);
       return;
     }
     const saved = localStorage.getItem(STORAGE_KEY) as Lang | null;
     if (saved === 'sv' || saved === 'en') {
+      // Legitim extern-synk: localStorage finns inte vid SSR, så ett tidigare
+      // sparat språkval kan bara läsas och tillämpas efter mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLangState(saved);
     }
   }, [initialLang]);
