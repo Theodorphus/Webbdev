@@ -55,11 +55,18 @@ const jsonLd = [
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "5.0",
-      reviewCount: "4",
+      reviewCount: "5",
       bestRating: "5",
       worstRating: "1",
     },
     review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Veronika Wildkull" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Jag blev otroligt nöjd med min nya hemsida! Snabb leverans och förstående för vad man vill ha. Kommer även med bra förslag. Återkopplar väldigt snabbt vid frågor. Rekommenderar varmt detta företag om du vill ha en snygg hemsida med relevant information och smarta funktioner.",
+      },
       {
         "@type": "Review",
         author: { "@type": "Person", name: "Martin Bucko" },

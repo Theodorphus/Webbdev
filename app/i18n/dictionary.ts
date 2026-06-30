@@ -38,7 +38,7 @@ export const dictionary = {
     },
     heroTrust: {
       betyg: '5,0',
-      text: '4 recensioner på Google',
+      text: '5 recensioner på Google',
     },
     problem: {
       etikett: 'Varför byta?',
@@ -88,9 +88,13 @@ export const dictionary = {
     recensioner: {
       etikett: 'Recensioner',
       rubrik: 'Vad kunder säger',
-      betygText: '5,0 av 5 baserat på 4 recensioner på Google',
+      betygText: '5,0 av 5 baserat på 5 recensioner på Google',
       lankText: 'Läs alla recensioner på Google',
       lista: [
+        {
+          namn: 'Veronika Wildkull',
+          text: 'Jag blev otroligt nöjd med min nya hemsida! Snabb leverans och förstående för vad man vill ha. Kommer även med bra förslag. Återkopplar väldigt snabbt vid frågor. Rekommenderar varmt detta företag om du vill ha en snygg hemsida med relevant information och smarta funktioner.',
+        },
         {
           namn: 'Martin Bucko',
           text: 'Otroligt bra service och resultatet blev en ny hemsida över förväntan! Kan varmt rekommendera denna tjänst. 🔥',
@@ -273,7 +277,7 @@ export const dictionary = {
     },
     heroTrust: {
       betyg: '5.0',
-      text: '4 reviews on Google',
+      text: '5 reviews on Google',
     },
     problem: {
       etikett: 'Why switch?',
@@ -323,9 +327,13 @@ export const dictionary = {
     recensioner: {
       etikett: 'Reviews',
       rubrik: 'What clients say',
-      betygText: '5.0 out of 5 based on 4 reviews on Google',
+      betygText: '5.0 out of 5 based on 5 reviews on Google',
       lankText: 'Read all reviews on Google',
       lista: [
+        {
+          namn: 'Veronika Wildkull',
+          text: 'I was incredibly happy with my new website! Fast delivery and a real understanding of what I wanted. Comes with great suggestions too. Gets back to you very quickly with any questions. I warmly recommend this company if you want a great-looking website with relevant information and smart features.',
+        },
         {
           namn: 'Martin Bucko',
           text: 'Incredibly good service and the result was a new website beyond expectations! Can warmly recommend this service. 🔥',
