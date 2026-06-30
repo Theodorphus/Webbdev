@@ -792,10 +792,10 @@ export function Home() {
               <div className="relative mx-auto w-full max-w-[280px] md:mx-0 md:max-w-none">
                 <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-indigo-950/40">
                   <Image
-                    src="/pp2.png"
+                    src="/pp3.png"
                     alt="Theodor Håkansson — webbutvecklare på Webbdev Studio"
-                    width={1024}
-                    height={1024}
+                    width={1236}
+                    height={1272}
                     sizes="(max-width: 768px) 280px, 33vw"
                     className="h-full w-full object-cover"
                   />
