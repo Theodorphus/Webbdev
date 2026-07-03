@@ -134,6 +134,20 @@ body {
   75%      { background-position: 20% 60%, 80% 40%,  80% 90%,  10% 40%; }
 }
 
+/* ── Chattbubblan väjer för sticky-CTA-baren på mobil ───── */
+/* StickyCta sätter .sticky-cta-visible på <body> när baren syns;
+   då lyfts chatt-docken ovanför baren så knappen inte täcks. */
+.chat-dock {
+  transition: bottom 0.3s ease;
+}
+@media (max-width: 767px) {
+  /* Lyft bara den stängda bubblan — öppen panel har egen placering
+     (bottom-24) och X-knappen ska ligga kvar under panelen. */
+  body.sticky-cta-visible .chat-dock:not(.chat-dock--open) {
+    bottom: 6.5rem;
+  }
+}
+
 /* ── Kontakt-CTA bakgrundsvideo ─────────────────────────── */
 /* Spelas bara på större skärmar med pekare — på mobil sparar vi
    data/batteri och visar i stället postern via CTA-kortets gradient. */

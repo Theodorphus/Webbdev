@@ -184,7 +184,7 @@ export default function Chatbot() {
   return (
     <>
       {/* Flytande knapp med etikett */}
-      <div className="fixed bottom-5 right-5 z-50 flex items-center gap-3 md:bottom-6 md:right-6">
+      <div className={`chat-dock fixed bottom-5 right-5 z-50 flex items-center gap-3 md:bottom-6 md:right-6 ${open ? 'chat-dock--open' : ''}`}>
         {/* "Fråga oss"-etikett — visas tills chatten öppnats en gång */}
         {showLabel && !open && (
           <button

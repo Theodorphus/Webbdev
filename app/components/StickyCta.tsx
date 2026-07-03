@@ -47,6 +47,13 @@ export default function StickyCta() {
     };
   }, []);
 
+  // Signalera till andra flytande element (chattbubblan) att baren är synlig,
+  // så de kan väja uppåt på mobil i stället för att överlappa knappen.
+  useEffect(() => {
+    document.body.classList.toggle('sticky-cta-visible', visible);
+    return () => document.body.classList.remove('sticky-cta-visible');
+  }, [visible]);
+
   return (
     <div
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#06060f]/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl transition-all duration-300 md:hidden ${

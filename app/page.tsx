@@ -189,7 +189,7 @@ const projects = [
     img: '/7.png',
   },
   {
-    name: 'Widkull Payroll AB',
+    name: 'Wildkull Payroll AB',
     desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
     result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
     tech: ['Next.js', 'Tailwind', 'Vercel'],
@@ -449,7 +449,7 @@ export function Home() {
               { name: 'Konstbyte', url: 'https://www.konstbyte.se/' },
               { name: 'Prolink', url: 'https://www.prolink.se/' },
               { name: 'SwedenSweet', url: 'https://swedensweet.vercel.app/' },
-              { name: 'Widkull', url: 'https://www.wildkullpayroll.se/' },
+              { name: 'Wildkull', url: 'https://www.wildkullpayroll.se/' },
             ].map((brand) => (
               <a
                 key={brand.name}
@@ -659,7 +659,7 @@ export function Home() {
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2" data-animate-group data-stagger="0.1">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
             {t.recensioner.lista.map((r) => (
               <div
                 key={r.namn}
