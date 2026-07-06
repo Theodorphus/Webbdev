@@ -196,6 +196,14 @@ const projects = [
     url: 'https://www.wildkullpayroll.se/',
     img: '/6.png',
   },
+  {
+    name: 'André Roslund',
+    desc: { sv: 'Elegant författarwebbplats med bokkatalog, föreläsningar och kontakt — stilren, litterär design med mörk ton och guldaccenter.', en: 'Elegant author website with a book catalogue, lectures and contact — a refined, literary design with a dark theme and gold accents.' },
+    result: { sv: 'Stämningsfull sajt som lyfter författarens varumärke och böcker.', en: 'Atmospheric site that elevates the author’s brand and books.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://www.andre-roslund.se/',
+    img: '/8.png',
+  },
 ];
 
 export function Home() {
