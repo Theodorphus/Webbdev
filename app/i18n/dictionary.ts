@@ -36,6 +36,16 @@ export const dictionary = {
     trust: {
       rubrik: 'Företag jag har byggt för',
     },
+    tjansterTeaser: {
+      etikett: 'Tjänster & teknik',
+      rubrik: 'Allt du behöver — byggt för att sälja',
+      text: 'Från snabb Next.js-utveckling och SEO till e-handel och admin-panel. Se vad jag levererar och varför en föråldrad hemsida kostar dig affärer.',
+      cta: 'Se tjänster & varför byta',
+    },
+    tjansterSida: {
+      tillbaka: 'Tillbaka till startsidan',
+      cta: 'Få en gratis analys',
+    },
     heroTrust: {
       betyg: '5,0',
       text: '5 recensioner på Google',
@@ -274,6 +284,16 @@ export const dictionary = {
     },
     trust: {
       rubrik: 'Companies I have built for',
+    },
+    tjansterTeaser: {
+      etikett: 'Services & tech',
+      rubrik: 'Everything you need — built to sell',
+      text: 'From fast Next.js development and SEO to e-commerce and an admin panel. See what I deliver — and why an outdated website is costing you business.',
+      cta: 'See services & why switch',
+    },
+    tjansterSida: {
+      tillbaka: 'Back to the homepage',
+      cta: 'Get a free analysis',
     },
     heroTrust: {
       betyg: '5.0',

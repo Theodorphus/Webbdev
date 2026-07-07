@@ -13,7 +13,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   const { t } = useLang();
 
   const links = [
-    { id: 'tjanster', label: t.nav.tjanster },
+    { id: 'tjanster', label: t.nav.tjanster, href: '/tjanster' },
     { id: 'processen', label: t.nav.processen },
     { id: 'portfolio', label: t.nav.portfolio },
     { id: 'recensioner', label: t.nav.recensioner },
@@ -78,7 +78,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
           {links.map((link) => (
             <a
               key={link.id}
-              href={`#${link.id}`}
+              href={link.href ?? `#${link.id}`}
               onClick={() => setOpen(false)}
               className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
                 activeSection === link.id

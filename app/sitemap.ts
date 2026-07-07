@@ -19,6 +19,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    // Tjänster & teknik.
+    {
+      url: `${SITE_URL}/tjanster`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     // Lokala landningssidor — viktiga för lokal SEO.
     ...orter.map((o) => ({
       url: `${SITE_URL}/webbutveckling/${o.slug}`,

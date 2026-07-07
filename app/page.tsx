@@ -93,38 +93,6 @@ function HeroCodeWindow() {
   );
 }
 
-const problemIcons: Record<string, ReactElement> = {
-  speed: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-    </svg>
-  ),
-  ux: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-    </svg>
-  ),
-  trust: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" />
-    </svg>
-  ),
-  perf: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
-  ),
-  mobile: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="5" y="2" width="14" height="20" rx="2" /><line x1="12" y1="18" x2="12.01" y2="18" />
-    </svg>
-  ),
-  seo: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-    </svg>
-  ),
-};
 
 const PROJECTS_PER_PAGE = 6;
 
@@ -228,7 +196,7 @@ export function Home() {
 
   // Markera aktiv sektion i nav medan man scrollar
   useEffect(() => {
-    const ids = ['tjanster', 'processen', 'portfolio', 'recensioner', 'priser', 'om-mig'];
+    const ids = ['processen', 'portfolio', 'recensioner', 'priser', 'om-mig'];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
@@ -317,7 +285,7 @@ export function Home() {
           </span>
           <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
             {[
-              { id: 'tjanster', label: t.nav.tjanster },
+              { id: 'tjanster', label: t.nav.tjanster, href: '/tjanster' },
               { id: 'processen', label: t.nav.processen },
               { id: 'portfolio', label: t.nav.portfolio },
               { id: 'recensioner', label: t.nav.recensioner },
@@ -326,7 +294,7 @@ export function Home() {
             ].map((link) => (
               <a
                 key={link.id}
-                href={`#${link.id}`}
+                href={link.href ?? `#${link.id}`}
                 className={`nav-link transition-colors hover:text-white ${
                   activeSection === link.id ? 'is-active text-white' : ''
                 }`}
@@ -481,31 +449,8 @@ export function Home() {
         </div>
       </section>
 
-      {/* ── PROBLEM ──────────────────────────────────────────── */}
-      <section className="py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.problem.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              {t.problem.rubrik}
-            </h2>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
-            {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
-              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                  {item.icon}
-                </div>
-                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TJÄNSTER ─────────────────────────────────────────── */}
-      <section id="tjanster" className="relative py-20 bg-grid">
+      {/* ── TJÄNSTER-TEASER (länkar till /tjanster) ──────────── */}
+      <section className="relative py-20 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div data-parallax="-26" className="absolute top-1/4 -left-40">
@@ -516,27 +461,27 @@ export function Home() {
           </div>
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.tjanster.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              {t.tjanster.rubrik}
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
-            {t.tjanster.items.map((item) => (
-              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
-                <div className="mt-0.5 flex-shrink-0">
-                  <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
-                    {item.tag}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-white/55">{item.desc}</p>
-                </div>
+          <Link
+            href="/tjanster"
+            data-animate="block"
+            className="group card-spotlight block rounded-3xl border border-white/8 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 sm:p-12"
+          >
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-2xl">
+                <p className="eyebrow">{t.tjansterTeaser.etikett}</p>
+                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
+                  {t.tjansterTeaser.rubrik}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-white/60 sm:text-base">
+                  {t.tjansterTeaser.text}
+                </p>
               </div>
-            ))}
-          </div>
+              <span className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-full bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-indigo-900/40 transition-all group-hover:bg-indigo-500 group-hover:scale-[1.03]">
+                {t.tjansterTeaser.cta}
+                <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+              </span>
+            </div>
+          </Link>
         </div>
       </section>
 
