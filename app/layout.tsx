@@ -26,7 +26,7 @@ const jsonLd = [
     url: SITE_URL,
     email: "webbdevstudio@gmail.com",
     telephone: "+46709525822",
-    image: `${SITE_URL}/opengraph-image`,
+    image: `${SITE_URL}/opengraph-image.jpg`,
     priceRange: "2000–6000 SEK",
     address: {
       "@type": "PostalAddress",

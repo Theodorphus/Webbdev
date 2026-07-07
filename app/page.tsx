@@ -204,6 +204,14 @@ const projects = [
     url: 'https://www.andre-roslund.se/',
     img: '/8.png',
   },
+  {
+    name: 'Bolagdirekt',
+    desc: { sv: 'B2B-sajt för lagerbolag, snabbavveckling och bolagsändringar — tydliga tjänster, fasta priser och konverteringsfokuserad design med guldaccenter.', en: 'B2B site for ready-made companies, fast liquidation and corporate changes — clear services, fixed pricing and a conversion-focused design with gold accents.' },
+    result: { sv: 'Förtroendeingivande sajt som driver beställningar med tydliga paket och priser.', en: 'Trust-building site that drives orders with clear packages and pricing.' },
+    tech: ['Next.js', 'Tailwind', 'Vercel'],
+    url: 'https://bolagdirekt.vercel.app/',
+    img: '/9.png',
+  },
 ];
 
 export function Home() {
@@ -795,16 +803,16 @@ export function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
           <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
-            <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-start md:gap-12">
+            <div className="grid gap-8 md:grid-cols-[auto_1fr] md:items-start md:gap-12">
               {/* Porträtt */}
-              <div className="relative mx-auto w-full max-w-[280px] md:mx-0 md:max-w-none">
+              <div className="relative mx-auto w-full max-w-[150px] md:mx-0">
                 <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-indigo-950/40">
                   <Image
                     src="/pp3.png"
                     alt="Theodor Håkansson — webbutvecklare på Webbdev Studio"
                     width={1236}
                     height={1272}
-                    sizes="(max-width: 768px) 280px, 33vw"
+                    sizes="150px"
                     className="h-full w-full object-cover"
                   />
                   {/* Mjuk gradient nedtill så porträttet smälter in i temat */}
