@@ -64,9 +64,9 @@ export default function PriceCalculator() {
   return (
     <div
       data-animate="block"
-      className="card-spotlight relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a18]/60 p-6 backdrop-blur-sm sm:p-9"
+      className="relative mt-16 overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#08080f] p-6 sm:p-9"
     >
-      <div className="pointer-events-none absolute -top-24 right-0 h-56 w-56 rounded-full bg-indigo-500/15 blur-[100px]" />
+      <div className="pointer-events-none absolute -top-24 right-0 h-56 w-56 rounded-full bg-[rgba(109,106,248,0.12)] blur-[100px]" />
 
       <div className="relative grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
         {/* Vänster: val */}
@@ -91,7 +91,7 @@ export default function PriceCalculator() {
                     aria-pressed={active}
                     className={`rounded-2xl border p-3.5 text-left transition-all ${
                       active
-                        ? 'border-indigo-500/60 bg-indigo-500/10 ring-1 ring-indigo-500/30'
+                        ? 'border-[rgba(109,106,248,0.6)] bg-accent/10 ring-1 ring-accent/30'
                         : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
                     }`}
                   >
@@ -111,7 +111,7 @@ export default function PriceCalculator() {
               <label htmlFor="calc-pages" className="text-xs font-semibold uppercase tracking-wider text-white/45">
                 {c.sidorLabel}
               </label>
-              <span className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-xs text-indigo-300">
+              <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-mono text-xs text-[#b4b2ff]">
                 {pages >= MAX_PAGES ? `${MAX_PAGES}+` : pages} {pages === 1 ? c.sidorEn : c.sidorFlera}
               </span>
             </div>
@@ -143,7 +143,7 @@ export default function PriceCalculator() {
                     aria-pressed={active}
                     className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-all ${
                       active
-                        ? 'border-indigo-500/60 bg-indigo-500/15 text-white'
+                        ? 'border-[rgba(109,106,248,0.6)] bg-accent/15 text-white'
                         : 'border-white/10 bg-white/[0.03] text-white/60 hover:border-white/20 hover:text-white/80'
                     }`}
                   >
@@ -157,8 +157,8 @@ export default function PriceCalculator() {
         </div>
 
         {/* Höger: resultat */}
-        <div className="flex flex-col justify-center rounded-2xl border border-indigo-500/20 bg-gradient-to-b from-indigo-950/50 to-violet-950/30 p-6 sm:p-7">
-          <p className="text-xs font-semibold uppercase tracking-wider text-indigo-300/70">{c.resultatLabel}</p>
+        <div className="flex flex-col justify-center rounded-2xl border border-white/[0.08] bg-[linear-gradient(180deg,#0c0b1c,#08080f)] p-6 sm:p-7">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#b4b2ff]/80">{c.resultatLabel}</p>
           <p className="font-display mt-2 text-3xl font-bold leading-tight text-white sm:text-4xl">
             {formatKr(low, lang)}
             <span className="mx-1.5 text-white/40">–</span>
@@ -168,7 +168,7 @@ export default function PriceCalculator() {
 
           <a
             href="#kontakt"
-            className="btn-shine mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 py-3.5 text-sm font-bold text-white shadow-xl shadow-indigo-900/40 transition-all hover:bg-indigo-500 hover:scale-[1.02] active:scale-[0.99]"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-white transition-all hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] active:scale-[0.99]"
           >
             {c.ctaText}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>

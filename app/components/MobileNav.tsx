@@ -13,12 +13,11 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   const { t } = useLang();
 
   const links = [
-    { id: 'tjanster', label: t.nav.tjanster, href: '/tjanster' },
-    { id: 'processen', label: t.nav.processen },
-    { id: 'portfolio', label: t.nav.portfolio },
-    { id: 'recensioner', label: t.nav.recensioner },
-    { id: 'priser', label: t.nav.priser },
-    { id: 'om-mig', label: t.nav.omMig },
+    { id: 'arbete', label: t.nav2.arbete },
+    { id: 'process', label: t.nav2.process },
+    { id: 'priser', label: t.nav2.priser },
+    { id: 'om', label: t.nav2.om },
+    { id: 'tjanster-sida', label: t.footer2.tjanster, href: '/tjanster' },
   ];
 
   // Lås bakgrundsscroll medan menyn är öppen + stäng på Escape.
@@ -70,7 +69,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
       {/* Overlay */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-40 bg-[#06060f]/95 backdrop-blur-xl transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
@@ -82,7 +81,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
               onClick={() => setOpen(false)}
               className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
                 activeSection === link.id
-                  ? 'bg-indigo-500/10 text-white'
+                  ? 'bg-accent/10 text-white'
                   : 'text-white/70 hover:bg-white/5 hover:text-white'
               }`}
             >
@@ -92,9 +91,9 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
           <a
             href="#kontakt"
             onClick={() => setOpen(false)}
-            className="mt-4 w-full max-w-xs rounded-full border border-indigo-500/40 bg-indigo-500/10 px-6 py-4 text-center text-lg font-semibold text-indigo-300 transition-colors hover:bg-indigo-500/20"
+            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
           >
-            {t.nav.kontakt}
+            {t.nav2.cta}
           </a>
           <div className="mt-6">
             <LanguageToggle compact />

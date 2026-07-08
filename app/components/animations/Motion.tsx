@@ -175,6 +175,70 @@ export function CountUp({
   );
 }
 
+/** Scroll-reveal — blocket fadear upp när det kommer in i vyn (en gång). */
+export function Reveal({
+  children,
+  className = '',
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+      transition={{ duration: reduce ? 0.4 : 0.9, ease: EXPO, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Cinematisk bildwipe — ridå-svep + långsam ut-zoom vid scroll-in.
+ *  Observerar den O-klippta wrappern (ett clip-path:inset(0 100%…)-element
+ *  rapporteras aldrig som intersecting), och animerar det inre lagret. */
+export function WipeImage({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const inView = useInView(ref, { once: true, margin: '0px 0px -12% 0px' });
+  const shown = inView || !!reduce;
+
+  return (
+    <div ref={ref} className={className}>
+      <motion.div
+        className="relative h-full w-full overflow-hidden rounded-[20px]"
+        initial={false}
+        animate={{
+          clipPath: shown
+            ? 'inset(0 0% 0 0 round 20px)'
+            : 'inset(0 100% 0 0 round 20px)',
+        }}
+        transition={{ duration: reduce ? 0 : 1.3, ease: [0.65, 0, 0.15, 1] }}
+      >
+        <motion.div
+          className="h-full w-full"
+          initial={false}
+          animate={{ scale: shown ? 1 : 1.28 }}
+          transition={{ duration: reduce ? 0 : 1.9, ease: EXPO }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
 /** 3D-tilt för kort — fjädrad rotation som följer muspekaren. */
 export function TiltCard({
   children,

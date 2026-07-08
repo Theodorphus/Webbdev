@@ -46,6 +46,94 @@ export const dictionary = {
       tillbaka: 'Tillbaka till startsidan',
       cta: 'Få en gratis analys',
     },
+    // ── Premium-redesignen (Claude Design-handoff) ──────────
+    nav2: {
+      arbete: 'Utvalda projekt',
+      process: 'Process',
+      priser: 'Priser',
+      om: 'Om mig',
+      cta: 'Starta ett projekt',
+    },
+    hero2: {
+      status1: 'Webbstudio · Göteborg',
+      status2: 'Tar emot nya projekt',
+      titel1: 'Hemsidor som',
+      accentOrd: 'faktiskt',
+      ord: ['säljer', 'syns', 'konverterar', 'levererar'],
+      ingress:
+        'Jag designar och bygger snabba, konverteringsoptimerade webbplatser för företag som vill växa. Fast pris, leverans på 3–7 dagar — och du pratar alltid direkt med den som bygger.',
+      ctaSekundar: 'Se utvalda projekt',
+      stats: [
+        { varde: '3–7', label: 'Dagar till lansering' },
+        { varde: '5,0', label: 'Betyg på Google' },
+        { varde: '100%', label: 'Fast pris, inga tillägg' },
+      ],
+    },
+    arbete: {
+      rubrik: 'Utvalda projekt',
+      period: '2023 — 2026',
+      besok: 'Besök sajten',
+      cases: [
+        { namn: 'Konstbyte', kategori: 'E-handelsplattform', desc: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', result: 'Skalbar plattform med AI-funktioner och Stripe-betalningar' },
+        { namn: 'Wildkull Payroll', kategori: 'Företagswebbplats', desc: 'Professionell webbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', result: 'Trovärdig och modern sajt som stärker varumärket online' },
+        { namn: 'André Roslund', kategori: 'Författarwebbplats', desc: 'Elegant författarwebbplats med bokkatalog, föreläsningar och kontakt — litterär design med mörk ton och guldaccenter.', result: 'Stämningsfull sajt som lyfter författarens varumärke' },
+        { namn: 'Karla Cleaning Crew', kategori: 'Företagswebbplats', desc: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', result: 'Snabb, mobiloptimerad och enkel att hitta på Google' },
+      ],
+      ovriga: [
+        { namn: 'SwedenSweet', kategori: 'E-handel — komplett nätbutik med snabb checkout' },
+        { namn: 'Prolink', kategori: 'Företagswebbplats — tydlig tjänstepresentation' },
+        { namn: 'Wellness Studio', kategori: 'Bokningssida — Stripe-betalning och automatiserad e-post' },
+        { namn: 'FlexLeague', kategori: 'Plattform — ligor med tabeller och resultat i realtid' },
+        { namn: 'Bolagdirekt', kategori: 'B2B — lagerbolag och bolagsändringar med fasta priser' },
+      ],
+    },
+    processIntro: {
+      etikett: 'Processen',
+      rubrik: 'Från idé till live — utan omvägar',
+      text: 'Designförslaget godkänns innan en rad kod skrivs. Därför går det snabbt — och därför blir det rätt.',
+      cta: 'Boka gratis analys',
+    },
+    recension2: {
+      viaGoogle: 'via Google',
+      aria: 'Recension',
+      lista: [
+        { namn: 'Veronika Wildkull', text: 'Jag blev otroligt nöjd med min nya hemsida! Snabb leverans och förstående för vad man vill ha. Återkopplar väldigt snabbt vid frågor.' },
+        { namn: 'Martin Bucko', text: 'Otroligt bra service och resultatet blev en ny hemsida över förväntan! Kan varmt rekommendera denna tjänst.' },
+        { namn: 'Michael Håkansson', text: 'Jag fick hjälp med att designa en sida relaterad till mitt spelföretag. Mycket trevlig och noggrann utförd tjänst. Tack Webbdev!' },
+      ],
+    },
+    priser2: {
+      rubrik: 'Fast pris. Inga överraskningar.',
+      badge: 'Mest vald',
+      osaker1: 'Osäker på vad du behöver?',
+      osakerCta: 'Få en gratis analys',
+      osaker2: '— jag rekommenderar rätt nivå för just ditt företag.',
+    },
+    omMig2: {
+      rubrik: 'Du pratar alltid med den som bygger',
+      p1: 'Hej, jag heter Theo. Jag bygger snabba, snygga hemsidor för småföretag och egenföretagare som vill synas på riktigt — utan byråpriser och utan krångel.',
+      p2: 'Inga projektledare, inga mellanhänder. Snabba svar, gott om tid för dina frågor och en sida som blir precis som du tänkt dig — inte en mall som tusen andra använder.',
+      roll: 'Grundare',
+    },
+    faqIntro: {
+      etikett: 'Vanliga frågor',
+      rubrik: 'Bra att veta',
+      text1: 'Hittar du inte svaret?',
+      mejla: 'Mejla mig',
+      text2: '— jag svarar inom 24 timmar.',
+    },
+    kontakt2: {
+      rubrik1: 'Redo att synas',
+      rubrik2: 'på riktigt?',
+      ingress: 'Berätta om ditt projekt så återkommer jag med en gratis analys — inom 24 timmar, utan köptvång.',
+      successKnapp: 'Tack! Jag hör av mig inom 24 timmar.',
+      direktFraga: 'Föredrar du att prata direkt?',
+    },
+    footer2: {
+      navigera: 'Navigera',
+      tjanster: 'Tjänster',
+      blogg: 'Blogg',
+    },
     heroTrust: {
       betyg: '5,0',
       text: '5 recensioner på Google',
@@ -82,7 +170,7 @@ export const dictionary = {
       steg: [
         { title: 'Gratis analys', desc: 'Vi börjar med ett samtal om dina mål. Jag analyserar din situation och sätter ihop en strategi.' },
         { title: 'Designförslag', desc: 'Du får ett visuellt förslag som visar exakt hur hemsidan kommer se ut — innan ett tecken kod skrivs.' },
-        { title: 'Byggnation', desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framgången i realtid.' },
+        { title: 'Byggnation', desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framsteget i realtid.' },
         { title: 'Lansering', desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
         { title: 'Support', desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
       ],
@@ -294,6 +382,94 @@ export const dictionary = {
     tjansterSida: {
       tillbaka: 'Back to the homepage',
       cta: 'Get a free analysis',
+    },
+    // ── Premium redesign (Claude Design handoff) ────────────
+    nav2: {
+      arbete: 'Selected work',
+      process: 'Process',
+      priser: 'Pricing',
+      om: 'About',
+      cta: 'Start a project',
+    },
+    hero2: {
+      status1: 'Web studio · Gothenburg',
+      status2: 'Taking on new projects',
+      titel1: 'Websites that',
+      accentOrd: 'actually',
+      ord: ['sell', 'get seen', 'convert', 'deliver'],
+      ingress:
+        'I design and build fast, conversion-optimized websites for companies that want to grow. Fixed price, delivered in 3–7 days — and you always talk directly to the person building.',
+      ctaSekundar: 'See selected work',
+      stats: [
+        { varde: '3–7', label: 'Days to launch' },
+        { varde: '5.0', label: 'Rating on Google' },
+        { varde: '100%', label: 'Fixed price, no extras' },
+      ],
+    },
+    arbete: {
+      rubrik: 'Selected work',
+      period: '2023 — 2026',
+      besok: 'Visit site',
+      cases: [
+        { namn: 'Konstbyte', kategori: 'E-commerce platform', desc: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.', result: 'Scalable platform with AI features and Stripe payments' },
+        { namn: 'Wildkull Payroll', kategori: 'Corporate website', desc: 'Professional website for a payroll firm with a clear service presentation and trust-building design.', result: 'Credible, modern site that strengthens the brand online' },
+        { namn: 'André Roslund', kategori: 'Author website', desc: 'Elegant author website with a book catalogue, lectures and contact — a literary design with a dark theme and gold accents.', result: 'Atmospheric site that elevates the author’s brand' },
+        { namn: 'Karla Cleaning Crew', kategori: 'Corporate website', desc: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.', result: 'Fast, mobile-optimized and easy to find on Google' },
+      ],
+      ovriga: [
+        { namn: 'SwedenSweet', kategori: 'E-commerce — complete online store with fast checkout' },
+        { namn: 'Prolink', kategori: 'Corporate website — clear service presentation' },
+        { namn: 'Wellness Studio', kategori: 'Booking site — Stripe payments and automated email' },
+        { namn: 'FlexLeague', kategori: 'Platform — leagues with standings and live results' },
+        { namn: 'Bolagdirekt', kategori: 'B2B — ready-made companies at fixed prices' },
+      ],
+    },
+    processIntro: {
+      etikett: 'The process',
+      rubrik: 'From idea to live — no detours',
+      text: 'The design proposal is approved before a single line of code is written. That’s why it’s fast — and why it turns out right.',
+      cta: 'Book a free analysis',
+    },
+    recension2: {
+      viaGoogle: 'via Google',
+      aria: 'Review',
+      lista: [
+        { namn: 'Veronika Wildkull', text: 'I was incredibly happy with my new website! Fast delivery and a real understanding of what I wanted. Gets back to you very quickly with any questions.' },
+        { namn: 'Martin Bucko', text: 'Incredibly good service and the result was a new website beyond expectations! Can warmly recommend this service.' },
+        { namn: 'Michael Håkansson', text: 'I got help designing a site for my gaming company. Very pleasant and meticulously done work. Thank you Webbdev!' },
+      ],
+    },
+    priser2: {
+      rubrik: 'Fixed price. No surprises.',
+      badge: 'Most picked',
+      osaker1: 'Not sure what you need?',
+      osakerCta: 'Get a free analysis',
+      osaker2: '— I’ll recommend the right level for your business.',
+    },
+    omMig2: {
+      rubrik: 'You always talk to the person building',
+      p1: 'Hi, I’m Theo. I build fast, great-looking websites for small businesses and sole traders who want to get seen for real — without agency prices and without hassle.',
+      p2: 'No project managers, no middlemen. Fast replies, plenty of time for your questions and a site that turns out exactly as you imagined — not a template used by a thousand others.',
+      roll: 'Founder',
+    },
+    faqIntro: {
+      etikett: 'FAQ',
+      rubrik: 'Good to know',
+      text1: 'Can’t find the answer?',
+      mejla: 'Email me',
+      text2: '— I reply within 24 hours.',
+    },
+    kontakt2: {
+      rubrik1: 'Ready to get seen',
+      rubrik2: 'for real?',
+      ingress: 'Tell me about your project and I’ll get back to you with a free analysis — within 24 hours, no strings attached.',
+      successKnapp: 'Thanks! I’ll get back to you within 24 hours.',
+      direktFraga: 'Prefer to talk directly?',
+    },
+    footer2: {
+      navigera: 'Navigate',
+      tjanster: 'Services',
+      blogg: 'Blog',
     },
     heroTrust: {
       betyg: '5.0',

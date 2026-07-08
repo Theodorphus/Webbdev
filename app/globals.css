@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #06060f;
-  --foreground: #e8eaf6;
+  /* Premium-paletten (Claude Design-handoff): djupare svart, violett accent. */
+  --background: #050509;
+  --foreground: #ededf2;
 
   /* Ytnivåer — ger korten en faktisk djuphierarki istället för en enda ton. */
   --surface-1: rgba(255, 255, 255, 0.025); /* lugna basytor */
@@ -11,14 +12,16 @@
   --border-soft: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.14);
 
-  /* Accentfärger — en källa för indigo/violett så justering sker på ett ställe. */
-  --accent: #6366f1;
-  --accent-2: #8b5cf6;
+  /* Accentfärger — en källa så justering sker på ett ställe. */
+  --accent: #6d6af8;
+  --accent-2: #a5a3ff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-display);
@@ -47,7 +50,7 @@ body {
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(109, 106, 248, 0.4);
   color: #fff;
 }
 
@@ -56,15 +59,15 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #06060f;
+  background: #050509;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.25);
+  background: rgba(109, 106, 248, 0.25);
   border-radius: 8px;
-  border: 2px solid #06060f;
+  border: 2px solid #050509;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.45);
+  background: rgba(109, 106, 248, 0.45);
 }
 
 @keyframes fade-up {
@@ -106,32 +109,39 @@ body {
   background-size: 64px 64px;
 }
 
-/* ── Animerad mesh-gradient (levande hero-bakgrund, ren CSS) ─ */
-/* Flera mjuka färgblobbar i paletten som långsamt driftar och
-   "andas". Väger ingenting (ingen videofil) och kan aldrig bli
-   LCP-elementet. Ligger som understa lagret i heron. */
-.mesh-gradient {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0.7;
-  background-color: transparent;
-  background-image:
-    radial-gradient(38% 44% at 22% 28%, rgba(99, 102, 241, 0.35), transparent 70%),
-    radial-gradient(34% 40% at 78% 22%, rgba(139, 92, 246, 0.28), transparent 70%),
-    radial-gradient(42% 46% at 68% 80%, rgba(34, 211, 238, 0.18), transparent 72%),
-    radial-gradient(36% 42% at 18% 78%, rgba(99, 102, 241, 0.22), transparent 72%);
-  background-size: 200% 200%;
-  animation: mesh-shift 22s ease-in-out infinite;
-  filter: blur(34px);
+/* ── Premium-hero: EN disciplinerad aurora ──────────────── */
+/* Långsam andning i translate/rotate/scale — sajtens enda stora
+   bakgrundsrörelse. Appliceras på en absolut-positionerad div. */
+@keyframes aurora {
+  0%, 100% { transform: translate(-50%, 0) rotate(0deg) scale(1); opacity: 0.55; }
+  50%      { transform: translate(-46%, -4%) rotate(8deg) scale(1.08); opacity: 0.8; }
 }
-@keyframes mesh-shift {
-  0%, 100% { background-position: 0% 0%,   100% 0%,  100% 100%, 0% 100%; }
-  25%      { background-position: 30% 20%, 70% 10%,  60% 80%,  20% 70%; }
-  50%      { background-position: 60% 40%, 40% 30%,  30% 60%,  50% 50%; }
-  75%      { background-position: 20% 60%, 80% 40%,  80% 90%,  10% 40%; }
+.animate-aurora {
+  animation: aurora 18s ease-in-out infinite;
+}
+
+/* ── Marquee (kundnamn) ─────────────────────────────────── */
+/* Två identiska halvor i en flex-rad; -50% ger sömlös loop. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Pulserande statusprick (hero-statusraden) ──────────── */
+@keyframes ticker-dot {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+.animate-ticker-dot {
+  animation: ticker-dot 2.4s ease-in-out infinite;
 }
 
 /* ── Chattbubblan väjer för sticky-CTA-baren på mobil ───── */
@@ -146,30 +156,6 @@ body {
   body.sticky-cta-visible .chat-dock:not(.chat-dock--open) {
     bottom: 6.5rem;
   }
-}
-
-/* ── Kontakt-CTA bakgrundsvideo ─────────────────────────── */
-/* Spelas bara på större skärmar med pekare — på mobil sparar vi
-   data/batteri och visar i stället postern via CTA-kortets gradient. */
-.cta-video-bg {
-  display: none;
-}
-@media (min-width: 640px) {
-  .cta-video-bg {
-    display: block;
-  }
-}
-/* Fejdar videon mot sidbakgrunden upptill/nedtill (inga hårda kanter)
-   och dämpar mitten en aning så glaskortet/texten alltid är läsbart. */
-.cta-video-fade {
-  background:
-    linear-gradient(
-      to bottom,
-      #06060f 0%,
-      rgba(6, 6, 15, 0.35) 22%,
-      rgba(6, 6, 15, 0.35) 78%,
-      #06060f 100%
-    );
 }
 
 /* ── Sektionsrytm ───────────────────────────────────────── */
@@ -206,7 +192,7 @@ body {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: rgba(129, 140, 248, 0.7);
+  color: #8b89ff;
 }
 .eyebrow::before {
   content: "";
@@ -227,8 +213,8 @@ body {
   50%      { transform: translateY(-10px); }
 }
 /* Syntax-färger knyter an till sidans palett. */
-.tok-key { color: #a5b4fc; }    /* indigo — nyckelord */
-.tok-fn  { color: #c4b5fd; }    /* violett — funktioner/komponenter */
+.tok-key { color: #a5a3ff; }    /* accent ljus — nyckelord */
+.tok-fn  { color: #c7c6ff; }    /* ännu ljusare — identifierare */
 .tok-str { color: #67e8f9; }    /* cyan — strängar */
 .tok-com { color: #5b6b7e; }    /* dämpad — kommentarer */
 .tok-pun { color: rgba(255, 255, 255, 0.4); } /* skiljetecken */
@@ -256,7 +242,7 @@ body {
   vertical-align: text-bottom;
   background: var(--accent);
   animation: caret-blink 1s steps(1) infinite;
-  animation-delay: 3.2s;
+  animation-delay: 3.9s;
   opacity: 0;
 }
 @keyframes caret-blink {
@@ -383,17 +369,17 @@ body {
   transform: scaleX(1);
 }
 
-/* ── Scroll progress bar (CSS scroll-driven, no JS) ─────── */
+/* ── Scroll progress hairline (CSS scroll-driven, no JS) ── */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  z-index: 60;
+  height: 1px;
+  z-index: 80;
   transform: scaleX(0);
   transform-origin: 0 50%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #22d3ee);
+  background: linear-gradient(90deg, #6d6af8, #a5a3ff);
   pointer-events: none;
 }
 @supports (animation-timeline: scroll()) {
@@ -548,26 +534,26 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  background: #6366f1;
-  border: 3px solid #0a0a18;
-  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5), 0 2px 8px rgba(67, 56, 202, 0.5);
+  background: #6d6af8;
+  border: 3px solid #08080f;
+  box-shadow: 0 0 0 1px rgba(109, 106, 248, 0.5), 0 2px 8px rgba(109, 106, 248, 0.4);
   transition: transform 0.15s ease, background 0.15s ease;
 }
 .calc-range::-webkit-slider-thumb:hover {
-  background: #818cf8;
+  background: #7d7aff;
   transform: scale(1.12);
 }
 .calc-range::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  background: #6366f1;
-  border: 3px solid #0a0a18;
-  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5), 0 2px 8px rgba(67, 56, 202, 0.5);
+  background: #6d6af8;
+  border: 3px solid #08080f;
+  box-shadow: 0 0 0 1px rgba(109, 106, 248, 0.5), 0 2px 8px rgba(109, 106, 248, 0.4);
   cursor: pointer;
 }
 .calc-range:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 0 0 3px rgba(109, 106, 248, 0.45);
 }
 
 /* ── Reduced motion ─────────────────────────────────────── */
@@ -592,7 +578,9 @@ body {
   .code-window,
   .code-caret::after,
   .exit-card,
-  .mesh-gradient {
+  .animate-aurora,
+  .animate-ticker-dot,
+  .marquee-track {
     animation: none;
   }
   /* Visa koden fullt utskriven direkt när rörelse inte önskas. */
@@ -604,10 +592,6 @@ body {
     opacity: 1;
   }
   .btn-shine::after {
-    display: none;
-  }
-  /* Stillbild i stället för rörlig video vid reduced-motion. */
-  .cta-video-bg {
     display: none;
   }
   /* Dämpa chatt-knappens rörelse — behåll en statisk glow. */

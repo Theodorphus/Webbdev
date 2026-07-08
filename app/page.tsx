@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState, type ReactElement } from 'react';
-import useAnimations from './components/animations/useAnimations';
+import { useEffect, useState, type ReactElement } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { faqByLang } from './faq';
-import { CountUp, Item, Magnetic, MaskReveal, Stagger, TiltCard } from './components/animations/Motion';
+import { Item, Magnetic, MaskReveal, Reveal, Stagger, WipeImage } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
 import PriceCalculator from './components/PriceCalculator';
@@ -14,67 +14,53 @@ import { useLang } from './i18n/LanguageProvider';
 import { trackConversion } from './lib/gtag';
 import LanguageToggle from './i18n/LanguageToggle';
 
-function IconCheck() {
+function IconArrow() {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="flex-shrink-0 mt-0.5">
-      <circle cx="7.5" cy="7.5" r="7.5" fill="#6366f1" opacity="0.15" />
-      <path d="M4.5 7.5l2.5 2.5L10.5 5" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function StarIcon() {
+function IconDiagonal() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="#facc15" aria-hidden>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 12L12 4M6 4h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function Star() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#6d6af8" aria-hidden>
       <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01L12 2z" />
     </svg>
   );
 }
 
-function IconArrow() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconSend() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="22" y1="2" x2="11" y2="13" />
-      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-    </svg>
-  );
-}
-
-// Hero-blickfång: en stiliserad kod-editor där JSX "skrivs" rad för rad.
-// Ren CSS-typewriter (inga RAF-loopar) — varje rad får antal tecken (--w/--steps)
-// och en staplad fördröjning (--delay) så de avslöjas i sekvens.
+// Hero-blickfång: kod-editor där sajtens löfte "skrivs" rad för rad.
+// Typewriter är ren CSS (.code-line + type-line i globals) — delays per prototypen.
 function HeroCodeWindow() {
-  // Varje rad: tecken i synligt innehåll styr --w (ch) och --steps.
-  // Raderna läser som äkta kod men varje prop är ett säljlöfte:
-  // snabb leverans, fast pris, inga dolda avgifter.
   const lines: { chars: number; delay: number; content: ReactElement; caret?: boolean }[] = [
-    { chars: 14, delay: 0.2, content: <><span className="tok-com">{'// webbdev.se'}</span></> },
-    { chars: 18, delay: 0.7, content: <><span className="tok-key">const</span> <span className="tok-fn">hemsida</span> <span className="tok-pun">= {`{`}</span></> },
-    { chars: 26, delay: 1.2, content: <>{'  '}<span className="tok-fn">leverans</span><span className="tok-pun">:</span> <span className="tok-str">{'"3–7 dagar"'}</span><span className="tok-pun">,</span></> },
-    { chars: 16, delay: 1.6, content: <>{'  '}<span className="tok-fn">pris</span><span className="tok-pun">:</span> <span className="tok-str">{'"fast"'}</span><span className="tok-pun">,</span></> },
-    { chars: 26, delay: 2.0, content: <>{'  '}<span className="tok-fn">dolda_avgifter</span><span className="tok-pun">:</span> <span className="tok-key">false</span><span className="tok-pun">,</span></> },
-    { chars: 28, delay: 2.4, content: <>{'  '}<span className="tok-fn">resultat</span><span className="tok-pun">:</span> <span className="tok-str">{'"fler kunder"'}</span><span className="tok-pun">,</span></> },
-    { chars: 2, delay: 2.8, content: <><span className="tok-pun">{`}`}</span></>, caret: true },
+    { chars: 14, delay: 0.9, content: <><span className="tok-com">{'// webbdev.se'}</span></> },
+    { chars: 18, delay: 1.4, content: <><span className="tok-key">const</span> <span className="tok-fn">hemsida</span> <span className="tok-pun">= {`{`}</span></> },
+    { chars: 26, delay: 1.9, content: <>{'  '}<span className="tok-fn">leverans</span><span className="tok-pun">:</span> <span className="tok-str">{'"3–7 dagar"'}</span><span className="tok-pun">,</span></> },
+    { chars: 16, delay: 2.3, content: <>{'  '}<span className="tok-fn">pris</span><span className="tok-pun">:</span> <span className="tok-str">{'"fast"'}</span><span className="tok-pun">,</span></> },
+    { chars: 26, delay: 2.7, content: <>{'  '}<span className="tok-fn">dolda_avgifter</span><span className="tok-pun">:</span> <span className="tok-key">false</span><span className="tok-pun">,</span></> },
+    { chars: 28, delay: 3.1, content: <>{'  '}<span className="tok-fn">resultat</span><span className="tok-pun">:</span> <span className="tok-str">{'"fler kunder"'}</span><span className="tok-pun">,</span></> },
+    { chars: 2, delay: 3.5, content: <><span className="tok-pun">{`}`}</span></>, caret: true },
   ];
   return (
-    <div className="code-window card-spotlight rounded-2xl border border-white/10 bg-[#0a0a16]/90 shadow-2xl shadow-indigo-950/40 backdrop-blur-sm">
+    <div className="code-window rounded-[20px] border border-white/[0.09] bg-[rgba(9,9,17,0.85)] shadow-[0_40px_80px_-30px_rgba(109,106,248,0.25)] backdrop-blur-sm">
       {/* Fönstertitelrad */}
-      <div className="flex items-center gap-2 border-b border-white/8 px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-red-400/70" />
-        <span className="h-3 w-3 rounded-full bg-amber-400/70" />
-        <span className="h-3 w-3 rounded-full bg-green-400/70" />
-        <span className="ml-3 rounded-md bg-white/5 px-2.5 py-1 text-[11px] text-white/45">page.tsx</span>
+      <div className="flex items-center gap-2 border-b border-white/[0.07] px-[18px] py-[13px]">
+        <span className="h-[11px] w-[11px] rounded-full bg-red-400/65" />
+        <span className="h-[11px] w-[11px] rounded-full bg-amber-400/65" />
+        <span className="h-[11px] w-[11px] rounded-full bg-green-400/65" />
+        <span className="ml-3 rounded-md bg-white/5 px-2.5 py-1 text-[11px] text-[#ededf2]/45">page.tsx</span>
       </div>
       {/* Kodyta */}
-      <div className="px-5 py-5 text-[13px] leading-[1.7]">
+      <div className="px-6 py-[22px] text-[13.5px] leading-[1.75]">
         {lines.map((l, i) => (
           <span
             key={i}
@@ -93,115 +79,72 @@ function HeroCodeWindow() {
   );
 }
 
-
-const PROJECTS_PER_PAGE = 6;
-
-// Länk till Google-företagsprofilens recensioner.
-const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
-
-const projects = [
-  {
-    name: 'Karla Cleaning Crew',
-    desc: { sv: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', en: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.' },
-    result: { sv: 'Snabb, mobiloptimerad och enkel att hitta på Google.', en: 'Fast, mobile-optimized and easy to find on Google.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://karlacleaningcrew.se/',
-    img: '/1.png',
-  },
-  {
-    name: 'Wellness Studio',
-    desc: { sv: 'Modern bokningssida för spa- och wellness-tjänster med integrerad betalning via Stripe och automatiserad e-post.', en: 'Modern booking site for spa and wellness services with integrated Stripe payments and automated email.' },
-    result: { sv: 'Helautomatiserad bokningsprocess utan manuellt arbete.', en: 'Fully automated booking flow with no manual work.' },
-    tech: ['Next.js', 'Tailwind', 'Supabase'],
-    url: 'https://bokning-gue0ah1a6-webbdev.vercel.app/',
-    img: '/2.png',
-  },
-  {
-    name: 'Konstbyte',
-    desc: { sv: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', en: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.' },
-    result: { sv: 'Skalbar plattform med AI-funktioner och Stripe-betalningar.', en: 'Scalable platform with AI features and Stripe payments.' },
-    tech: ['Next.js', 'Prisma', 'Stripe', 'AI'],
-    url: 'https://www.konstbyte.se/',
-    img: '/3.png',
-  },
-  {
-    name: 'Prolink',
-    desc: { sv: 'Modern företagswebbplats med fokus på tydlig presentation av tjänster och professionell design.', en: 'Modern corporate website focused on a clear presentation of services and professional design.' },
-    result: { sv: 'Snygg och snabb sajt som stärker varumärket online.', en: 'Sleek, fast site that strengthens the brand online.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://www.prolink.se/',
-    img: '/4.png',
-  },
-  {
-    name: 'SwedenSweet',
-    desc: { sv: 'E-handelsplattform för svenska godsaker med sömlös shoppingupplevelse och modern design.', en: 'E-commerce platform for Swedish treats with a seamless shopping experience and modern design.' },
-    result: { sv: 'Komplett nätbutik med enkel navigation och snabb checkout.', en: 'Complete online store with easy navigation and fast checkout.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://swedensweet.vercel.app/',
-    img: '/5.png',
-  },
-  {
-    name: 'FlexLeague',
-    desc: { sv: 'Plattform för att skapa och hantera ligor och tävlingar med matchschema, tabeller och resultat i realtid.', en: 'Platform for creating and managing leagues and tournaments with schedules, standings and live results.' },
-    result: { sv: 'Smidig liga-hantering med automatiska tabeller och statistik.', en: 'Smooth league management with automatic standings and stats.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
-    img: '/Flex.png',
-  },
-  {
-    name: 'Erotikmässan',
-    desc: { sv: 'Modern eventwebbplats för Erotikmässan med stilren design, programöversikt och tydlig presentation av utställare.', en: 'Modern event website with clean design, program overview and a clear presentation of exhibitors.' },
-    result: { sv: 'Iögonfallande sajt som lyfter eventet och driver biljettförsäljning.', en: 'Eye-catching site that elevates the event and drives ticket sales.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://erotikm-ssan.vercel.app/',
-    img: '/7.png',
-  },
-  {
-    name: 'Wildkull Payroll AB',
-    desc: { sv: 'Professionell företagswebbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', en: 'Professional corporate website for a payroll firm with a clear service presentation and trust-building design.' },
-    result: { sv: 'Trovärdig och modern sajt som stärker varumärket online.', en: 'Credible, modern site that strengthens the brand online.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://www.wildkullpayroll.se/',
-    img: '/6.png',
-  },
-  {
-    name: 'André Roslund',
-    desc: { sv: 'Elegant författarwebbplats med bokkatalog, föreläsningar och kontakt — stilren, litterär design med mörk ton och guldaccenter.', en: 'Elegant author website with a book catalogue, lectures and contact — a refined, literary design with a dark theme and gold accents.' },
-    result: { sv: 'Stämningsfull sajt som lyfter författarens varumärke och böcker.', en: 'Atmospheric site that elevates the author’s brand and books.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://www.andre-roslund.se/',
-    img: '/8.png',
-  },
-  {
-    name: 'Bolagdirekt',
-    desc: { sv: 'B2B-sajt för lagerbolag, snabbavveckling och bolagsändringar — tydliga tjänster, fasta priser och konverteringsfokuserad design med guldaccenter.', en: 'B2B site for ready-made companies, fast liquidation and corporate changes — clear services, fixed pricing and a conversion-focused design with gold accents.' },
-    result: { sv: 'Förtroendeingivande sajt som driver beställningar med tydliga paket och priser.', en: 'Trust-building site that drives orders with clear packages and pricing.' },
-    tech: ['Next.js', 'Tailwind', 'Vercel'],
-    url: 'https://bolagdirekt.vercel.app/',
-    img: '/9.png',
-  },
+// Kundnamn i marquee-bandet.
+const MARQUEE_NAMES = [
+  'Karla Cleaning Crew',
+  'Konstbyte',
+  'Prolink',
+  'SwedenSweet',
+  'Wildkull Payroll',
+  'André Roslund',
+  'Bolagdirekt',
 ];
+
+// Metadata för de fyra stora casen — texterna bor i dictionary (t.arbete.cases,
+// samma index). reverse växlar bildsida varannan rad.
+const CASE_META = [
+  { url: 'https://www.konstbyte.se/', img: '/3.png', tech: ['Next.js', 'Prisma', 'Stripe', 'AI'], reverse: false },
+  { url: 'https://www.wildkullpayroll.se/', img: '/6.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: true },
+  { url: 'https://www.andre-roslund.se/', img: '/8.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: false },
+  { url: 'https://karlacleaningcrew.se/', img: '/1.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: true },
+];
+
+// URL:er för "övriga projekt"-listan (texterna i t.arbete.ovriga, samma index).
+const MORE_URLS = [
+  'https://swedensweet.vercel.app/',
+  'https://www.prolink.se/',
+  'https://bokning-gue0ah1a6-webbdev.vercel.app/',
+  'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
+  'https://bolagdirekt.vercel.app/',
+];
+
+const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
 
 export function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
-  const [portfolioPage, setPortfolioPage] = useState(0);
-  const scopeRef = useRef<HTMLDivElement>(null);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const reduce = useReducedMotion();
   const { lang, t } = useLang();
   const faqItems = faqByLang[lang];
 
-  useAnimations(scopeRef);
-
-  // Markera aktiv sektion i nav medan man scrollar
+  // Roterande hero-ord (statiskt vid reduced motion).
   useEffect(() => {
-    const ids = ['processen', 'portfolio', 'recensioner', 'priser', 'om-mig'];
+    if (reduce) return;
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % t.hero2.ord.length);
+    }, 2600);
+    return () => clearInterval(id);
+  }, [reduce, t.hero2.ord.length]);
+
+  // Auto-rotera recensionerna var 7:e sekund.
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => {
+      setReviewIndex((i) => (i + 1) % t.recension2.lista.length);
+    }, 7000);
+    return () => clearInterval(id);
+  }, [reduce, t.recension2.lista.length]);
+
+  // Markera aktiv sektion i nav medan man scrollar.
+  useEffect(() => {
+    const ids = ['arbete', 'process', 'priser', 'om'];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
-    // Spåra vilka sektioner som korsar "bandet" och välj den översta.
-    // Nollställs när ingen är i vyn (t.ex. uppe i hero) så markeringen inte fastnar.
     const visible = new Set<string>();
     const observer = new IntersectionObserver(
       (entries) => {
@@ -225,27 +168,6 @@ export function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    const heroGlow = document.querySelector<HTMLElement>('[data-hero] .hero-glow');
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse') return; // glow/spotlight är musbaserade
-      // Hero-glowen följer musen så länge pekaren är över heron.
-      const hero = (e.target as HTMLElement | null)?.closest?.('[data-hero]') as HTMLElement | null;
-      if (hero && heroGlow) {
-        const r = hero.getBoundingClientRect();
-        heroGlow.style.setProperty('--hx', `${e.clientX - r.left}px`);
-        heroGlow.style.setProperty('--hy', `${e.clientY - r.top}px`);
-      }
-      const card = (e.target as HTMLElement | null)?.closest?.('.card-spotlight') as HTMLElement | null;
-      if (!card) return;
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
-      card.style.setProperty('--my', `${e.clientY - rect.top}px`);
-    };
-    document.addEventListener('pointermove', onMove, { passive: true });
-    return () => document.removeEventListener('pointermove', onMove);
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
@@ -258,58 +180,57 @@ export function Home() {
       setStatus('success');
       trackConversion('formSubmit');
       setFormData({ name: '', email: '', message: '', company: '' });
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => setStatus('idle'), 4000);
     } else {
       setStatus('error');
     }
   };
 
+  const activeReview = t.recension2.lista[reviewIndex];
+
   return (
-    <div ref={scopeRef} className="relative overflow-x-hidden">
+    <div className="relative overflow-x-clip">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 border-b backdrop-blur-xl transition-all duration-300 ${
-          scrolled
-            ? 'border-white/10 bg-[#06060f]/90 shadow-lg shadow-indigo-950/20'
-            : 'border-white/5 bg-[#06060f]/80'
+        className={`fixed top-0 inset-x-0 z-[60] border-b border-white/[0.07] backdrop-blur-[20px] backdrop-saturate-[1.4] transition-all duration-300 ${
+          scrolled ? 'bg-[rgba(5,5,9,0.88)]' : 'bg-[rgba(5,5,9,0.75)]'
         }`}
       >
         <div
-          className={`mx-auto flex max-w-6xl items-center justify-between px-6 transition-all duration-300 ${
-            scrolled ? 'py-2.5' : 'py-4'
+          className={`mx-auto flex max-w-[80rem] items-center justify-between px-8 transition-all duration-300 ${
+            scrolled ? 'py-3' : 'py-[18px]'
           }`}
         >
-          <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
-            Webbdev<span className="text-white/30">.</span>Studio
+          <span className="font-display text-[16px] font-bold tracking-[-0.01em] text-white">
+            Webbdev<span className="text-accent">.</span>studio
           </span>
-          <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
+          <nav className="hidden items-center gap-9 text-[13.5px] font-medium text-[#ededf2]/60 md:flex">
             {[
-              { id: 'tjanster', label: t.nav.tjanster, href: '/tjanster' },
-              { id: 'processen', label: t.nav.processen },
-              { id: 'portfolio', label: t.nav.portfolio },
-              { id: 'recensioner', label: t.nav.recensioner },
-              { id: 'priser', label: t.nav.priser },
-              { id: 'om-mig', label: t.nav.omMig },
+              { id: 'arbete', label: t.nav2.arbete },
+              { id: 'process', label: t.nav2.process },
+              { id: 'priser', label: t.nav2.priser },
+              { id: 'om', label: t.nav2.om },
             ].map((link) => (
               <a
                 key={link.id}
-                href={link.href ?? `#${link.id}`}
-                className={`nav-link transition-colors hover:text-white ${
-                  activeSection === link.id ? 'is-active text-white' : ''
+                href={`#${link.id}`}
+                className={`transition-colors hover:text-white ${
+                  activeSection === link.id ? 'text-white' : ''
                 }`}
               >
                 {link.label}
               </a>
             ))}
           </nav>
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden items-center gap-4 md:flex">
             <LanguageToggle />
             <a
               href="#kontakt"
-              className="inline-flex rounded-full border border-indigo-500/40 bg-indigo-500/10 px-5 py-2.5 text-sm font-semibold text-indigo-300 transition-all hover:bg-indigo-500/20 hover:border-indigo-400/60 hover:text-indigo-200"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ededf2] px-[22px] py-2.5 text-[13.5px] font-semibold text-[#0a0a12] transition-all duration-200 hover:-translate-y-px hover:bg-white"
             >
-              {t.nav.kontakt}
+              {t.nav2.cta}
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
             </a>
           </div>
           <MobileNav activeSection={activeSection} />
@@ -317,764 +238,652 @@ export function Home() {
       </header>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section data-hero className="relative flex min-h-screen items-center overflow-hidden bg-grid pt-20">
-        {/* Levande mesh-gradient i botten — ren CSS, väger inget */}
-        <div className="mesh-gradient" aria-hidden />
-        <div className="hero-glow" aria-hidden />
-        {/* Parallax-lager: yttre div = scroll-parallax + mus-depth, inre = orb med drift */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div data-parallax="-22" data-depth="1" className="absolute -top-40 left-1/2 -translate-x-1/2">
-            <div className="h-[700px] w-[700px] rounded-full bg-indigo-600/20 blur-[130px] animate-pulse-glow" />
-          </div>
-          <div data-parallax="-34" data-depth="1.6" className="absolute top-1/3 -right-32">
-            <div className="h-[450px] w-[450px] rounded-full bg-violet-600/15 blur-[110px] animate-drift" />
-          </div>
-          <div data-parallax="-14" data-depth="1.3" className="absolute bottom-0 left-0">
-            <div className="h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[90px] animate-drift-slow" />
-          </div>
-        </div>
+      <section data-hero className="relative flex min-h-screen flex-col justify-center overflow-hidden pb-20 pt-[140px]">
+        {/* En enda, disciplinerad aurora */}
+        <div
+          aria-hidden
+          className="animate-aurora pointer-events-none absolute -top-[30%] left-1/2 h-[900px] w-[1300px] -translate-x-1/2 blur-[60px]"
+          style={{
+            background:
+              'radial-gradient(45% 45% at 50% 50%, rgba(109,106,248,0.22), transparent 70%), radial-gradient(30% 35% at 65% 40%, rgba(56,189,248,0.08), transparent 70%)',
+          }}
+        />
+        {/* Tunn horisontlinje */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-0 right-0 top-1/2 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.05) 70%, transparent)' }}
+        />
 
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:py-28 lg:grid-cols-[1.1fr_0.9fr]">
-        <Stagger className="relative">
-          {/* Badge */}
-          <Item className="inline-flex">
-            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              {t.hero.badge}
-            </div>
+        <Stagger className="relative mx-auto w-full max-w-[80rem] px-8">
+          {/* Statusrad */}
+          <Item className="flex items-center gap-3.5 font-mono text-xs uppercase tracking-[0.28em] text-[#ededf2]/50">
+            <span className="animate-ticker-dot h-1.5 w-1.5 rounded-full bg-accent" />
+            {t.hero2.status1}
+            <span aria-hidden className="text-white/20">/</span>
+            <span className="text-[#ededf2]/35">{t.hero2.status2}</span>
           </Item>
 
-          {/* H1 — cinematic mask-reveal per rad */}
-          <h1 className="font-display mt-6 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            <MaskReveal className="pb-1">
-              <span className="text-white">{t.hero.titel1}</span>
+          {/* H1 — två rader med mask-reveal, roterande ord i rad 2 */}
+          <h1 className="font-display mt-9 text-[clamp(56px,8.5vw,124px)] font-bold leading-[0.98] tracking-[-0.035em] text-white">
+            <MaskReveal className="pb-[0.08em]">
+              <span>{t.hero2.titel1}</span>
             </MaskReveal>
-            <MaskReveal className="pb-1">
-              <span className="animate-gradient-x bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                {t.hero.titel2}
+            <MaskReveal className="pb-[0.12em]">
+              <span>
+                <em className="not-italic text-accent">{t.hero2.accentOrd}</em>{' '}
+                {t.hero2.ord[wordIndex]}
+                <span className="ml-2.5 inline-block h-[0.75em] w-[3px] bg-accent opacity-80 align-baseline" />
               </span>
             </MaskReveal>
           </h1>
 
-          {/* Lokal-rad — matchar sökningar som "webbutveckling göteborg" */}
-          <Item className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
-            {t.hero.lokal}
-          </Item>
-
-          {/* CTAs — magnetiska */}
-          <Item className="mt-9 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            <Magnetic className="w-full sm:w-auto">
-              <a
-                href="#kontakt"
-                className="group btn-shine inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.03] active:scale-[0.98] sm:w-auto sm:justify-start"
-              >
-                {t.hero.ctaPrimar}
-                <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-              </a>
-            </Magnetic>
-            <Magnetic strength={0.15} className="w-full sm:w-auto">
-              <a
-                href="#processen"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white hover:border-white/25 sm:w-auto"
-              >
-                {t.hero.ctaSekundar}
-              </a>
-            </Magnetic>
-          </Item>
-
-          {/* Trust-rad direkt under CTA — socialt bevis innan scroll */}
-          <Item className="mt-5">
-            <a
-              href={GOOGLE_REVIEWS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2.5 text-sm text-white/55 transition-colors hover:text-white/80"
-            >
-              <span className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </span>
-              <span className="font-semibold text-white/80">{t.heroTrust.betyg}</span>
-              <span aria-hidden className="text-white/25">·</span>
-              <span>{t.heroTrust.text}</span>
-            </a>
-          </Item>
-
-          {/* Stats — räknar upp när de blir synliga */}
-          <Item className="mt-14 flex flex-wrap gap-x-8 gap-y-6 border-t border-white/8 pt-10 sm:gap-10">
-            {t.hero.stats.map((s) => (
-              <div key={s.label}>
-                <div className="font-display text-3xl font-bold text-white">
-                  <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
-                </div>
-                <div className="mt-1 text-xs text-white/40 uppercase tracking-widest">{s.label}</div>
+          <div className="mt-12 grid items-end gap-16 lg:grid-cols-[1.2fr_1fr]">
+            <Item>
+              <p className="max-w-[34rem] text-[19px] leading-[1.55] text-[#ededf2]/60 [text-wrap:pretty]">
+                {t.hero2.ingress}
+              </p>
+              <div className="mt-9 flex flex-col items-stretch gap-5 sm:flex-row sm:items-center">
+                <Magnetic strength={0.35} className="w-full sm:w-auto">
+                  <a
+                    href="#kontakt"
+                    className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent px-[38px] py-[18px] text-base font-semibold text-white transition-all duration-200 hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] sm:w-auto"
+                  >
+                    {t.hero.ctaPrimar}
+                    <IconArrow />
+                  </a>
+                </Magnetic>
+                <a
+                  href="#arbete"
+                  className="inline-flex items-center gap-2.5 self-center border-b border-white/20 pb-[3px] text-[15px] font-semibold text-[#ededf2]/75 transition-colors hover:text-white sm:self-auto"
+                >
+                  {t.hero2.ctaSekundar}
+                </a>
               </div>
-            ))}
-          </Item>
+              {/* Statistikrad med hairline-avdelare */}
+              <div className="mt-11 flex border-t border-white/[0.09] pt-6">
+                {t.hero2.stats.map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={`${i === 0 ? 'pr-8' : 'border-l border-white/[0.09] px-8'} ${i === 2 ? '!pr-0' : ''}`}
+                  >
+                    <div className="font-display text-[26px] font-bold tracking-[-0.02em] text-white">
+                      {s.varde}
+                      {i === 1 && <span className="text-accent">★</span>}
+                    </div>
+                    <div className="mt-[5px] font-mono text-[10px] uppercase tracking-[0.16em] text-[#ededf2]/40">
+                      {s.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Item>
+            {/* Kodfönster */}
+            <Item className="hidden lg:block">
+              <div aria-hidden>
+                <HeroCodeWindow />
+              </div>
+            </Item>
+          </div>
         </Stagger>
+      </section>
 
-        {/* Höger: animerad kod-editor — speglar "byggt i Next.js" */}
-        <div className="hidden lg:block animate-fade-in" aria-hidden>
-          <HeroCodeWindow />
-        </div>
+      {/* ── MARQUEE (kundnamn) ───────────────────────────────── */}
+      <section
+        aria-label={t.trust.rubrik}
+        className="overflow-hidden border-y border-white/[0.07] bg-white/[0.012] py-[26px]"
+      >
+        <div className="marquee-track">
+          {[false, true].map((clone) => (
+            <div key={String(clone)} aria-hidden={clone} className="flex items-center gap-[72px] pr-[72px]">
+              {MARQUEE_NAMES.map((name) => (
+                <span key={name} className="flex items-center gap-[72px]">
+                  <span className="font-display whitespace-nowrap text-[17px] font-semibold text-[#ededf2]/35">
+                    {name}
+                  </span>
+                  <span className="h-1 w-1 rounded-full bg-[rgba(109,106,248,0.6)]" />
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── TRUST-BAR (företag jag byggt för) ─────────────────── */}
-      <section className="border-y border-white/5 bg-white/[0.015] py-8" aria-label={t.trust.rubrik}>
-        <div className="mx-auto max-w-6xl px-6">
-          <p className="text-center font-mono text-[11px] uppercase tracking-[0.25em] text-white/30">
-            {t.trust.rubrik}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14">
-            {[
-              { name: 'Karla Cleaning Crew', url: 'https://karlacleaningcrew.se/' },
-              { name: 'Konstbyte', url: 'https://www.konstbyte.se/' },
-              { name: 'Prolink', url: 'https://www.prolink.se/' },
-              { name: 'SwedenSweet', url: 'https://swedensweet.vercel.app/' },
-              { name: 'Wildkull', url: 'https://www.wildkullpayroll.se/' },
-            ].map((brand) => (
+      {/* ── UTVALDA PROJEKT ──────────────────────────────────── */}
+      <section id="arbete" className="pb-20 pt-[140px]">
+        <div className="mx-auto max-w-[80rem] px-8">
+          <Reveal className="mb-[72px] flex items-baseline justify-between gap-6">
+            <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold tracking-[-0.03em] text-white">
+              {t.arbete.rubrik}
+            </h2>
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#ededf2]/40">
+              {t.arbete.period}
+            </span>
+          </Reveal>
+
+          <div className="flex flex-col gap-24">
+            {t.arbete.cases.map((c, i) => {
+              const meta = CASE_META[i];
+              return (
+                <Reveal key={c.namn}>
+                  <a
+                    href={meta.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group grid items-center gap-10 lg:gap-14 ${
+                      meta.reverse ? 'lg:grid-cols-[1fr_1.25fr]' : 'lg:grid-cols-[1.25fr_1fr]'
+                    }`}
+                  >
+                    <WipeImage
+                      className={`relative aspect-[16/10] rounded-[20px] border border-white/[0.09] bg-[#0b0b14] ${
+                        meta.reverse ? 'lg:order-2' : ''
+                      }`}
+                    >
+                      <Image
+                        src={meta.img}
+                        alt={c.namn}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 60vw"
+                        className="object-cover object-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(5,5,9,0.35)] to-transparent to-40%" />
+                    </WipeImage>
+                    <div className={meta.reverse ? 'lg:order-1' : ''}>
+                      <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+                        {c.kategori}
+                      </span>
+                      <h3 className="font-display mt-3.5 text-[34px] font-bold tracking-[-0.02em] text-white">
+                        {c.namn}
+                      </h3>
+                      <p className="mt-[18px] max-w-[26rem] text-[15.5px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
+                        {c.desc}
+                      </p>
+                      <p className="mt-5 inline-flex items-center gap-2.5 border-l-2 border-accent pl-3.5 text-sm font-medium text-[#ededf2]/85">
+                        {c.result}
+                      </p>
+                      <div className="mt-[26px] flex flex-wrap gap-2.5">
+                        {meta.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-white/10 px-3.5 py-[5px] font-mono text-[11px] text-[#ededf2]/45"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="mt-[30px] inline-flex items-center gap-2.5 text-sm font-semibold text-accent-light">
+                        {t.arbete.besok}
+                        <IconArrow />
+                      </span>
+                    </div>
+                  </a>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Övriga projekt — kompakt lista */}
+          <Reveal className="mt-24 border-t border-white/[0.07]">
+            {t.arbete.ovriga.map((p, i) => (
               <a
-                key={brand.name}
-                href={brand.url}
+                key={p.namn}
+                href={MORE_URLS[i]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold tracking-tight text-white/40 transition-colors hover:text-white/80"
+                className="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-white/[0.07] px-2 py-[26px] transition-all duration-200 hover:bg-white/[0.02] hover:pl-5 sm:grid-cols-[1fr_2fr_auto] sm:gap-8"
               >
-                {brand.name}
+                <span className="font-display text-[19px] font-semibold tracking-[-0.01em] text-white">
+                  {p.namn}
+                </span>
+                <span className="hidden text-sm text-[#ededf2]/50 sm:block">{p.kategori}</span>
+                <span className="text-[#ededf2]/40">
+                  <IconDiagonal />
+                </span>
               </a>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TJÄNSTER-TEASER (länkar till /tjanster) ──────────── */}
-      <section className="relative py-20 bg-grid">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div data-parallax="-26" className="absolute top-1/4 -left-40">
-            <div className="h-[400px] w-[400px] rounded-full bg-indigo-600/10 blur-[110px]" />
-          </div>
-          <div data-parallax="-42" className="absolute bottom-0 -right-32">
-            <div className="h-[350px] w-[350px] rounded-full bg-violet-600/10 blur-[100px]" />
-          </div>
-        </div>
-        <div className="relative mx-auto max-w-6xl px-6">
-          <Link
-            href="/tjanster"
-            data-animate="block"
-            className="group card-spotlight block rounded-3xl border border-white/8 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 sm:p-12"
-          >
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-2xl">
-                <p className="eyebrow">{t.tjansterTeaser.etikett}</p>
-                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-                  {t.tjansterTeaser.rubrik}
-                </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/60 sm:text-base">
-                  {t.tjansterTeaser.text}
-                </p>
-              </div>
-              <span className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-full bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-indigo-900/40 transition-all group-hover:bg-indigo-500 group-hover:scale-[1.03]">
-                {t.tjansterTeaser.cta}
-                <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-              </span>
-            </div>
-          </Link>
+          </Reveal>
         </div>
       </section>
 
       {/* ── PROCESS ──────────────────────────────────────────── */}
-      <section id="processen" className="bg-grid py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.process.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              {t.process.rubrik}
+      <section id="process" className="border-t border-white/[0.07] py-[140px]">
+        <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+          <Reveal className="lg:sticky lg:top-[120px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+              {t.processIntro.etikett}
+            </span>
+            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+              {t.processIntro.rubrik}
             </h2>
-          </div>
-          {/* Kort-layout med stora cirklar */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
-            {t.process.steg.map((item, i) => (
-              <div key={item.title} className="group card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
-                {/* Stor cirkel med siffra */}
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-violet-500/10 text-xl font-bold text-indigo-300 transition-all group-hover:border-indigo-500/60 group-hover:text-indigo-200 group-hover:scale-110">
-                  {i + 1}
+            <p className="mt-[22px] max-w-[24rem] text-[15.5px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
+              {t.processIntro.text}
+            </p>
+            <a
+              href="#kontakt"
+              className="mt-8 inline-flex items-center gap-2.5 text-[15px] font-semibold text-accent-light transition-colors hover:text-[#c7c6ff]"
+            >
+              {t.processIntro.cta}
+              <IconArrow />
+            </a>
+          </Reveal>
+          <div>
+            {t.process.steg.map((steg, i) => (
+              <Reveal key={steg.title}>
+                <div className="grid items-start gap-7 border-b border-white/[0.07] py-9 sm:grid-cols-[88px_1fr]">
+                  <span className="font-display text-[44px] font-bold leading-none tracking-[-0.03em] text-[rgba(109,106,248,0.55)]">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-[21px] font-semibold tracking-[-0.01em] text-white">
+                      {steg.title}
+                    </h3>
+                    <p className="mt-2.5 max-w-[32rem] text-[15px] leading-[1.65] text-[#ededf2]/55 [text-wrap:pretty]">
+                      {steg.desc}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="mb-2 text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
-              </div>
-            ))}
-            {/* Sista "kort" — CTA */}
-            <div className="card-spotlight h-full rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-7 flex flex-col justify-between">
-              <p className="text-sm leading-relaxed text-white/60">
-                {t.process.ctaText}
-              </p>
-              <a
-                href="#kontakt"
-                className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
-              >
-                {t.process.ctaLank} <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PORTFOLIO ─────────────────────────────────────────── */}
-      <section id="portfolio" className="section-alt py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.portfolio.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.portfolio.rubrik}</h2>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
-            {projects
-              .slice(portfolioPage * PROJECTS_PER_PAGE, portfolioPage * PROJECTS_PER_PAGE + PROJECTS_PER_PAGE)
-              .map((item, index) => (
-              <TiltCard key={item.name} className="h-full">
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group card-spotlight block h-full rounded-3xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-2xl hover:shadow-indigo-900/30"
-              >
-                {/* Preview */}
-                <div className="relative mb-5 h-40 w-full overflow-hidden rounded-2xl border border-white/8 transition-all group-hover:border-indigo-500/20">
-                  <Image
-                    src={item.img}
-                    alt={`${item.name} — webbprojekt byggt av Webbdev Studio`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    {...(index === 0 ? { loading: 'eager' as const, fetchPriority: 'high' as const } : {})}
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="text-base font-bold text-white/90 group-hover:text-white transition-colors">{item.name}</h3>
-                  <span className="flex-shrink-0 rounded-full border border-green-500/20 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">{t.portfolio.live}</span>
-                </div>
-
-                <p className="text-sm leading-relaxed text-white/55 mb-3">{item.desc[lang]}</p>
-
-                {/* Kundresultat */}
-                <div className="flex items-start gap-2 rounded-lg border border-indigo-500/15 bg-indigo-500/5 px-3 py-2 mb-4">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
-                  <p className="text-xs text-indigo-300/80">{item.result[lang]}</p>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {item.tech.map((tech) => (
-                    <span key={tech} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/45">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </a>
-              </TiltCard>
+              </Reveal>
             ))}
           </div>
-
-          {/* Paginering */}
-          {projects.length > PROJECTS_PER_PAGE && (
-            <div className="mt-10 flex items-center justify-center gap-3">
-              {Array.from({ length: Math.ceil(projects.length / PROJECTS_PER_PAGE) }).map((_, page) => (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => {
-                    setPortfolioPage(page);
-                    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  aria-label={`${t.portfolio.sida} ${page + 1}`}
-                  aria-current={portfolioPage === page ? 'page' : undefined}
-                  className={`h-10 min-w-10 cursor-pointer rounded-xl border px-3 text-sm font-medium transition-all ${
-                    portfolioPage === page
-                      ? 'border-indigo-500/50 bg-indigo-500/15 text-white'
-                      : 'border-white/10 bg-white/[0.03] text-white/55 hover:border-indigo-500/30 hover:text-white'
-                  }`}
-                >
-                  {page + 1}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
       {/* ── RECENSIONER ──────────────────────────────────────── */}
-      <section id="recensioner" className="section-alt py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.recensioner.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.recensioner.rubrik}</h2>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </span>
-              <span className="text-sm text-white/55">{t.recensioner.betygText}</span>
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.1">
-            {t.recensioner.lista.map((r) => (
-              <div
-                key={r.namn}
-                className="card-spotlight flex h-full flex-col rounded-3xl border border-white/8 bg-white/[0.03] p-7"
-              >
-                <span className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <StarIcon key={i} />
-                  ))}
-                </span>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-white/70">“{r.text}”</p>
-                <p className="mt-5 text-sm font-semibold text-white/90">{r.namn}</p>
-              </div>
+      <section id="recensioner" className="relative overflow-hidden border-t border-white/[0.07] py-[140px]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-[40%] left-1/2 h-[600px] w-[900px] -translate-x-1/2 blur-[50px]"
+          style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(109,106,248,0.12), transparent 70%)' }}
+        />
+        <div className="relative mx-auto max-w-[56rem] px-8 text-center">
+          <Reveal className="flex justify-center gap-1">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} />
             ))}
-          </div>
-
-          <div className="mt-8" data-animate="block">
-            <a
-              href={GOOGLE_REVIEWS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-indigo-300 transition-colors hover:text-indigo-200"
+          </Reveal>
+          <Reveal>
+            <motion.blockquote
+              key={reviewIndex}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="font-display mt-9 text-[clamp(24px,3vw,36px)] font-medium leading-[1.35] tracking-[-0.02em] text-white/90 [text-wrap:pretty]"
             >
-              {t.recensioner.lankText}
-              <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
-            </a>
-          </div>
+              “{activeReview.text}”
+            </motion.blockquote>
+            <p className="mt-8 text-[15px] font-semibold text-[#ededf2]/75">
+              {activeReview.namn}
+              <span className="ml-3 font-normal text-[#ededf2]/40">{t.recension2.viaGoogle}</span>
+            </p>
+          </Reveal>
+          <Reveal className="mt-9 flex justify-center gap-2.5">
+            {t.recension2.lista.map((r, i) => (
+              <button
+                key={r.namn}
+                type="button"
+                onClick={() => setReviewIndex(i)}
+                aria-label={`${t.recension2.aria} ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  reviewIndex === i ? 'w-7 bg-accent' : 'w-2 bg-white/20 hover:bg-white/35'
+                }`}
+              />
+            ))}
+          </Reveal>
+          <a
+            href={GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-7 inline-flex text-[13.5px] font-medium text-[rgba(165,163,255,0.8)] transition-colors hover:text-[#c7c6ff]"
+          >
+            {t.recensioner.lankText} →
+          </a>
         </div>
       </section>
 
-      <hr className="section-divider" aria-hidden />
-
       {/* ── PRISER ───────────────────────────────────────────── */}
-      <section id="priser" className="relative overflow-hidden py-24 bg-grid md:py-28">
-        {/* Dämpad eko av kontakt-CTA:ns video — lägre intensitet (opacity-20)
-            så de två levande sektionerna inte konkurrerar. Befintliga top/-
-            bottom-gradienten nedan fejdar videon mot sidbakgrunden. */}
-        <video
-          className="cta-video-bg pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/cta-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="/cta-bg.webm" type="video/webm" />
-          <source src="/cta-bg.mp4" type="video/mp4" />
-        </video>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-[#06060f]/60 to-[#06060f]" />
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div data-parallax="-30" className="absolute top-0 -right-40">
-            <div className="h-[420px] w-[420px] rounded-full bg-violet-600/10 blur-[110px]" />
-          </div>
-          <div data-parallax="-18" className="absolute bottom-0 -left-32">
-            <div className="h-[320px] w-[320px] rounded-full bg-cyan-500/8 blur-[100px]" />
-          </div>
-        </div>
-        <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.priser.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.priser.rubrik}</h2>
-          </div>
-          <div className="pricing-grid grid gap-6 md:grid-cols-3 md:items-end" data-animate-group data-stagger="0.12">
+      <section id="priser" className="border-t border-white/[0.07] py-[140px]">
+        <div className="mx-auto max-w-[80rem] px-8">
+          <Reveal className="mb-[72px] max-w-[40rem]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+              {t.priser.etikett}
+            </span>
+            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+              {t.priser2.rubrik}
+            </h2>
+          </Reveal>
+          <div className="grid gap-px overflow-hidden rounded-[20px] border border-white/[0.08] bg-white/[0.08] md:grid-cols-3">
             {t.priser.paket
-              .map((p, i) => ({ ...p, price: ['2 000 kr', '4 000 kr', '6 000 kr'][i], highlighted: i === 1 }))
-              .map((item) => (
-              <div
-                key={item.tier}
-                className={`pricing-card relative rounded-3xl transition-all duration-300 ${
-                  item.highlighted
-                    ? 'border-2 border-indigo-500/60 bg-gradient-to-b from-indigo-950/95 to-violet-950/80 p-9 shadow-2xl shadow-indigo-900/50 ring-1 ring-indigo-500/20 hover:shadow-indigo-800/60 hover:-translate-y-1.5'
-                    : 'border border-white/8 bg-white/[0.03] p-8 hover:border-white/15 hover:-translate-y-1'
-                }`}
-              >
-                {item.highlighted && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full border border-indigo-400/50 bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white whitespace-nowrap shadow-lg shadow-indigo-900/40">
-                    {t.priser.mestPopular}
+              .map((p, i) => ({ ...p, pris: ['2 000 kr', '4 000 kr', '6 000 kr'][i], populer: i === 1 }))
+              .map((p) => (
+                <Reveal key={p.tier} className="flex">
+                  <div
+                    className="flex w-full flex-col px-9 py-11"
+                    style={{
+                      background: p.populer ? 'linear-gradient(180deg, #0c0b1c, #08080f)' : '#08080f',
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`font-mono text-xs uppercase tracking-[0.2em] ${
+                          p.populer ? 'text-[#b4b2ff]' : 'text-[#ededf2]/50'
+                        }`}
+                      >
+                        {p.tier}
+                      </span>
+                      {p.populer && (
+                        <span className="rounded-full border border-[rgba(109,106,248,0.45)] bg-[rgba(109,106,248,0.18)] px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#b4b2ff]">
+                          {t.priser2.badge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-display mt-6 text-[52px] font-bold tracking-[-0.03em] text-white">
+                      {p.pris}
+                    </div>
+                    <p className="mt-2.5 text-sm text-[#ededf2]/50">{p.desc}</p>
+                    <div className="my-[30px] h-px bg-white/[0.08]" />
+                    <ul className="flex flex-1 flex-col gap-[13px]">
+                      {p.features.map((f) => (
+                        <li key={f} className="flex items-start gap-3 text-[14.5px] text-[#ededf2]/70">
+                          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="mt-[3px] flex-shrink-0" aria-hidden>
+                            <path d="M3.5 8l3 3 5-6.5" stroke="#6d6af8" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href="#kontakt"
+                      className={`mt-9 block rounded-full py-[15px] text-center text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
+                        p.populer
+                          ? 'bg-accent text-white hover:bg-[#7d7aff]'
+                          : 'border border-white/[0.18] text-[#ededf2]/80 hover:border-white/30 hover:text-white'
+                      }`}
+                    >
+                      {t.priser.komIgang}
+                    </a>
                   </div>
-                )}
-                <div className="mb-7">
-                  <h3 className={`font-mono font-bold uppercase tracking-wider ${item.highlighted ? 'text-indigo-300 text-sm' : 'text-white/60 text-sm'}`}>
-                    {item.tier}
-                  </h3>
-                  <div className={`font-display mt-3 font-bold text-white ${item.highlighted ? 'text-5xl sm:text-6xl' : 'text-4xl sm:text-5xl'}`}>
-                    {item.price}
-                  </div>
-                  <p className="mt-2 text-sm text-white/50">{item.desc}</p>
-                </div>
-                <ul className="mb-8 space-y-3.5">
-                  {item.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm text-white/75">
-                      <IconCheck />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href="#kontakt"
-                  className={`block w-full rounded-full py-4 text-center text-sm font-bold transition-all ${
-                    item.highlighted
-                      ? 'btn-shine bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 hover:shadow-indigo-800/50'
-                      : 'border border-white/12 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
-                  }`}
-                >
-                  {t.priser.komIgang}
-                </a>
-              </div>
-            ))}
+                </Reveal>
+              ))}
           </div>
+          <Reveal>
+            <p className="mt-7 text-center text-[13.5px] text-[#ededf2]/45">
+              {t.priser2.osaker1}{' '}
+              <a href="#kontakt" className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]">
+                {t.priser2.osakerCta}
+              </a>{' '}
+              {t.priser2.osaker2}
+            </p>
+          </Reveal>
 
-          {/* Priskalkylator — interaktivt estimat som länkar till offert */}
+          {/* Priskalkylator — interaktivt estimat */}
           <PriceCalculator />
         </div>
       </section>
 
       {/* ── OM MIG ───────────────────────────────────────────── */}
-      <section id="om-mig" className="relative overflow-hidden py-20">
-        {/* Mjuk radiell glow bakom kortet — varm, personlig känsla utan rutnät */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div data-parallax="-16" className="absolute top-1/4 left-1/2 -translate-x-1/2">
-            <div className="h-[460px] w-[680px] rounded-full bg-indigo-600/8 blur-[120px]" />
-          </div>
-        </div>
-        <div className="relative mx-auto max-w-6xl px-6">
-          <div data-animate="block" className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 sm:p-10 md:p-14">
-            <div className="grid gap-8 md:grid-cols-[auto_1fr] md:items-start md:gap-12">
-              {/* Porträtt */}
-              <div className="relative mx-auto w-full max-w-[150px] md:mx-0">
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-indigo-950/40">
-                  <Image
-                    src="/pp3.png"
-                    alt="Theodor Håkansson — webbutvecklare på Webbdev Studio"
-                    width={1236}
-                    height={1272}
-                    sizes="150px"
-                    className="h-full w-full object-cover"
-                  />
-                  {/* Mjuk gradient nedtill så porträttet smälter in i temat */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06060f]/40 via-transparent to-transparent" />
-                </div>
-              </div>
-
-              {/* Text + fakta */}
-              <div>
-                <p className="eyebrow">{t.omMig.etikett}</p>
-                <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.omMig.rubrik}</h2>
-                <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/70">
-                  {t.omMig.stycken.map((p) => (
-                    <p key={p.slice(0, 24)}>{p}</p>
-                  ))}
-                </div>
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {t.omMig.fakta.map((row) => (
-                  <div
-                    key={row.label}
-                    className="rounded-xl border border-white/8 bg-white/[0.03] px-5 py-4"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-mono text-[10px] text-indigo-400/50 shrink-0">{row.tag}</span>
-                      <span className="text-[11px] uppercase tracking-wide text-white/45">{row.label}</span>
-                    </div>
-                    <span className="mt-1.5 block text-sm font-medium text-white/85">{row.value}</span>
-                  </div>
-                ))}
-                </div>
-
-                {/* Sociala länkar — bygger trovärdighet */}
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <a
-                    href="https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Theodor på LinkedIn"
-                    className="group inline-flex items-center gap-2.5 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/70 transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:text-white"
-                  >
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="text-indigo-400 transition-colors group-hover:text-indigo-300">
-                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
-                    </svg>
-                    LinkedIn
-                  </a>
-                  <a
-                    href="https://www.facebook.com/theo.hakansson.5/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Theodor på Facebook"
-                    className="group inline-flex items-center gap-2.5 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/70 transition-all hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:text-white"
-                  >
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="text-indigo-400 transition-colors group-hover:text-indigo-300">
-                      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z" />
-                    </svg>
-                    Facebook
-                  </a>
-                </div>
-              </div>
+      <section id="om" className="border-t border-white/[0.07] py-[140px]">
+        <div className="mx-auto grid max-w-[80rem] items-center gap-12 px-8 lg:grid-cols-[0.9fr_1.4fr] lg:gap-20">
+          <Reveal className="relative mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-none">
+            <WipeImage className="rounded-[20px] border border-white/10">
+              <Image
+                src="/pp3.png"
+                alt="Theo Håkansson — Webbdev Studio"
+                width={1236}
+                height={1272}
+                sizes="(max-width: 1024px) 420px, 35vw"
+                className="block h-auto w-full object-cover [filter:saturate(0.9)_contrast(1.02)]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(5,5,9,0.5)] to-transparent to-45%" />
+            </WipeImage>
+            <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
+              <span className="font-display text-[17px] font-semibold text-white">Theo Håkansson</span>
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#ededf2]/60">
+                {t.omMig2.roll}
+              </span>
             </div>
-          </div>
+          </Reveal>
+          <Reveal>
+            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+              {t.omMig.etikett}
+            </span>
+            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+              {t.omMig2.rubrik}
+            </h2>
+            <div className="mt-[26px] flex max-w-[36rem] flex-col gap-4 text-base leading-[1.65] text-[#ededf2]/60">
+              <p className="[text-wrap:pretty]">{t.omMig2.p1}</p>
+              <p className="[text-wrap:pretty]">{t.omMig2.p2}</p>
+            </div>
+            <div className="mt-10 grid grid-cols-2 border-t border-white/[0.09]">
+              {t.omMig.fakta.map((row) => (
+                <div key={row.label} className="flex flex-col gap-[5px] border-b border-white/[0.09] py-5">
+                  <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#ededf2]/40">
+                    {row.label}
+                  </span>
+                  <span className="text-[15px] font-medium text-white/90">{row.value}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section id="faq" className="py-20">
-        <div className="mx-auto max-w-3xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.faqRubrik.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">{t.faqRubrik.rubrik}</h2>
-          </div>
-          <div className="space-y-3" data-animate-group data-stagger="0.07">
+      <section id="faq" className="border-t border-white/[0.07] py-[140px]">
+        <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+          <Reveal className="lg:sticky lg:top-[120px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+              {t.faqIntro.etikett}
+            </span>
+            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+              {t.faqIntro.rubrik}
+            </h2>
+            <p className="mt-[22px] max-w-[22rem] text-[15px] leading-[1.65] text-[#ededf2]/55">
+              {t.faqIntro.text1}{' '}
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light transition-colors hover:text-[#c7c6ff]">
+                {t.faqIntro.mejla}
+              </a>{' '}
+              {t.faqIntro.text2}
+            </p>
+          </Reveal>
+          <Reveal>
             {faqItems.map((item) => (
-              <details
-                key={item.q}
-                className="group rounded-2xl border border-white/8 bg-white/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-white/15"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-white/85 [&::-webkit-details-marker]:hidden">
+              <details key={item.q} className="group border-b border-white/[0.08]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 px-1 py-[26px] font-display text-[17px] font-semibold text-white/[0.88] [&::-webkit-details-marker]:hidden">
                   {item.q}
-                  <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    className="flex-shrink-0 text-indigo-400 transition-transform duration-300 group-open:rotate-180"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
+                  <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-white/15 text-base font-normal text-accent-light transition-transform duration-300 group-open:rotate-45">
+                    +
+                  </span>
                 </summary>
-                <p className="px-6 pb-5 text-sm leading-relaxed text-white/60">{item.a}</p>
+                <p className="max-w-[36rem] px-1 pb-[26px] text-[15px] leading-[1.7] text-[#ededf2]/55">
+                  {item.a}
+                </p>
               </details>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
-      <section id="kontakt" className="relative overflow-hidden py-24 md:py-28">
-        {/* Bakgrundsvideo bakom HELA sektionen — partiklar i paletten.
-            Döljs på små skärmar (cta-video-bg → display:none under sm) och
-            vid reduced-motion; postern täcker innan videon laddat. */}
-        <video
-          className="cta-video-bg pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/cta-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="/cta-bg.webm" type="video/webm" />
-          <source src="/cta-bg.mp4" type="video/mp4" />
-        </video>
-        {/* Mjuk fejd upptill/nedtill + dämpning så sektionen smälter in i
-            sidan och texten alltid är läsbar ovanpå videon. */}
-        <div className="cta-video-fade pointer-events-none absolute inset-0" aria-hidden />
-        <div className="mx-auto max-w-6xl px-6">
-          <div data-animate="block" className="relative overflow-hidden rounded-3xl border border-white/12 bg-[#0a0a18]/50 p-6 shadow-2xl shadow-indigo-950/40 backdrop-blur-[5px] sm:p-10 md:p-16">
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-[90px]" />
-            <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-violet-500/15 blur-[80px]" />
-            <div className="relative mx-auto max-w-2xl">
-              <p className="eyebrow flex justify-center">{t.kontakt.etikett}</p>
-              <h2 className="font-display mt-4 text-center text-3xl font-bold text-white md:text-4xl">
-                {t.kontakt.rubrik}
-              </h2>
-              <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/65">
-                {t.kontakt.ingress}
-              </p>
-              <form onSubmit={handleSubmit} className="mt-10 space-y-4">
-                {/* Honeypot — osynligt för människor, fångar spam-bottar */}
+      <section id="kontakt" className="relative overflow-hidden border-t border-white/[0.07] py-[160px]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-[20%] left-1/2 h-[700px] w-[1100px] -translate-x-1/2 blur-[60px]"
+          style={{ background: 'radial-gradient(45% 45% at 50% 50%, rgba(109,106,248,0.18), transparent 70%)' }}
+        />
+        <div className="relative mx-auto max-w-[52rem] px-8 text-center">
+          <Reveal>
+            <h2 className="font-display text-[clamp(40px,6vw,80px)] font-bold leading-none tracking-[-0.035em] text-white">
+              {t.kontakt2.rubrik1} <em className="not-italic text-accent">{t.kontakt2.rubrik2}</em>
+            </h2>
+            <p className="mx-auto mt-7 max-w-[30rem] text-[17px] leading-[1.6] text-[#ededf2]/60 [text-wrap:pretty]">
+              {t.kontakt2.ingress}
+            </p>
+          </Reveal>
+          <Reveal>
+            <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-3.5 text-left">
+              {/* Honeypot — osynligt för människor, fångar spam-bottar */}
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+              />
+              <div className="grid gap-3.5 sm:grid-cols-2">
                 <input
                   type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                  className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                  placeholder={t.kontakt.namnPlaceholder}
+                  aria-label={t.kontakt.namn}
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="w-full rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.namn}</label>
-                    <input
-                      type="text"
-                      placeholder={t.kontakt.namnPlaceholder}
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/25 transition-colors focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.epost}</label>
-                    <input
-                      type="email"
-                      placeholder={t.kontakt.epostPlaceholder}
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/25 transition-colors focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none"
-                    />
-                  </div>
+                <input
+                  type="email"
+                  placeholder={t.kontakt.epostPlaceholder}
+                  aria-label={t.kontakt.epost}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="w-full rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
+                />
+              </div>
+              <textarea
+                rows={4}
+                placeholder={t.kontakt.meddelandePlaceholder}
+                aria-label={t.kontakt.meddelande}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                required
+                className="w-full resize-none rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
+              />
+              {status === 'error' && (
+                <div className="rounded-[14px] border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                  {t.kontakt.error}
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-white/50">{t.kontakt.meddelande}</label>
-                  <textarea
-                    rows={4}
-                    placeholder={t.kontakt.meddelandePlaceholder}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/25 transition-colors focus:border-indigo-500/50 focus:bg-white/8 focus:outline-none"
-                  />
-                </div>
-                {status === 'success' && (
-                  <div className="rounded-xl border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-                    {t.kontakt.success}
-                  </div>
-                )}
-                {status === 'error' && (
-                  <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                    {t.kontakt.error}
-                  </div>
-                )}
-
-                {/* Trust text tätt ovanför knappen */}
-                <div className="flex items-center justify-center gap-1.5 pt-1">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400 flex-shrink-0"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                  <p className="text-xs font-medium text-white/50">{t.kontakt.trust}</p>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="group btn-shine w-full inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 py-[1.125rem] text-base font-bold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:shadow-indigo-800/60 hover:scale-[1.02] disabled:opacity-60 active:scale-[0.99]"
-                >
-                  {status === 'loading' ? (
-                    t.kontakt.skickar
-                  ) : (
-                    <>
-                      <IconSend />
-                      {t.kontakt.skicka}
-                    </>
-                  )}
-                </button>
-
-                {/* Riskreducering precis vid beslutspunkten */}
-                <p className="flex flex-wrap items-center justify-center gap-x-1 text-center text-[11px] font-medium text-white/45">
-                  {t.kontakt.risk}
-                </p>
-
-                {/* Direktkontakt för den som inte gillar formulär */}
-                <p className="pt-2 text-center text-xs text-white/40">
-                  {t.kontakt.mejlFraga}{' '}
-                  <a
-                    href="mailto:webbdevstudio@gmail.com"
-                    className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
-                  >
-                    webbdevstudio@gmail.com
-                  </a>
-                </p>
-
-                {/* GDPR-notis */}
-                <p className="text-center text-[11px] leading-relaxed text-white/30">
-                  {t.kontakt.gdpr1}{' '}
-                  <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
-                    {t.kontakt.gdpr2}
-                  </Link>
-                  .
-                </p>
-              </form>
-            </div>
-          </div>
+              )}
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent py-[19px] text-base font-semibold text-white transition-all duration-200 hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] disabled:opacity-60"
+              >
+                {status === 'loading'
+                  ? t.kontakt.skickar
+                  : status === 'success'
+                    ? t.kontakt2.successKnapp
+                    : t.kontakt.skicka}
+                {status !== 'success' && <IconArrow />}
+              </button>
+              <p className="mt-1.5 text-center text-[12.5px] text-[#ededf2]/45">{t.kontakt.risk}</p>
+            </form>
+          </Reveal>
+          <Reveal>
+            <p className="mt-9 text-sm text-[#ededf2]/45">
+              {t.kontakt2.direktFraga}{' '}
+              <a
+                href="tel:+46709525822"
+                onClick={() => trackConversion('phoneClick')}
+                className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]"
+              >
+                070‑952 58 22
+              </a>{' '}
+              ·{' '}
+              <a
+                href="mailto:webbdevstudio@gmail.com"
+                className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]"
+              >
+                webbdevstudio@gmail.com
+              </a>
+            </p>
+            {/* GDPR-notis */}
+            <p className="mt-4 text-center text-[11px] leading-relaxed text-[#ededf2]/30">
+              {t.kontakt.gdpr1}{' '}
+              <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
+                {t.kontakt.gdpr2}
+              </Link>
+              .
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-white/5 py-12">
-        <div className="mx-auto max-w-6xl px-6">
-          {/* Företagsuppgifter */}
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <footer className="border-t border-white/[0.07] py-14">
+        <div className="mx-auto max-w-[80rem] px-8">
+          <div className="flex flex-wrap items-start justify-between gap-10">
             <div>
-              <span className="font-mono text-sm font-bold tracking-widest text-indigo-400 uppercase">
-                Webbdev<span className="text-white/20">.</span>Studio
+              <span className="font-display text-[17px] font-bold text-white">
+                Webbdev<span className="text-accent">.</span>studio
               </span>
-              <p className="mt-3 text-xs leading-relaxed text-white/35">
+              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-[#ededf2]/40">
                 {t.footer.tagline}
               </p>
             </div>
-
-            <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.foretag}</h3>
-              <address className="mt-3 space-y-1.5 text-xs not-italic leading-relaxed text-white/50">
+            <div className="flex flex-wrap gap-16">
+              <div className="flex flex-col gap-2 text-[13px]">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                  {t.footer2.navigera}
+                </span>
+                <a href="#arbete" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.arbete}</a>
+                <a href="#process" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.process}</a>
+                <a href="#priser" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.priser}</a>
+                <a href="#om" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.om}</a>
+                <Link href="/tjanster" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.tjanster}</Link>
+                <Link href="/blogg" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.blogg}</Link>
+              </div>
+              <div className="flex flex-col gap-2 text-[13px]">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                  {t.footer.kontakt}
+                </span>
+                <a href="tel:+46709525822" onClick={() => trackConversion('phoneClick')} className="text-[#ededf2]/55 transition-colors hover:text-white">
+                  070‑952 58 22
+                </a>
+                <a href="mailto:webbdevstudio@gmail.com" className="text-[#ededf2]/55 transition-colors hover:text-white">
+                  webbdevstudio@gmail.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#ededf2]/55 transition-colors hover:text-white"
+                >
+                  LinkedIn
+                </a>
+              </div>
+              <div className="flex flex-col gap-2 text-[13px]">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                  {t.footer.foretag}
+                </span>
                 {t.footer.foretagRader.map((rad) => (
-                  <p key={rad}>{rad}</p>
+                  <span key={rad} className="text-[#ededf2]/45">{rad}</span>
                 ))}
-              </address>
-              <Link
-                href="/blogg"
-                className="mt-3 inline-block text-xs text-white/50 transition-colors hover:text-indigo-300"
-              >
-                Blogg
-              </Link>
-            </div>
-
-            <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.orter}</h3>
-              <nav className="mt-3 flex flex-col gap-1.5 text-xs leading-relaxed">
+                <span className="text-[#ededf2]/45">Västra Gunnesgärde 41, Göteborg</span>
+              </div>
+              <div className="flex flex-col gap-2 text-[13px]">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                  {t.footer.orter}
+                </span>
                 {orter.map((o) => (
                   <Link
                     key={o.slug}
                     href={`/webbutveckling/${o.slug}`}
-                    className="text-white/50 transition-colors hover:text-indigo-300"
+                    className="text-[#ededf2]/55 transition-colors hover:text-white"
                   >
                     {o.namn}
                   </Link>
                 ))}
-              </nav>
-              <address className="mt-4 text-xs not-italic leading-relaxed text-white/40">
-                Västra Gunnesgärde 41<br />
-                417 47 Göteborg
-              </address>
-            </div>
-
-            <div>
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">{t.footer.kontakt}</h3>
-              <div className="mt-3 space-y-1.5 text-xs leading-relaxed">
-                <p>
-                  <a
-                    href="tel:+46709525822"
-                    onClick={() => trackConversion('phoneClick')}
-                    className="text-white/50 transition-colors hover:text-indigo-300"
-                  >
-                    070‑952 58 22
-                  </a>
-                </p>
-                <p>
-                  <a href="mailto:webbdevstudio@gmail.com" className="text-white/50 transition-colors hover:text-indigo-300">
-                    webbdevstudio@gmail.com
-                  </a>
-                </p>
               </div>
             </div>
           </div>
-
-          {/* Copyright-rad */}
-          <div className="mt-10 flex flex-col items-center gap-2 border-t border-white/5 pt-6 sm:flex-row sm:justify-between">
-            <p className="text-xs text-white/25">
-              © {new Date().getFullYear()} Webbdev Studio — webbdev.se
-            </p>
-            <div className="flex items-center gap-4 text-xs text-white/25">
-              <Link href="/integritetspolicy" className="transition-colors hover:text-white/50">
-                {t.footer.integritetspolicy}
-              </Link>
-              <span aria-hidden>·</span>
-              <span>Org.nr 19950721-XXXX</span>
-            </div>
+          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/30 sm:flex-row sm:justify-between">
+            <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
+            <Link href="/integritetspolicy" className="transition-colors hover:text-[#ededf2]/60">
+              {t.footer.integritetspolicy}
+            </Link>
           </div>
         </div>
       </footer>
