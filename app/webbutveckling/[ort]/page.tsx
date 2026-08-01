@@ -97,7 +97,13 @@ export default async function OrtPage({ params }: Props) {
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-white/60">Webbutveckling {ort.iNamn}</span>
+          <Link href="/webbutveckling" className="transition-colors hover:text-white/70">
+            Webbutveckling
+          </Link>
+          <span className="mx-2" aria-hidden>
+            /
+          </span>
+          <span className="text-white/60">{ort.namn}</span>
         </nav>
 
         {/* Hero */}

@@ -72,6 +72,8 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
         className={`fixed inset-0 z-40 bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
+        // Utan inert ligger den stängda menyns länkar kvar i tabbordningen.
+        inert={!open}
       >
         <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
           {links.map((link) => (

@@ -82,9 +82,10 @@ export const dictionary = {
       ovriga: [
         { namn: 'SwedenSweet', kategori: 'E-handel — komplett nätbutik med snabb checkout' },
         { namn: 'Prolink', kategori: 'Företagswebbplats — tydlig tjänstepresentation' },
-        { namn: 'Wellness Studio', kategori: 'Bokningssida — Stripe-betalning och automatiserad e-post' },
         { namn: 'FlexLeague', kategori: 'Plattform — ligor med tabeller och resultat i realtid' },
         { namn: 'Bolagdirekt', kategori: 'B2B — lagerbolag och bolagsändringar med fasta priser' },
+        { namn: 'Oddsverket', kategori: 'Speltipssajt — dagliga analyser, statistik och oddsjämförelse' },
+        { namn: 'Erotikmässan', kategori: 'Eventsida — biljettförsäljning, program och utställarinfo' },
       ],
     },
     processIntro: {
@@ -209,9 +210,9 @@ export const dictionary = {
       mestPopular: '★ Mest populär',
       komIgang: 'Kom igång',
       paket: [
-        { tier: 'Bas', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
-        { tier: 'Premium', desc: 'Det mest populära alternativet', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
-        { tier: 'Full Service', desc: 'Komplett lösning med allt inkluderat', features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'] },
+        { tier: 'Bas', pris: '2 000 kr', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
+        { tier: 'Premium', pris: '4 000 kr', desc: 'Det mest populära alternativet', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
+        { tier: 'Full Service', pris: '6 000 kr', desc: 'Komplett lösning med allt inkluderat', features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'] },
       ],
       kalkylator: {
         etikett: 'Priskalkylator',
@@ -419,9 +420,10 @@ export const dictionary = {
       ovriga: [
         { namn: 'SwedenSweet', kategori: 'E-commerce — complete online store with fast checkout' },
         { namn: 'Prolink', kategori: 'Corporate website — clear service presentation' },
-        { namn: 'Wellness Studio', kategori: 'Booking site — Stripe payments and automated email' },
         { namn: 'FlexLeague', kategori: 'Platform — leagues with standings and live results' },
         { namn: 'Bolagdirekt', kategori: 'B2B — ready-made companies at fixed prices' },
+        { namn: 'Oddsverket', kategori: 'Betting tips site — daily analyses, stats and odds comparison' },
+        { namn: 'Erotikmässan', kategori: 'Event site — ticket sales, programme and exhibitor info' },
       ],
     },
     processIntro: {
@@ -546,9 +548,9 @@ export const dictionary = {
       mestPopular: '★ Most popular',
       komIgang: 'Get started',
       paket: [
-        { tier: 'Basic', desc: 'Perfect for getting started quickly', features: ['Responsive website', '5 pages', 'Contact form', 'Mobile-optimized'] },
-        { tier: 'Premium', desc: 'The most popular option', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
-        { tier: 'Full Service', desc: 'Complete solution with everything included', features: ['Everything in Premium', 'Unlimited pages', 'E-commerce via Stripe', 'Advanced admin panel', '3 months of support'] },
+        { tier: 'Basic', pris: 'SEK 2,000', desc: 'Perfect for getting started quickly', features: ['Responsive website', '5 pages', 'Contact form', 'Mobile-optimized'] },
+        { tier: 'Premium', pris: 'SEK 4,000', desc: 'The most popular option', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
+        { tier: 'Full Service', pris: 'SEK 6,000', desc: 'Complete solution with everything included', features: ['Everything in Premium', 'Unlimited pages', 'E-commerce via Stripe', 'Advanced admin panel', '3 months of support'] },
       ],
       kalkylator: {
         etikett: 'Price calculator',

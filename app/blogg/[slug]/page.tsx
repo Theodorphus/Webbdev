@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       url: `${SITE_URL}/blogg/${post.slug}`,
       publishedTime: post.published,
+      images: [{ url: `${SITE_URL}/opengraph-image.jpg`, width: 1200, height: 630 }],
     },
   };
 }
@@ -54,6 +55,8 @@ export default async function BlogPost({ params }: Props) {
     description: post.description,
     datePublished: post.published,
     dateModified: post.published,
+    // Rekommenderat av Google för Article-rich results.
+    image: `${SITE_URL}/opengraph-image.jpg`,
     url: `${SITE_URL}/blogg/${post.slug}`,
     author: { "@type": "Person", name: "Theodor Håkansson" },
     publisher: {

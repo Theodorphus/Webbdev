@@ -93,7 +93,9 @@ export async function POST(req: Request) {
     : '';
 
   const { data, error } = await resend.emails.send({
-    from: 'Webbdev Studio <onboarding@resend.dev>',
+    // Samma fallback-mönster som contact-rutten: RESEND_FROM när domänen är
+    // verifierad i Resend, annars testavsändaren.
+    from: process.env.RESEND_FROM ?? 'Webbdev Studio <onboarding@resend.dev>',
     to: 'webbdevstudio@gmail.com',
     replyTo: contact.includes('@') ? contact : undefined,
     subject: `💬 Nytt lead från chatten — ${name}`,

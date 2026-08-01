@@ -555,6 +555,17 @@ body {
 .calc-range:focus-visible::-webkit-slider-thumb {
   box-shadow: 0 0 0 3px rgba(109, 106, 248, 0.45);
 }
+.calc-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px rgba(109, 106, 248, 0.45);
+}
+
+/* ── Fokusmarkering ─────────────────────────────────────── */
+/* Global synlig fokusring för tangentbordsnavigering. Hover-stilarna
+   täcker bara mus — utan denna är fokus osynligt på hela sajten. */
+:focus-visible {
+  outline: 2px solid rgba(139, 137, 255, 0.9);
+  outline-offset: 3px;
+}
 
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

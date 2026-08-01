@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     // Lokala landningssidor — viktiga för lokal SEO.
+    {
+      url: `${SITE_URL}/webbutveckling`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
     ...orter.map((o) => ({
       url: `${SITE_URL}/webbutveckling/${o.slug}`,
       lastModified,

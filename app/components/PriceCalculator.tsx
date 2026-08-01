@@ -35,7 +35,7 @@ function formatKr(value: number, lang: string): string {
   // Avrunda till närmaste 500 så intervallet ser "uppskattat" ut, inte exakt.
   const rounded = Math.round(value / 500) * 500;
   const grouped = rounded.toLocaleString(lang === 'sv' ? 'sv-SE' : 'en-US');
-  return `${grouped} kr`;
+  return lang === 'sv' ? `${grouped} kr` : `SEK ${grouped}`;
 }
 
 export default function PriceCalculator() {

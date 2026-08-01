@@ -45,7 +45,13 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, message, company } = await req.json();
+  let body: { name?: unknown; email?: unknown; message?: unknown; company?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
+  }
+  const { name, email, message, company } = body;
 
   // Honeypot: fältet är osynligt för människor — bottar fyller i det.
   // Svara 200 så botten tror att den lyckades.
@@ -66,7 +72,9 @@ export async function POST(req: Request) {
   const resend = new Resend(apiKey);
 
   const { data, error } = await resend.emails.send({
-    from: 'Webbdev Studio <onboarding@resend.dev>',
+    // Sätt RESEND_FROM (t.ex. "Webbdev Studio <kontakt@webbdev.se>") när
+    // domänen är verifierad i Resend — testavsändaren är fallback.
+    from: process.env.RESEND_FROM ?? 'Webbdev Studio <onboarding@resend.dev>',
     to: 'webbdevstudio@gmail.com',
     replyTo: email,
     subject: `Ny förfrågan från ${name}`,

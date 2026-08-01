@@ -88,6 +88,8 @@ const MARQUEE_NAMES = [
   'Wildkull Payroll',
   'André Roslund',
   'Bolagdirekt',
+  'Oddsverket',
+  'Erotikmässan',
 ];
 
 // Metadata för de fyra stora casen — texterna bor i dictionary (t.arbete.cases,
@@ -103,9 +105,10 @@ const CASE_META = [
 const MORE_URLS = [
   'https://swedensweet.vercel.app/',
   'https://www.prolink.se/',
-  'https://bokning-gue0ah1a6-webbdev.vercel.app/',
-  'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
+  'https://flex-league.vercel.app/',
   'https://bolagdirekt.vercel.app/',
+  'https://oddsverket.se/',
+  'https://www.erotikmassan.com/',
 ];
 
 const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
@@ -171,17 +174,22 @@ export function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    if (res.ok) {
-      setStatus('success');
-      trackConversion('formSubmit');
-      setFormData({ name: '', email: '', message: '', company: '' });
-      setTimeout(() => setStatus('idle'), 4000);
-    } else {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setStatus('success');
+        trackConversion('formSubmit');
+        setFormData({ name: '', email: '', message: '', company: '' });
+        setTimeout(() => setStatus('idle'), 4000);
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      // Nätverksfel — utan denna fastnar formuläret i "loading" för alltid.
       setStatus('error');
     }
   };
@@ -236,6 +244,8 @@ export function Home() {
           <MobileNav activeSection={activeSection} />
         </div>
       </header>
+
+      <main>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section data-hero className="relative flex min-h-screen flex-col justify-center overflow-hidden pb-20 pt-[140px]">
@@ -516,17 +526,22 @@ export function Home() {
               <span className="ml-3 font-normal text-[#ededf2]/40">{t.recension2.viaGoogle}</span>
             </p>
           </Reveal>
-          <Reveal className="mt-9 flex justify-center gap-2.5">
+          <Reveal className="mt-9 flex justify-center gap-1">
             {t.recension2.lista.map((r, i) => (
               <button
                 key={r.namn}
                 type="button"
                 onClick={() => setReviewIndex(i)}
                 aria-label={`${t.recension2.aria} ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  reviewIndex === i ? 'w-7 bg-accent' : 'w-2 bg-white/20 hover:bg-white/35'
-                }`}
-              />
+                // Minst 24px träffyta (WCAG 2.5.8) — pricken är bara visuell.
+                className="group flex h-6 min-w-6 items-center justify-center px-1"
+              >
+                <span
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    reviewIndex === i ? 'w-7 bg-accent' : 'w-2 bg-white/20 group-hover:bg-white/35'
+                  }`}
+                />
+              </button>
             ))}
           </Reveal>
           <a
@@ -553,7 +568,7 @@ export function Home() {
           </Reveal>
           <div className="grid gap-px overflow-hidden rounded-[20px] border border-white/[0.08] bg-white/[0.08] md:grid-cols-3">
             {t.priser.paket
-              .map((p, i) => ({ ...p, pris: ['2 000 kr', '4 000 kr', '6 000 kr'][i], populer: i === 1 }))
+              .map((p, i) => ({ ...p, populer: i === 1 }))
               .map((p) => (
                 <Reveal key={p.tier} className="flex">
                   <div
@@ -800,7 +815,7 @@ export function Home() {
               </a>
             </p>
             {/* GDPR-notis */}
-            <p className="mt-4 text-center text-[11px] leading-relaxed text-[#ededf2]/30">
+            <p className="mt-4 text-center text-[11px] leading-relaxed text-[#ededf2]/50">
               {t.kontakt.gdpr1}{' '}
               <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
                 {t.kontakt.gdpr2}
@@ -810,6 +825,8 @@ export function Home() {
           </Reveal>
         </div>
       </section>
+
+      </main>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
       <footer className="border-t border-white/[0.07] py-14">
@@ -879,7 +896,7 @@ export function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/30 sm:flex-row sm:justify-between">
+          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/50 sm:flex-row sm:justify-between">
             <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
             <Link href="/integritetspolicy" className="transition-colors hover:text-[#ededf2]/60">
               {t.footer.integritetspolicy}
