@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
+import { cleanSubject, hasTrustedOrigin, readJsonBody } from '../_lib/request';
 
 /**
  * Lead-endpoint för chatt-widgeten. Tar emot namn + kontaktuppgift (och
@@ -35,18 +36,8 @@ function escapeHtml(str: string): string {
 }
 
 export async function POST(req: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error('RESEND_API_KEY is not set');
-    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
-  }
-
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (isRateLimited(ip)) {
-    return NextResponse.json(
-      { error: 'För många förfrågningar — försök igen om en stund.' },
-      { status: 429 },
-    );
+  if (!hasTrustedOrigin(req)) {
+    return NextResponse.json({ error: 'Otillåten förfrågan.' }, { status: 403 });
   }
 
   let body: {
@@ -57,7 +48,7 @@ export async function POST(req: Request) {
     company?: string;
   };
   try {
-    body = await req.json();
+    body = await readJsonBody(req, 12_000);
   } catch {
     return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
   }
@@ -84,6 +75,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
   }
 
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'För många förfrågningar — försök igen om en stund.' },
+      { status: 429 },
+    );
+  }
+
+  const cleanName = name.trim();
+  const cleanContact = contact.trim();
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set');
+    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
+  }
+
   const resend = new Resend(apiKey);
 
   const transcriptHtml = transcript
@@ -92,23 +100,31 @@ export async function POST(req: Request) {
       )}</pre>`
     : '';
 
-  const { data, error } = await resend.emails.send({
-    from: 'Webbdev Studio <onboarding@resend.dev>',
-    to: 'webbdevstudio@gmail.com',
-    replyTo: contact.includes('@') ? contact : undefined,
-    subject: `💬 Nytt lead från chatten — ${name}`,
-    html: `
-      <p><strong>🎯 Nytt lead via chattboten</strong></p>
-      <p><strong>Namn:</strong> ${escapeHtml(name)}</p>
-      <p><strong>Kontakt:</strong> ${escapeHtml(contact)}</p>
-      ${message ? `<p><strong>Meddelande:</strong></p><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}
-      ${transcriptHtml}
-    `,
-  });
+  let result;
+  try {
+    result = await resend.emails.send({
+      from: 'Webbdev Studio <onboarding@resend.dev>',
+      to: 'webbdevstudio@gmail.com',
+      replyTo: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanContact) ? cleanContact : undefined,
+      subject: `💬 Nytt lead från chatten — ${cleanSubject(cleanName)}`,
+      html: `
+        <p><strong>🎯 Nytt lead via chattboten</strong></p>
+        <p><strong>Namn:</strong> ${escapeHtml(cleanName)}</p>
+        <p><strong>Kontakt:</strong> ${escapeHtml(cleanContact)}</p>
+        ${message ? `<p><strong>Meddelande:</strong></p><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}
+        ${transcriptHtml}
+      `,
+    });
+  } catch (error) {
+    console.error('Resend request failed:', error);
+    return NextResponse.json({ error: 'Kunde inte skicka förfrågan.' }, { status: 500 });
+  }
+
+  const { data, error } = result;
 
   if (error) {
     console.error('Resend error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Kunde inte skicka förfrågan.' }, { status: 500 });
   }
 
   console.log('Lead email sent:', data?.id);

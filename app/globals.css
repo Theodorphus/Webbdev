@@ -13,7 +13,7 @@
   --border-strong: rgba(255, 255, 255, 0.14);
 
   /* Accentfärger — en källa så justering sker på ett ställe. */
-  --accent: #6d6af8;
+  --accent: #625ef2;
   --accent-2: #a5a3ff;
 }
 
@@ -47,6 +47,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+:where(a, button, input, textarea, summary):focus-visible {
+  outline: 2px solid var(--accent-2) !important;
+  outline-offset: 3px !important;
 }
 
 ::selection {

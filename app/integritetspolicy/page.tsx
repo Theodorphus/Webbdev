@@ -36,7 +36,7 @@ export default function IntegritetspolicyPage() {
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-white md:text-5xl">
           Integritetspolicy
         </h1>
-        <p className="mt-4 text-sm text-white/45">
+        <p className="mt-4 text-sm text-white/60">
           Senast uppdaterad: {new Date().toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })}
         </p>
 
@@ -55,27 +55,26 @@ export default function IntegritetspolicyPage() {
 
           <Section title="2. Vilka uppgifter vi samlar in">
             <p>
-              När du fyller i kontaktformuläret samlar vi in de uppgifter du
-              själv anger:
+              När du använder kontaktformuläret, offertformuläret eller chatten
+              behandlar vi de uppgifter du själv anger:
             </p>
             <ul className="mt-3 space-y-2">
               <Li>Namn</Li>
-              <Li>E-postadress</Li>
-              <Li>Det meddelande och den projektinformation du skickar</Li>
+              <Li>E-postadress eller annan kontaktuppgift</Li>
+              <Li>Meddelanden, chatthistorik och projektinformation du skickar</Li>
             </ul>
             <p className="mt-3">
-              Vi använder även anonym, cookielös besöksstatistik (Vercel
-              Analytics) för att förstå hur webbplatsen används. Den sparar inga
-              personuppgifter och kräver inget samtycke.
+              Vi använder cookielös, aggregerad besöksstatistik via Vercel
+              Analytics för att förstå hur webbplatsen används.
             </p>
           </Section>
 
           <Section title="3. Varför vi behandlar uppgifterna">
             <p>
-              Uppgifterna från kontaktformuläret används enbart för att besvara
-              din förfrågan och för eventuell efterföljande kontakt om ett
-              uppdrag. Den rättsliga grunden är vårt berättigade intresse av att
-              kunna svara dig samt, vid ett uppdrag, fullgörande av avtal.
+              Kontaktuppgifter och meddelanden används för att besvara din
+              förfrågan och för eventuell efterföljande kontakt om ett uppdrag.
+              Den rättsliga grunden är vårt berättigade intresse av att kunna
+              svara dig samt, vid ett uppdrag, fullgörande av avtal.
             </p>
           </Section>
 
@@ -89,10 +88,10 @@ export default function IntegritetspolicyPage() {
 
           <Section title="5. Vem som får ta del av uppgifterna">
             <p>
-              Dina uppgifter delas inte med tredje part i marknadsföringssyfte.
-              För drift av webbplatsen och e-postutskick anlitas underleverantörer
-              (t.ex. Vercel för hosting och Resend för e-post), vilka behandlar
-              uppgifter på vårt uppdrag och endast i den utsträckning det krävs.
+              För drift och funktioner används Vercel för hosting och statistik,
+              Resend för e-post samt Anthropic för att generera svar i chatten.
+              Det du skriver i chatten skickas därför till Anthropic. Skicka inte
+              känsliga personuppgifter i formulären eller chatten.
             </p>
           </Section>
 

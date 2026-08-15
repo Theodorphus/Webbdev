@@ -1,6 +1,6 @@
-// Tvåspråkig ordbok (svenska + engelska) för klient-språkväxlaren.
-// All synlig text på sajten bor här så att <LanguageProvider> kan byta
-// språk direkt i webbläsaren utan separata URL:er.
+// Tvåspråkig ordbok (svenska + engelska). All synlig text på sajten bor här;
+// <LanguageProvider> plockar rätt uppsättning utifrån routens språk
+// ('/' = sv, '/en' = en).
 
 export type Lang = 'sv' | 'en';
 
@@ -105,6 +105,7 @@ export const dictionary = {
     priser2: {
       rubrik: 'Fast pris. Inga överraskningar.',
       badge: 'Mest vald',
+      prisNotis: 'Prisnivåerna är ungefärliga och anpassas efter projektets omfattning och dina krav. Du får alltid en tydlig offert innan arbetet börjar.',
       osaker1: 'Osäker på vad du behöver?',
       osakerCta: 'Få en gratis analys',
       osaker2: '— jag rekommenderar rätt nivå för just ditt företag.',
@@ -113,6 +114,7 @@ export const dictionary = {
       rubrik: 'Du pratar alltid med den som bygger',
       p1: 'Hej, jag heter Theo. Jag bygger snabba, snygga hemsidor för småföretag och egenföretagare som vill synas på riktigt — utan byråpriser och utan krångel.',
       p2: 'Inga projektledare, inga mellanhänder. Snabba svar, gott om tid för dina frågor och en sida som blir precis som du tänkt dig — inte en mall som tusen andra använder.',
+      p3: 'Jag tar varje projekt på allvar och är inte nöjd förrän du är det. Hör av dig så tar vi en förutsättningslös pratstund om din idé.',
       roll: 'Grundare',
     },
     faqIntro: {
@@ -205,13 +207,11 @@ export const dictionary = {
     },
     priser: {
       etikett: 'Priser',
-      rubrik: 'Välj rätt paket för dig',
-      mestPopular: '★ Mest populär',
       komIgang: 'Kom igång',
       paket: [
-        { tier: 'Bas', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
-        { tier: 'Premium', desc: 'Det mest populära alternativet', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
-        { tier: 'Full Service', desc: 'Komplett lösning med allt inkluderat', features: ['Allt från Premium', 'Obegränsat antal sidor', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'] },
+        { tier: 'Bas', pris: '2 000 kr', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
+        { tier: 'Premium', pris: '4 000 kr', desc: 'Det mest populära alternativet', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
+        { tier: 'Full Service', pris: '6 000+ kr', desc: 'Större lösning med avancerade funktioner', features: ['Allt från Premium', 'Fler sidor efter projektets behov', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'] },
       ],
       kalkylator: {
         etikett: 'Priskalkylator',
@@ -226,7 +226,6 @@ export const dictionary = {
         sidorLabel: 'Antal sidor',
         sidorEn: 'sida',
         sidorFlera: 'sidor',
-        sidorMax: 'sidor',
         funktionerLabel: 'Extra funktioner',
         funktioner: [
           { id: 'cms', namn: 'Admin-panel (CMS)' },
@@ -242,12 +241,6 @@ export const dictionary = {
     },
     omMig: {
       etikett: 'Om mig',
-      rubrik: 'Vem bygger din hemsida?',
-      stycken: [
-        'Hej, jag heter Theo. Jag bygger snabba, snygga hemsidor för småföretag och egenföretagare som vill synas på riktigt — utan byråpriser och utan krångel.',
-        'Hos mig pratar du alltid med personen som faktiskt bygger sidan. Det betyder snabba svar, gott om tid för dina frågor och en sida som blir precis som du tänkt dig — inte en mall som tusen andra använder.',
-        'Jag tar varje projekt på allvar och är inte nöjd förrän du är det. Hör av dig så tar vi en förutsättningslös pratstund om din idé.',
-      ],
       fakta: [
         { label: 'Utbildning', value: 'Systemvetenskap, GU', tag: 'EDU' },
         { label: 'Erfarenhet', value: '3 år webbutveckling', tag: 'EXP' },
@@ -316,7 +309,7 @@ export const dictionary = {
       skicka: 'Skicka',
       fel: 'Något gick fel — försök igen om en stund.',
       rensa: 'Rensa chatten',
-      friskrivning: 'AI-assistent — kan ha fel. Hör av dig för exakta uppgifter.',
+      friskrivning: 'AI via Anthropic — skriv inte känsliga uppgifter. Svar kan innehålla fel.',
       snabbsvar: [
         'Vad kostar en hemsida?',
         'Hur lång tid tar det?',
@@ -442,6 +435,7 @@ export const dictionary = {
     priser2: {
       rubrik: 'Fixed price. No surprises.',
       badge: 'Most picked',
+      prisNotis: 'Price levels are approximate and depend on the project scope and your requirements. You will always receive a clear quote before work begins.',
       osaker1: 'Not sure what you need?',
       osakerCta: 'Get a free analysis',
       osaker2: '— I’ll recommend the right level for your business.',
@@ -450,6 +444,7 @@ export const dictionary = {
       rubrik: 'You always talk to the person building',
       p1: 'Hi, I’m Theo. I build fast, great-looking websites for small businesses and sole traders who want to get seen for real — without agency prices and without hassle.',
       p2: 'No project managers, no middlemen. Fast replies, plenty of time for your questions and a site that turns out exactly as you imagined — not a template used by a thousand others.',
+      p3: 'I take every project seriously and I’m not satisfied until you are. Get in touch and we’ll have a no-obligation chat about your idea.',
       roll: 'Founder',
     },
     faqIntro: {
@@ -542,13 +537,11 @@ export const dictionary = {
     },
     priser: {
       etikett: 'Pricing',
-      rubrik: 'Choose the right package for you',
-      mestPopular: '★ Most popular',
       komIgang: 'Get started',
       paket: [
-        { tier: 'Basic', desc: 'Perfect for getting started quickly', features: ['Responsive website', '5 pages', 'Contact form', 'Mobile-optimized'] },
-        { tier: 'Premium', desc: 'The most popular option', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
-        { tier: 'Full Service', desc: 'Complete solution with everything included', features: ['Everything in Premium', 'Unlimited pages', 'E-commerce via Stripe', 'Advanced admin panel', '3 months of support'] },
+        { tier: 'Basic', pris: '2,000 SEK', desc: 'Perfect for getting started quickly', features: ['Responsive website', '5 pages', 'Contact form', 'Mobile-optimized'] },
+        { tier: 'Premium', pris: '4,000 SEK', desc: 'The most popular option', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
+        { tier: 'Full Service', pris: '6,000+ SEK', desc: 'Larger solution with advanced features', features: ['Everything in Premium', 'More pages based on project needs', 'E-commerce via Stripe', 'Advanced admin panel', '3 months of support'] },
       ],
       kalkylator: {
         etikett: 'Price calculator',
@@ -579,12 +572,6 @@ export const dictionary = {
     },
     omMig: {
       etikett: 'About',
-      rubrik: 'Who builds your website?',
-      stycken: [
-        'Hi, I’m Theo. I build fast, good-looking websites for small businesses and sole traders who want to truly stand out — without agency prices and without the hassle.',
-        'With me, you always talk to the person actually building your site. That means quick replies, plenty of time for your questions, and a site that turns out exactly as you imagined — not a template a thousand others use.',
-        'I take every project seriously and I’m not satisfied until you are. Get in touch and we’ll have a no-obligation chat about your idea.',
-      ],
       fakta: [
         { label: 'Education', value: 'Information Systems, GU', tag: 'EDU' },
         { label: 'Experience', value: '3 years web development', tag: 'EXP' },
@@ -653,7 +640,7 @@ export const dictionary = {
       skicka: 'Send',
       fel: 'Something went wrong — please try again in a moment.',
       rensa: 'Clear chat',
-      friskrivning: 'AI assistant — may be wrong. Reach out for exact details.',
+      friskrivning: 'AI via Anthropic — do not share sensitive data. Responses may contain errors.',
       snabbsvar: [
         'What does a website cost?',
         'How long does it take?',

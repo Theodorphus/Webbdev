@@ -48,7 +48,7 @@ export default function BloggIndex() {
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}

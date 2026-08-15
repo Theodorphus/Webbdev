@@ -37,6 +37,7 @@ export default function Chatbot() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   // Auto-scrolla till botten när nya meddelanden kommer.
   useEffect(() => {
@@ -69,11 +70,16 @@ export default function Chatbot() {
     setOpen(true);
   }
 
+  function closeChat() {
+    setOpen(false);
+    window.requestAnimationFrame(() => toggleRef.current?.focus());
+  }
+
   // Stäng med Escape.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') closeChat();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -202,10 +208,12 @@ export default function Chatbot() {
 
         <div className={!open ? 'chat-fab' : undefined}>
           <button
+            ref={toggleRef}
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={open ? closeChat : openChat}
             aria-label={open ? t.chat.stang : t.chat.oppna}
             aria-expanded={open}
+            aria-controls="chat-panel"
             className={`btn-shine relative flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white transition-all duration-300 hover:bg-indigo-500 hover:scale-105 active:scale-95 ${
               open ? 'shadow-xl shadow-indigo-900/50' : 'chat-fab-glow chat-fab-attention'
             }`}
@@ -234,6 +242,7 @@ export default function Chatbot() {
 
       {/* Chatt-panel */}
       <div
+        id="chat-panel"
         className={`fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#06060f]/95 shadow-2xl shadow-black/60 backdrop-blur-xl transition-all duration-300 md:right-6 ${
           open
             ? 'pointer-events-auto translate-y-0 opacity-100'
@@ -244,6 +253,7 @@ export default function Chatbot() {
         aria-modal="false"
         aria-label={t.chat.rubrik}
         aria-hidden={!open}
+        inert={!open}
       >
         {/* Header */}
         <div className="relative flex items-start justify-between gap-3 overflow-hidden border-b border-white/10 px-4 py-3.5">
@@ -345,7 +355,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadName(e.target.value)}
                   placeholder={t.chat.lead.namnPlaceholder}
                   aria-label={t.chat.lead.namn}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/40 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
                 <input
                   type="text"
@@ -353,7 +363,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadContact(e.target.value)}
                   placeholder={t.chat.lead.kontaktPlaceholder}
                   aria-label={t.chat.lead.kontakt}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/40 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
                 <textarea
                   rows={2}
@@ -361,7 +371,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadMessage(e.target.value)}
                   placeholder={t.chat.lead.meddelandePlaceholder}
                   aria-label={t.chat.lead.meddelande}
-                  className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/40 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
               </div>
               {leadError && <p className="mt-2 text-xs text-red-300">{leadError}</p>}
@@ -414,7 +424,7 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder={t.chat.placeholder}
-              className="max-h-28 flex-1 resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/40 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+              className="max-h-28 flex-1 resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
             />
             <button
               type="button"
@@ -428,7 +438,7 @@ export default function Chatbot() {
               </svg>
             </button>
           </div>
-          <p className="mt-2 px-1 text-[10px] leading-tight text-[#e8eaf6]/35">{t.chat.friskrivning}</p>
+          <p className="mt-2 px-1 text-[10px] leading-tight text-[#e8eaf6]/60">{t.chat.friskrivning}</p>
         </div>
       </div>
     </>

@@ -1,11 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useLang } from './LanguageProvider';
 import type { Lang } from './dictionary';
 
 /** SV/EN-växlare. `compact` används i mobilmenyn. */
 export default function LanguageToggle({ compact = false }: { compact?: boolean }) {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
 
   const options: Lang[] = ['sv', 'en'];
 
@@ -18,11 +19,12 @@ export default function LanguageToggle({ compact = false }: { compact?: boolean 
       aria-label="Språk / Language"
     >
       {options.map((opt) => (
-        <button
+        <Link
           key={opt}
-          type="button"
-          onClick={() => setLang(opt)}
-          aria-pressed={lang === opt}
+          href={opt === 'sv' ? '/' : '/en'}
+          hrefLang={opt === 'sv' ? 'sv-SE' : 'en-US'}
+          lang={opt}
+          aria-current={lang === opt ? 'page' : undefined}
           className={`rounded-full px-2.5 py-1 uppercase transition-colors ${
             lang === opt
               ? 'bg-indigo-500/20 text-indigo-200'
@@ -30,7 +32,7 @@ export default function LanguageToggle({ compact = false }: { compact?: boolean 
           }`}
         >
           {opt}
-        </button>
+        </Link>
       ))}
     </div>
   );

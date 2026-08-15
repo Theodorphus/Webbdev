@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { NextResponse } from 'next/server';
+import { hasTrustedOrigin, readJsonBody } from '../_lib/request';
 
 /**
  * AI-chatt-endpoint som streamar svar från Claude.
@@ -36,6 +37,7 @@ type ChatMessage = { role: 'user' | 'assistant'; content: string };
 /** Tak för konversationens storlek — skyddar mot uppblåsta requests. */
 const MAX_MESSAGES = 40;
 const MAX_CHARS_PER_MESSAGE = 4000;
+const MAX_TOTAL_CHARS = 12000;
 
 /**
  * Systemprompten ger boten allt den behöver veta om Webbdev Studio.
@@ -48,10 +50,10 @@ FÖRETAG: Webbdev Studio — en enmansbyrå för webbutveckling i Göteborg, dri
 KONTAKT: webbdevstudio@gmail.com · +46 70 952 58 22 · webbdev.se
 TJÄNSTER: Moderna, snabba, konverteringsoptimerade hemsidor byggda i Next.js, React, TypeScript och Tailwind. Supabase-backend, admin-panel (CMS), Stripe-betalningar (e-handel), SEO-optimering.
 LEVERANS: 3–7 arbetsdagar från godkänt designförslag. Fast pris — inga dolda kostnader, inget timpris.
-PRISINTERVALL: cirka 2000–6000 SEK beroende på paket. Tre paket:
-- Bas: responsiv hemsida, 5 sidor, kontaktformulär, mobiloptimerad.
-- Premium (populärast): allt i Bas + upp till 15 sidor + admin-panel + SEO + 1 månads support.
-- Full Service: allt i Premium + obegränsat antal sidor + e-handel via Stripe + avancerad admin-panel + 3 månaders support.
+PRISNIVÅER: cirka 2000, 4000 och 6000+ SEK beroende på projektets omfattning och kundens krav. Kunden får alltid en tydlig offert innan arbetet börjar. Tre paket:
+- Bas (cirka 2000 SEK): responsiv hemsida, 5 sidor, kontaktformulär, mobiloptimerad.
+- Premium (populärast, cirka 4000 SEK): allt i Bas + upp till 15 sidor + admin-panel + SEO + 1 månads support.
+- Full Service (från cirka 6000 SEK): allt i Premium + fler sidor + e-handel via Stripe + avancerad admin-panel + 3 månaders support.
 PROCESS: 1) Gratis analys/samtal, 2) Designförslag (godkänns innan bygget), 3) Byggnation, 4) Lansering (domän, SSL, hosting sköts åt kunden), 5) Support.
 ÄGANDE: Kunden äger 100% av kod, design och innehåll — ingen inlåsning.
 BETALNING: Del vid projektstart, resten vid lansering. Vanlig faktura.
@@ -79,23 +81,13 @@ ${shared}`;
 }
 
 export async function POST(req: Request) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    console.error('ANTHROPIC_API_KEY is not set');
-    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
-  }
-
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (isRateLimited(ip)) {
-    return NextResponse.json(
-      { error: 'För många meddelanden — försök igen om en stund.' },
-      { status: 429 },
-    );
+  if (!hasTrustedOrigin(req)) {
+    return NextResponse.json({ error: 'Otillåten förfrågan.' }, { status: 403 });
   }
 
   let body: { messages?: ChatMessage[]; lang?: Lang; company?: string };
   try {
-    body = await req.json();
+    body = await readJsonBody(req, 16_000);
   } catch {
     return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
   }
@@ -122,6 +114,24 @@ export async function POST(req: Request) {
     ) {
       return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
     }
+  }
+
+  if (messages.reduce((sum, message) => sum + message.content.length, 0) > MAX_TOTAL_CHARS) {
+    return NextResponse.json({ error: 'Konversationen är för lång.' }, { status: 400 });
+  }
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'För många meddelanden — försök igen om en stund.' },
+      { status: 429 },
+    );
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.error('ANTHROPIC_API_KEY is not set');
+    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
   }
 
   const client = new Anthropic({ apiKey });

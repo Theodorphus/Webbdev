@@ -47,7 +47,7 @@ export default async function OrtPage({ params }: Props) {
     url: `${SITE_URL}/webbutveckling/${ort.slug}`,
     email: "webbdevstudio@gmail.com",
     telephone: "+46709525822",
-    priceRange: "2000–6000 SEK",
+    priceRange: "2000+ SEK",
     areaServed: [
       { "@type": "City", name: ort.namn },
       ...ort.narliggande.map((n) => ({ "@type": "City", name: n })),
@@ -75,11 +75,11 @@ export default async function OrtPage({ params }: Props) {
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}

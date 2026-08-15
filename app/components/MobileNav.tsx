@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLang } from '../i18n/LanguageProvider';
 import LanguageToggle from '../i18n/LanguageToggle';
 
@@ -10,6 +10,8 @@ import LanguageToggle from '../i18n/LanguageToggle';
  */
 export default function MobileNav({ activeSection }: { activeSection: string }) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { t } = useLang();
 
   const links = [
@@ -25,8 +27,27 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const focusable = Array.from(
+      menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [],
+    );
+    focusable[0]?.focus();
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+      if (e.key === 'Tab' && focusable.length > 0) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => {
@@ -38,6 +59,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   return (
     <div className="md:hidden">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? t.nav.stangMeny : t.nav.oppnaMeny}
@@ -67,39 +89,43 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
       </button>
 
       {/* Overlay */}
-      <div
-        id="mobile-menu"
-        className={`fixed inset-0 z-40 bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-      >
-        <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
-          {links.map((link) => (
+      {open && (
+        <div
+          ref={menuRef}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.nav.meny}
+          className="fixed inset-0 z-40 animate-fade-in bg-[#050509]/95 backdrop-blur-xl"
+        >
+          <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={link.href ?? `#${link.id}`}
+                onClick={() => setOpen(false)}
+                className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
+                  activeSection === link.id
+                    ? 'bg-accent/10 text-white'
+                    : 'text-white/70 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
             <a
-              key={link.id}
-              href={link.href ?? `#${link.id}`}
+              href="#kontakt"
               onClick={() => setOpen(false)}
-              className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
-                activeSection === link.id
-                  ? 'bg-accent/10 text-white'
-                  : 'text-white/70 hover:bg-white/5 hover:text-white'
-              }`}
+              className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
             >
-              {link.label}
+              {t.nav2.cta}
             </a>
-          ))}
-          <a
-            href="#kontakt"
-            onClick={() => setOpen(false)}
-            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
-          >
-            {t.nav2.cta}
-          </a>
-          <div className="mt-6">
-            <LanguageToggle compact />
-          </div>
-        </nav>
-      </div>
+            <div className="mt-6">
+              <LanguageToggle compact />
+            </div>
+          </nav>
+        </div>
+      )}
     </div>
   );
 }

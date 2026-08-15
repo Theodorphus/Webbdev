@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
+import { cleanSubject, hasTrustedOrigin, readJsonBody } from '../_lib/request';
 
 /**
  * Enkel rate-limit i minnet: max 3 förfrågningar per IP per 10 minuter.
@@ -31,10 +32,32 @@ function escapeHtml(str: string): string {
 }
 
 export async function POST(req: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error('RESEND_API_KEY is not set');
-    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
+  if (!hasTrustedOrigin(req)) {
+    return NextResponse.json({ error: 'Otillåten förfrågan.' }, { status: 403 });
+  }
+
+  let body: { name?: unknown; email?: unknown; message?: unknown; company?: unknown };
+  try {
+    body = await readJsonBody(req, 8_000);
+  } catch {
+    return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
+  }
+
+  const { name, email, message, company } = body;
+
+  // Honeypot: fältet är osynligt för människor — bottar fyller i det.
+  // Svara 200 så botten tror att den lyckades.
+  if (company) {
+    return NextResponse.json({ ok: true });
+  }
+
+  if (
+    typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string' ||
+    !name.trim() || !email.trim() || !message.trim() ||
+    name.length > 200 || email.length > 200 || message.length > 5000 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  ) {
+    return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
   }
 
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
@@ -45,42 +68,42 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, message, company } = await req.json();
+  const cleanName = name.trim();
+  const cleanEmail = email.trim();
+  const cleanMessage = message.trim();
 
-  // Honeypot: fältet är osynligt för människor — bottar fyller i det.
-  // Svara 200 så botten tror att den lyckades.
-  if (company) {
-    return NextResponse.json({ ok: true });
-  }
-
-  if (!name || !email || !message) {
-    return NextResponse.json({ error: 'Alla fält måste fyllas i.' }, { status: 400 });
-  }
-  if (
-    typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string' ||
-    name.length > 200 || email.length > 200 || message.length > 5000
-  ) {
-    return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set');
+    return NextResponse.json({ error: 'Server misconfiguration.' }, { status: 500 });
   }
 
   const resend = new Resend(apiKey);
 
-  const { data, error } = await resend.emails.send({
-    from: 'Webbdev Studio <onboarding@resend.dev>',
-    to: 'webbdevstudio@gmail.com',
-    replyTo: email,
-    subject: `Ny förfrågan från ${name}`,
-    html: `
-      <p><strong>Namn:</strong> ${escapeHtml(name)}</p>
-      <p><strong>E-post:</strong> ${escapeHtml(email)}</p>
-      <p><strong>Meddelande:</strong></p>
-      <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
-    `,
-  });
+  let result;
+  try {
+    result = await resend.emails.send({
+      from: 'Webbdev Studio <onboarding@resend.dev>',
+      to: 'webbdevstudio@gmail.com',
+      replyTo: cleanEmail,
+      subject: `Ny förfrågan från ${cleanSubject(cleanName)}`,
+      html: `
+        <p><strong>Namn:</strong> ${escapeHtml(cleanName)}</p>
+        <p><strong>E-post:</strong> ${escapeHtml(cleanEmail)}</p>
+        <p><strong>Meddelande:</strong></p>
+        <p>${escapeHtml(cleanMessage).replace(/\n/g, '<br>')}</p>
+      `,
+    });
+  } catch (error) {
+    console.error('Resend request failed:', error);
+    return NextResponse.json({ error: 'Kunde inte skicka meddelandet.' }, { status: 500 });
+  }
+
+  const { data, error } = result;
 
   if (error) {
     console.error('Resend error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Kunde inte skicka meddelandet.' }, { status: 500 });
   }
 
   console.log('Email sent:', data?.id);

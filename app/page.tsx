@@ -8,10 +8,12 @@ import { faqByLang } from './faq';
 import { Item, Magnetic, MaskReveal, Reveal, Stagger, WipeImage } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
+import DeferredChatbot from './components/DeferredChatbot';
 import PriceCalculator from './components/PriceCalculator';
 import { orter } from './webbutveckling/orter';
-import { useLang } from './i18n/LanguageProvider';
-import { trackConversion } from './lib/gtag';
+import { LanguageProvider, useLang } from './i18n/LanguageProvider';
+import type { Lang } from './i18n/dictionary';
+import { getHomeSchema } from './lib/homeSchema';
 import LanguageToggle from './i18n/LanguageToggle';
 
 function IconArrow() {
@@ -57,7 +59,7 @@ function HeroCodeWindow() {
         <span className="h-[11px] w-[11px] rounded-full bg-red-400/65" />
         <span className="h-[11px] w-[11px] rounded-full bg-amber-400/65" />
         <span className="h-[11px] w-[11px] rounded-full bg-green-400/65" />
-        <span className="ml-3 rounded-md bg-white/5 px-2.5 py-1 text-[11px] text-[#ededf2]/45">page.tsx</span>
+        <span className="ml-3 rounded-md bg-white/5 px-2.5 py-1 text-[11px] text-[#ededf2]/60">page.tsx</span>
       </div>
       {/* Kodyta */}
       <div className="px-6 py-[22px] text-[13.5px] leading-[1.75]">
@@ -110,7 +112,15 @@ const MORE_URLS = [
 
 const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
 
-export function Home() {
+export function Home({ lang = 'sv' }: { lang?: Lang }) {
+  return (
+    <LanguageProvider lang={lang} updateDocumentLang>
+      <HomeContent />
+    </LanguageProvider>
+  );
+}
+
+function HomeContent() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [scrolled, setScrolled] = useState(false);
@@ -120,6 +130,7 @@ export function Home() {
   const reduce = useReducedMotion();
   const { lang, t } = useLang();
   const faqItems = faqByLang[lang];
+  const homeSchema = getHomeSchema(lang, faqItems);
 
   // Roterande hero-ord (statiskt vid reduced motion).
   useEffect(() => {
@@ -170,18 +181,19 @@ export function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
     setStatus('loading');
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    if (res.ok) {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error('contact request failed');
       setStatus('success');
-      trackConversion('formSubmit');
       setFormData({ name: '', email: '', message: '', company: '' });
       setTimeout(() => setStatus('idle'), 4000);
-    } else {
+    } catch {
       setStatus('error');
     }
   };
@@ -189,7 +201,7 @@ export function Home() {
   const activeReview = t.recension2.lista[reviewIndex];
 
   return (
-    <div className="relative overflow-x-clip">
+    <div lang={lang} className="relative overflow-x-clip">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
       <header
@@ -237,6 +249,14 @@ export function Home() {
         </div>
       </header>
 
+      <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(homeSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section data-hero className="relative flex min-h-screen flex-col justify-center overflow-hidden pb-20 pt-[140px]">
         {/* En enda, disciplinerad aurora */}
@@ -261,7 +281,7 @@ export function Home() {
             <span className="animate-ticker-dot h-1.5 w-1.5 rounded-full bg-accent" />
             {t.hero2.status1}
             <span aria-hidden className="text-white/20">/</span>
-            <span className="text-[#ededf2]/35">{t.hero2.status2}</span>
+            <span className="text-[#ededf2]/60">{t.hero2.status2}</span>
           </Item>
 
           {/* H1 — två rader med mask-reveal, roterande ord i rad 2 */}
@@ -279,7 +299,7 @@ export function Home() {
           </h1>
 
           <div className="mt-12 grid items-end gap-16 lg:grid-cols-[1.2fr_1fr]">
-            <Item>
+            <div>
               <p className="max-w-[34rem] text-[19px] leading-[1.55] text-[#ededf2]/60 [text-wrap:pretty]">
                 {t.hero2.ingress}
               </p>
@@ -311,13 +331,13 @@ export function Home() {
                       {s.varde}
                       {i === 1 && <span className="text-accent">★</span>}
                     </div>
-                    <div className="mt-[5px] font-mono text-[10px] uppercase tracking-[0.16em] text-[#ededf2]/40">
+                    <div className="mt-[5px] font-mono text-[10px] uppercase tracking-[0.16em] text-[#ededf2]/60">
                       {s.label}
                     </div>
                   </div>
                 ))}
               </div>
-            </Item>
+            </div>
             {/* Kodfönster */}
             <Item className="hidden lg:block">
               <div aria-hidden>
@@ -338,7 +358,7 @@ export function Home() {
             <div key={String(clone)} aria-hidden={clone} className="flex items-center gap-[72px] pr-[72px]">
               {MARQUEE_NAMES.map((name) => (
                 <span key={name} className="flex items-center gap-[72px]">
-                  <span className="font-display whitespace-nowrap text-[17px] font-semibold text-[#ededf2]/35">
+                  <span className="font-display whitespace-nowrap text-[17px] font-semibold text-[#ededf2]/60">
                     {name}
                   </span>
                   <span className="h-1 w-1 rounded-full bg-[rgba(109,106,248,0.6)]" />
@@ -356,7 +376,7 @@ export function Home() {
             <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold tracking-[-0.03em] text-white">
               {t.arbete.rubrik}
             </h2>
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#ededf2]/40">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#ededf2]/60">
               {t.arbete.period}
             </span>
           </Reveal>
@@ -405,7 +425,7 @@ export function Home() {
                         {meta.tech.map((tech) => (
                           <span
                             key={tech}
-                            className="rounded-full border border-white/10 px-3.5 py-[5px] font-mono text-[11px] text-[#ededf2]/45"
+                            className="rounded-full border border-white/10 px-3.5 py-[5px] font-mono text-[11px] text-[#ededf2]/60"
                           >
                             {tech}
                           </span>
@@ -436,7 +456,7 @@ export function Home() {
                   {p.namn}
                 </span>
                 <span className="hidden text-sm text-[#ededf2]/50 sm:block">{p.kategori}</span>
-                <span className="text-[#ededf2]/40">
+                <span className="text-[#ededf2]/60">
                   <IconDiagonal />
                 </span>
               </a>
@@ -513,7 +533,7 @@ export function Home() {
             </motion.blockquote>
             <p className="mt-8 text-[15px] font-semibold text-[#ededf2]/75">
               {activeReview.namn}
-              <span className="ml-3 font-normal text-[#ededf2]/40">{t.recension2.viaGoogle}</span>
+              <span className="ml-3 font-normal text-[#ededf2]/60">{t.recension2.viaGoogle}</span>
             </p>
           </Reveal>
           <Reveal className="mt-9 flex justify-center gap-2.5">
@@ -553,7 +573,7 @@ export function Home() {
           </Reveal>
           <div className="grid gap-px overflow-hidden rounded-[20px] border border-white/[0.08] bg-white/[0.08] md:grid-cols-3">
             {t.priser.paket
-              .map((p, i) => ({ ...p, pris: ['2 000 kr', '4 000 kr', '6 000 kr'][i], populer: i === 1 }))
+              .map((p, i) => ({ ...p, populer: i === 1 }))
               .map((p) => (
                 <Reveal key={p.tier} className="flex">
                   <div
@@ -576,7 +596,7 @@ export function Home() {
                         </span>
                       )}
                     </div>
-                    <div className="font-display mt-6 text-[52px] font-bold tracking-[-0.03em] text-white">
+                    <div className="font-display mt-6 text-[52px] font-bold leading-tight tracking-[-0.03em] text-white">
                       {p.pris}
                     </div>
                     <p className="mt-2.5 text-sm text-[#ededf2]/50">{p.desc}</p>
@@ -606,7 +626,12 @@ export function Home() {
               ))}
           </div>
           <Reveal>
-            <p className="mt-7 text-center text-[13.5px] text-[#ededf2]/45">
+            <p className="mt-7 text-center text-[13.5px] leading-relaxed text-[#ededf2]/65">
+              {t.priser2.prisNotis}
+            </p>
+          </Reveal>
+          <Reveal>
+            <p className="mt-3 text-center text-[13.5px] text-[#ededf2]/60">
               {t.priser2.osaker1}{' '}
               <a href="#kontakt" className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]">
                 {t.priser2.osakerCta}
@@ -622,48 +647,62 @@ export function Home() {
 
       {/* ── OM MIG ───────────────────────────────────────────── */}
       <section id="om" className="border-t border-white/[0.07] py-[140px]">
-        <div className="mx-auto grid max-w-[80rem] items-center gap-12 px-8 lg:grid-cols-[0.9fr_1.4fr] lg:gap-20">
-          <Reveal className="relative mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-none">
-            <WipeImage className="rounded-[20px] border border-white/10">
-              <Image
-                src="/pp3.png"
-                alt="Theo Håkansson — Webbdev Studio"
-                width={1236}
-                height={1272}
-                sizes="(max-width: 1024px) 420px, 35vw"
-                className="block h-auto w-full object-cover [filter:saturate(0.9)_contrast(1.02)]"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(5,5,9,0.5)] to-transparent to-45%" />
-            </WipeImage>
-            <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-              <span className="font-display text-[17px] font-semibold text-white">Theo Håkansson</span>
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#ededf2]/60">
-                {t.omMig2.roll}
-              </span>
-            </div>
-          </Reveal>
-          <Reveal>
+        <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+          <Reveal className="lg:sticky lg:top-[120px]">
             <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
               {t.omMig.etikett}
             </span>
             <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
               {t.omMig2.rubrik}
             </h2>
-            <div className="mt-[26px] flex max-w-[36rem] flex-col gap-4 text-base leading-[1.65] text-[#ededf2]/60">
-              <p className="[text-wrap:pretty]">{t.omMig2.p1}</p>
-              <p className="[text-wrap:pretty]">{t.omMig2.p2}</p>
+            <div className="mt-7 flex items-center gap-4">
+              <Image
+                src="/pp3.png"
+                alt="Theo Håkansson"
+                width={88}
+                height={88}
+                sizes="88px"
+                className="h-[88px] w-[88px] rounded-[18px] border border-white/10 object-cover [filter:saturate(0.9)_contrast(1.02)]"
+              />
+              <p className="flex flex-col gap-1">
+                <span className="font-display text-[17px] font-semibold text-white">Theo Håkansson</span>
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#ededf2]/60">
+                  {t.omMig2.roll}
+                </span>
+              </p>
             </div>
-            <div className="mt-10 grid grid-cols-2 border-t border-white/[0.09]">
+            <a
+              href="#kontakt"
+              className="mt-8 inline-flex items-center gap-2.5 text-[15px] font-semibold text-accent-light transition-colors hover:text-[#c7c6ff]"
+            >
+              {t.nav.kontakt}
+              <IconArrow />
+            </a>
+          </Reveal>
+          <div>
+            <Reveal>
+              <div className="flex max-w-[38rem] flex-col gap-4 text-base leading-[1.65] text-[#ededf2]/60">
+                <p className="[text-wrap:pretty]">{t.omMig2.p1}</p>
+                <p className="[text-wrap:pretty]">{t.omMig2.p2}</p>
+                <p className="[text-wrap:pretty]">{t.omMig2.p3}</p>
+              </div>
+            </Reveal>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2">
               {t.omMig.fakta.map((row) => (
-                <div key={row.label} className="flex flex-col gap-[5px] border-b border-white/[0.09] py-5">
-                  <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#ededf2]/40">
-                    {row.label}
-                  </span>
-                  <span className="text-[15px] font-medium text-white/90">{row.value}</span>
-                </div>
+                <Reveal key={row.label} className="flex">
+                  <div className="flex w-full flex-col rounded-[20px] border border-white/[0.08] bg-white/[0.02] px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/[0.16]">
+                    <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[rgba(165,163,255,0.8)]">
+                      {row.tag}
+                    </span>
+                    <span className="mt-5 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#ededf2]/60">
+                      {row.label}
+                    </span>
+                    <span className="mt-1.5 text-[15px] font-medium text-white/90">{row.value}</span>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
@@ -778,15 +817,14 @@ export function Home() {
                     : t.kontakt.skicka}
                 {status !== 'success' && <IconArrow />}
               </button>
-              <p className="mt-1.5 text-center text-[12.5px] text-[#ededf2]/45">{t.kontakt.risk}</p>
+              <p className="mt-1.5 text-center text-[12.5px] text-[#ededf2]/60">{t.kontakt.risk}</p>
             </form>
           </Reveal>
           <Reveal>
-            <p className="mt-9 text-sm text-[#ededf2]/45">
+            <p className="mt-9 text-sm text-[#ededf2]/60">
               {t.kontakt2.direktFraga}{' '}
               <a
                 href="tel:+46709525822"
-                onClick={() => trackConversion('phoneClick')}
                 className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]"
               >
                 070‑952 58 22
@@ -800,7 +838,7 @@ export function Home() {
               </a>
             </p>
             {/* GDPR-notis */}
-            <p className="mt-4 text-center text-[11px] leading-relaxed text-[#ededf2]/30">
+            <p className="mt-4 text-center text-[11px] leading-relaxed text-[#ededf2]/60">
               {t.kontakt.gdpr1}{' '}
               <Link href="/integritetspolicy" className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-white/50">
                 {t.kontakt.gdpr2}
@@ -810,6 +848,7 @@ export function Home() {
           </Reveal>
         </div>
       </section>
+      </main>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
       <footer className="border-t border-white/[0.07] py-14">
@@ -819,13 +858,13 @@ export function Home() {
               <span className="font-display text-[17px] font-bold text-white">
                 Webbdev<span className="text-accent">.</span>studio
               </span>
-              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-[#ededf2]/40">
+              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-[#ededf2]/60">
                 {t.footer.tagline}
               </p>
             </div>
             <div className="flex flex-wrap gap-16">
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
                   {t.footer2.navigera}
                 </span>
                 <a href="#arbete" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.arbete}</a>
@@ -836,10 +875,10 @@ export function Home() {
                 <Link href="/blogg" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.blogg}</Link>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
                   {t.footer.kontakt}
                 </span>
-                <a href="tel:+46709525822" onClick={() => trackConversion('phoneClick')} className="text-[#ededf2]/55 transition-colors hover:text-white">
+                <a href="tel:+46709525822" className="text-[#ededf2]/55 transition-colors hover:text-white">
                   070‑952 58 22
                 </a>
                 <a href="mailto:webbdevstudio@gmail.com" className="text-[#ededf2]/55 transition-colors hover:text-white">
@@ -855,16 +894,16 @@ export function Home() {
                 </a>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
                   {t.footer.foretag}
                 </span>
                 {t.footer.foretagRader.map((rad) => (
-                  <span key={rad} className="text-[#ededf2]/45">{rad}</span>
+                  <span key={rad} className="text-[#ededf2]/60">{rad}</span>
                 ))}
-                <span className="text-[#ededf2]/45">Västra Gunnesgärde 41, Göteborg</span>
+                <span className="text-[#ededf2]/60">Västra Gunnesgärde 41, Göteborg</span>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/35">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
                   {t.footer.orter}
                 </span>
                 {orter.map((o) => (
@@ -879,7 +918,7 @@ export function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/30 sm:flex-row sm:justify-between">
+          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/60 sm:flex-row sm:justify-between">
             <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
             <Link href="/integritetspolicy" className="transition-colors hover:text-[#ededf2]/60">
               {t.footer.integritetspolicy}
@@ -889,10 +928,11 @@ export function Home() {
       </footer>
 
       <StickyCta />
+      <DeferredChatbot />
     </div>
   );
 }
 
 export default function HomePage() {
-  return <Home />;
+  return <Home lang="sv" />;
 }

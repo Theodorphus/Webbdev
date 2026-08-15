@@ -255,7 +255,7 @@ export function getOrtFaq(ort: Ort): { q: string; a: string }[] {
   return [
     {
       q: `Vad kostar en hemsida ${ort.iNamn}?`,
-      a: `Jag bygger hemsidor till fast pris från 2 000 kr för en enklare sajt upp till 6 000 kr för en mer komplett lösning med fler funktioner. Du får alltid priset innan vi börjar, utan dolda kostnader. Priset är detsamma oavsett om du sitter ${ort.iNamn} eller i någon av grannkommunerna.`,
+      a: `Jag erbjuder ungefärliga prisnivåer på 2 000 kr, 4 000 kr och från 6 000 kr för större lösningar. Slutpriset beror på projektets omfattning och dina krav. Du får alltid en tydlig offert innan vi börjar, utan dolda kostnader. Priset är detsamma oavsett om du sitter ${ort.iNamn} eller i någon av grannkommunerna.`,
     },
     {
       q: `Hur lång tid tar det att bygga en hemsida ${ort.iNamn}?`,

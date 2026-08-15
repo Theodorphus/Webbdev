@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { Home } from '../page';
-import ForceLang from '../i18n/ForceLang';
 
-// Engelsk version av startsidan. Samma sida, men språket tvingas till 'en'
-// och routen får egna engelska metadata + canonical/hreflang.
+// Engelsk version av startsidan. Samma sida, men routen sätter språket till
+// 'en' och får egna engelska metadata + canonical/hreflang.
 export const metadata: Metadata = {
   title: 'Web Development in Gothenburg — Webbdev Studio',
   description:
@@ -18,10 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function EnglishHomePage() {
-  return (
-    <>
-      <ForceLang lang="en" />
-      <Home />
-    </>
-  );
+  return <Home lang="en" />;
 }
