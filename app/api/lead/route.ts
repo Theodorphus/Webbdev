@@ -103,7 +103,9 @@ export async function POST(req: Request) {
   let result;
   try {
     result = await resend.emails.send({
-      from: 'Webbdev Studio <onboarding@resend.dev>',
+      // Samma fallback-mönster som contact-rutten: RESEND_FROM när domänen är
+      // verifierad i Resend, annars testavsändaren.
+      from: process.env.RESEND_FROM ?? 'Webbdev Studio <onboarding@resend.dev>',
       to: 'webbdevstudio@gmail.com',
       replyTo: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanContact) ? cleanContact : undefined,
       subject: `💬 Nytt lead från chatten — ${cleanSubject(cleanName)}`,

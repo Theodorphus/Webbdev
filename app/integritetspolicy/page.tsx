@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Integritetspolicy — Webbdev Studio",
+  // Layoutens title-template lägger till " | Webbdev Studio".
+  title: "Integritetspolicy",
   description:
     "Så hanterar Webbdev Studio dina personuppgifter enligt GDPR. Vilka uppgifter som samlas in, varför, och dina rättigheter.",
+  alternates: { canonical: "/integritetspolicy" },
   robots: { index: true, follow: true },
 };
 

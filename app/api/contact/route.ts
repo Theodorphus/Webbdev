@@ -83,7 +83,9 @@ export async function POST(req: Request) {
   let result;
   try {
     result = await resend.emails.send({
-      from: 'Webbdev Studio <onboarding@resend.dev>',
+      // Sätt RESEND_FROM (t.ex. "Webbdev Studio <kontakt@webbdev.se>") när
+      // domänen är verifierad i Resend — testavsändaren är fallback.
+      from: process.env.RESEND_FROM ?? 'Webbdev Studio <onboarding@resend.dev>',
       to: 'webbdevstudio@gmail.com',
       replyTo: cleanEmail,
       subject: `Ny förfrågan från ${cleanSubject(cleanName)}`,

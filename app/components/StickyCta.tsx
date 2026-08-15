@@ -54,11 +54,14 @@ export default function StickyCta() {
     return () => document.body.classList.remove('sticky-cta-visible');
   }, [visible]);
 
-  if (!visible) return null;
-
+  // Alltid monterad så baren kan glida in och ut; inert håller knappen
+  // utanför tabbordningen medan den är dold.
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.07] bg-[#050509]/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl md:hidden"
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.07] bg-[#050509]/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl transition-all duration-300 md:hidden ${
+        visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-full opacity-0'
+      }`}
+      inert={!visible}
     >
       <a
         href="#kontakt"

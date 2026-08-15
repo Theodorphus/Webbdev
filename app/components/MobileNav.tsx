@@ -88,44 +88,46 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
         </span>
       </button>
 
-      {/* Overlay */}
-      {open && (
-        <div
-          ref={menuRef}
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t.nav.meny}
-          className="fixed inset-0 z-40 animate-fade-in bg-[#050509]/95 backdrop-blur-xl"
-        >
-          <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={link.href ?? `#${link.id}`}
-                onClick={() => setOpen(false)}
-                className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
-                  activeSection === link.id
-                    ? 'bg-accent/10 text-white'
-                    : 'text-white/70 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+      {/* Overlay — alltid monterad så den kan tonas in och ut. Utan inert
+          ligger den stängda menyns länkar kvar i tabbordningen. */}
+      <div
+        ref={menuRef}
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label={t.nav.meny}
+        className={`fixed inset-0 z-40 bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
+          open ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        inert={!open}
+      >
+        <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
+          {links.map((link) => (
             <a
-              href="#kontakt"
+              key={link.id}
+              href={link.href ?? `#${link.id}`}
               onClick={() => setOpen(false)}
-              className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
+              className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
+                activeSection === link.id
+                  ? 'bg-accent/10 text-white'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+              }`}
             >
-              {t.nav2.cta}
+              {link.label}
             </a>
-            <div className="mt-6">
-              <LanguageToggle compact />
-            </div>
-          </nav>
-        </div>
-      )}
+          ))}
+          <a
+            href="#kontakt"
+            onClick={() => setOpen(false)}
+            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
+          >
+            {t.nav2.cta}
+          </a>
+          <div className="mt-6">
+            <LanguageToggle compact />
+          </div>
+        </nav>
+      </div>
     </div>
   );
 }

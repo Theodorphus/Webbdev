@@ -8,7 +8,6 @@ import { faqByLang } from './faq';
 import { Item, Magnetic, MaskReveal, Reveal, Stagger, WipeImage } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
-import DeferredChatbot from './components/DeferredChatbot';
 import PriceCalculator from './components/PriceCalculator';
 import { orter } from './webbutveckling/orter';
 import { LanguageProvider, useLang } from './i18n/LanguageProvider';
@@ -90,6 +89,8 @@ const MARQUEE_NAMES = [
   'Wildkull Payroll',
   'André Roslund',
   'Bolagdirekt',
+  'Oddsverket',
+  'Erotikmässan',
 ];
 
 // Metadata för de fyra stora casen — texterna bor i dictionary (t.arbete.cases,
@@ -105,9 +106,10 @@ const CASE_META = [
 const MORE_URLS = [
   'https://swedensweet.vercel.app/',
   'https://www.prolink.se/',
-  'https://bokning-gue0ah1a6-webbdev.vercel.app/',
-  'https://flex-league-o59hu8vor-ths-projects-9e3c8e82.vercel.app/',
+  'https://flex-league.vercel.app/',
   'https://bolagdirekt.vercel.app/',
+  'https://oddsverket.se/',
+  'https://www.erotikmassan.com/',
 ];
 
 const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
@@ -194,6 +196,8 @@ function HomeContent() {
       setFormData({ name: '', email: '', message: '', company: '' });
       setTimeout(() => setStatus('idle'), 4000);
     } catch {
+      // Fångar både nätverksfel och icke-2xx-svar — utan denna fastnar
+      // formuläret i "loading" för alltid.
       setStatus('error');
     }
   };
@@ -536,17 +540,22 @@ function HomeContent() {
               <span className="ml-3 font-normal text-[#ededf2]/60">{t.recension2.viaGoogle}</span>
             </p>
           </Reveal>
-          <Reveal className="mt-9 flex justify-center gap-2.5">
+          <Reveal className="mt-9 flex justify-center gap-1">
             {t.recension2.lista.map((r, i) => (
               <button
                 key={r.namn}
                 type="button"
                 onClick={() => setReviewIndex(i)}
                 aria-label={`${t.recension2.aria} ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  reviewIndex === i ? 'w-7 bg-accent' : 'w-2 bg-white/20 hover:bg-white/35'
-                }`}
-              />
+                // Minst 24px träffyta (WCAG 2.5.8) — pricken är bara visuell.
+                className="group flex h-6 min-w-6 items-center justify-center px-1"
+              >
+                <span
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    reviewIndex === i ? 'w-7 bg-accent' : 'w-2 bg-white/20 group-hover:bg-white/35'
+                  }`}
+                />
+              </button>
             ))}
           </Reveal>
           <a
@@ -928,7 +937,6 @@ function HomeContent() {
       </footer>
 
       <StickyCta />
-      <DeferredChatbot />
     </div>
   );
 }

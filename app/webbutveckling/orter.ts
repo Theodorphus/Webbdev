@@ -15,6 +15,9 @@ export type Ort = {
   poanger: { rubrik: string; text: string }[];
   /** Närliggande områden/orter att nämna naturligt för long-tail. */
   narliggande: string[];
+  /** Ortsunik mening i FAQ:ns leveranssvar — utan den blir svaret identiskt
+   *  på alla ortssidor (dåligt för indexeringen). */
+  leveransDetalj: string;
 };
 
 export const orter: Ort[] = [
@@ -45,6 +48,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Hisingen", "Mölndal", "Partille", "Kungsbacka", "Lerum"],
+    leveransDetalj:
+      "Sitter du i Göteborg kan vi dessutom ta uppstartsmötet över en kaffe — det brukar göra att designförslaget är klart redan efter ett par dagar.",
   },
   {
     slug: "skovde",
@@ -73,6 +78,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Skara", "Falköping", "Tibro", "Mariestad", "Lidköping"],
+    leveransDetalj:
+      "För företag i Skövde och övriga Skaraborg sköts avstämningarna via videomöte med delade designförslag, så tempot hålls uppe trots avståndet.",
   },
   {
     slug: "molndal",
@@ -101,6 +108,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Kållered", "Lindome", "Göteborg", "Kungsbacka", "Pixbo"],
+    leveransDetalj:
+      "Eftersom Mölndal ligger granne med Göteborg kan vi ses fysiskt för uppstarten om du föredrar det — det påverkar inte leveranstiden.",
   },
   {
     slug: "partille",
@@ -129,6 +138,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Sävedalen", "Jonsered", "Göteborg", "Lerum", "Öjersjö"],
+    leveransDetalj:
+      "Partilleföretag brukar köra hela processen digitalt med löpande delade förslag — men vill du ses är det bara en kort resa från Göteborg.",
   },
   {
     slug: "kungsbacka",
@@ -157,6 +168,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Onsala", "Fjärås", "Anneberg", "Åsa", "Frillesås"],
+    leveransDetalj:
+      "Företag i Kungsbacka-området får samma tempo oavsett om vi ses på plats längs Västkusten eller kör allt via videomöte.",
   },
   {
     slug: "lerum",
@@ -185,6 +198,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Gråbo", "Floda", "Stenkullen", "Sjövik", "Partille"],
+    leveransDetalj:
+      "Längs Göteborg–Alingsås-stråket kör vi oftast helt digitalt — du får designförslag löpande och kan ge snabb feedback mellan varven.",
   },
   {
     slug: "boras",
@@ -213,6 +228,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Fristad", "Sandared", "Dalsjöfors", "Viskafors", "Ulricehamn"],
+    leveransDetalj:
+      "E-handelsprojekt — vanliga i handelsstaden Borås — tar ofta någon dag extra för Stripe-koppling och produktuppläggning, med tydlig tidsplan från start.",
   },
   {
     slug: "skara",
@@ -241,6 +258,8 @@ export const orter: Ort[] = [
       },
     ],
     narliggande: ["Axvall", "Varnhem", "Skövde", "Götene", "Vara"],
+    leveransDetalj:
+      "För Skaraföretag kombineras uppstart via video med snabba avstämningar per telefon — smidigt även mitt i skörde- eller högsäsong.",
   },
 ];
 
@@ -259,7 +278,7 @@ export function getOrtFaq(ort: Ort): { q: string; a: string }[] {
     },
     {
       q: `Hur lång tid tar det att bygga en hemsida ${ort.iNamn}?`,
-      a: `De flesta hemsidor är klara och live på 3–7 arbetsdagar. Du jobbar direkt med utvecklaren, så vi slipper långa väntetider och mellanhänder. Behöver du något mer omfattande tar vi det i etapper.`,
+      a: `De flesta hemsidor är klara och live på 3–7 arbetsdagar. Du jobbar direkt med utvecklaren, så vi slipper långa väntetider och mellanhänder. ${ort.leveransDetalj}`,
     },
     {
       q: `Bygger du hemsidor åt företag utanför ${ort.namn}?`,

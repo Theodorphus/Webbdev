@@ -17,5 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default function EnglishHomePage() {
+  // Home sätter en egen provider med lang="en", så sidinnehållet
+  // server-renderas på engelska. Chatt/exit-intent i layouten härleder
+  // språket ur routen på egen hand (se DeferredWidgets).
   return <Home lang="en" />;
 }

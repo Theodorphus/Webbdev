@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import DeferredWidgets from "./components/DeferredWidgets";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
@@ -71,6 +72,8 @@ export default function RootLayout({
         <div className="scroll-progress" aria-hidden="true" />
         <LanguageProvider>
           {children}
+          <DeferredWidgets />
+
         </LanguageProvider>
         <div className="noise-overlay" aria-hidden="true" />
         <Analytics />

@@ -82,9 +82,10 @@ export const dictionary = {
       ovriga: [
         { namn: 'SwedenSweet', kategori: 'E-handel — komplett nätbutik med snabb checkout' },
         { namn: 'Prolink', kategori: 'Företagswebbplats — tydlig tjänstepresentation' },
-        { namn: 'Wellness Studio', kategori: 'Bokningssida — Stripe-betalning och automatiserad e-post' },
         { namn: 'FlexLeague', kategori: 'Plattform — ligor med tabeller och resultat i realtid' },
         { namn: 'Bolagdirekt', kategori: 'B2B — lagerbolag och bolagsändringar med fasta priser' },
+        { namn: 'Oddsverket', kategori: 'Speltipssajt — dagliga analyser, statistik och oddsjämförelse' },
+        { namn: 'Erotikmässan', kategori: 'Eventsida — biljettförsäljning, program och utställarinfo' },
       ],
     },
     processIntro: {
@@ -412,9 +413,10 @@ export const dictionary = {
       ovriga: [
         { namn: 'SwedenSweet', kategori: 'E-commerce — complete online store with fast checkout' },
         { namn: 'Prolink', kategori: 'Corporate website — clear service presentation' },
-        { namn: 'Wellness Studio', kategori: 'Booking site — Stripe payments and automated email' },
         { namn: 'FlexLeague', kategori: 'Platform — leagues with standings and live results' },
         { namn: 'Bolagdirekt', kategori: 'B2B — ready-made companies at fixed prices' },
+        { namn: 'Oddsverket', kategori: 'Betting tips site — daily analyses, stats and odds comparison' },
+        { namn: 'Erotikmässan', kategori: 'Event site — ticket sales, programme and exhibitor info' },
       ],
     },
     processIntro: {

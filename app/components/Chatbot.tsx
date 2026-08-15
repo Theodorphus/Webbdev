@@ -253,6 +253,8 @@ export default function Chatbot() {
         aria-modal="false"
         aria-label={t.chat.rubrik}
         aria-hidden={!open}
+        // inert tar panelen ur tabbordningen när den är stängd — pointer-events-none
+        // stoppar bara mus, inte tangentbord/skärmläsare.
         inert={!open}
       >
         {/* Header */}
@@ -424,6 +426,7 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder={t.chat.placeholder}
+              aria-label={t.chat.placeholder}
               className="max-h-28 flex-1 resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
             />
             <button
