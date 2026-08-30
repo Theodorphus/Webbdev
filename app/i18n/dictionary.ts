@@ -284,19 +284,6 @@ export const dictionary = {
     sticky: {
       cta: 'Få offert inom 24h',
     },
-    exitIntent: {
-      rubrik: 'Vänta! Få en gratis offert',
-      ingress: 'Lämna din e-post eller telefon så hör Theo av sig inom 24h med ett pris på din sida. Inget köptvång.',
-      namnPlaceholder: 'Ditt namn',
-      kontaktPlaceholder: 'E-post eller telefon',
-      skicka: 'Få min gratis offert',
-      skickar: 'Skickar...',
-      success: 'Tack! Theo hör av sig inom 24 timmar. 🙌',
-      fel: 'Något gick fel — försök igen eller mejla webbdevstudio@gmail.com.',
-      kravs: 'Fyll i namn och en kontaktuppgift.',
-      stang: 'Stäng',
-      garanti: 'Inget köptvång · Svar inom 24h · Du äger allt',
-    },
     chat: {
       oppna: 'Öppna chatten',
       stang: 'Stäng chatten',
@@ -615,19 +602,6 @@ export const dictionary = {
     },
     sticky: {
       cta: 'Get a quote in 24h',
-    },
-    exitIntent: {
-      rubrik: 'Wait! Get a free quote',
-      ingress: 'Leave your email or phone and Theo will get back to you within 24h with a price for your site. No obligation.',
-      namnPlaceholder: 'Your name',
-      kontaktPlaceholder: 'Email or phone',
-      skicka: 'Get my free quote',
-      skickar: 'Sending...',
-      success: 'Thanks! Theo will be in touch within 24 hours. 🙌',
-      fel: 'Something went wrong — please try again or email webbdevstudio@gmail.com.',
-      kravs: 'Please enter your name and a contact detail.',
-      stang: 'Close',
-      garanti: 'No obligation · Reply within 24h · You own everything',
     },
     chat: {
       oppna: 'Open chat',

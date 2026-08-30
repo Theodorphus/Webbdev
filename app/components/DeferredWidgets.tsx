@@ -5,12 +5,11 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { LanguageProvider } from '../i18n/LanguageProvider';
 
-// Chatt-widgeten och exit-intent-rutan behövs aldrig före interaktion.
-// ssr: false + dynamic import håller dem utanför initialbundeln på varje
-// route (bloggen, integritetspolicyn m.fl.), och idle-grinden nedan skjuter
-// upp själva hämtningen tills huvudtråden är ledig.
+// Chatt-widgeten behövs aldrig före interaktion. ssr: false + dynamic
+// import håller den utanför initialbundeln på varje route (bloggen,
+// integritetspolicyn m.fl.), och idle-grinden nedan skjuter upp själva
+// hämtningen tills huvudtråden är ledig.
 const Chatbot = dynamic(() => import('./Chatbot'), { ssr: false });
-const ExitIntent = dynamic(() => import('./ExitIntent'), { ssr: false });
 
 export default function DeferredWidgets() {
   const [ready, setReady] = useState(false);
@@ -45,7 +44,6 @@ export default function DeferredWidgets() {
   return (
     <LanguageProvider lang={lang}>
       <Chatbot />
-      <ExitIntent />
     </LanguageProvider>
   );
 }
