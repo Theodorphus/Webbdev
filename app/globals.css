@@ -505,23 +505,6 @@ body {
   60%      { transform: translateY(-2px) rotate(5deg); }
 }
 
-/* Etikett-bubbla bredvid knappen. */
-.chat-label {
-  animation: chat-label-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes chat-label-in {
-  from { opacity: 0; transform: translateX(8px) scale(0.92); }
-  to   { opacity: 1; transform: translateX(0)   scale(1); }
-}
-
-/* ── Exit-intent popup ──────────────────────────────────── */
-.exit-card {
-  animation: exit-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes exit-pop {
-  from { opacity: 0; transform: translateY(12px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
-}
 
 /* ── Priskalkylator: range-slider ───────────────────────── */
 .calc-range {
@@ -613,8 +596,7 @@ body {
   /* Dämpa chatt-knappens rörelse — behåll en statisk glow. */
   .chat-fab::before,
   .chat-fab-glow,
-  .chat-fab-attention,
-  .chat-label {
+  .chat-fab-attention {
     animation: none;
   }
 }

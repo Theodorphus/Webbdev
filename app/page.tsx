@@ -599,14 +599,14 @@ function HomeContent() {
             <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
               {t.omMig2.rubrik}
             </h2>
-            <div className="mt-7 flex items-center gap-4">
+            <div className="mt-8 flex flex-col items-start gap-5">
               <Image
-                src="/pp3.png"
+                src="/pp3.webp"
                 alt="Theo Håkansson"
-                width={88}
-                height={88}
-                sizes="88px"
-                className="h-[88px] w-[88px] rounded-[18px] border border-white/10 object-cover [filter:saturate(0.9)_contrast(1.02)]"
+                width={336}
+                height={336}
+                sizes="(max-width: 420px) 90vw, 336px"
+                className="aspect-square h-auto w-[336px] max-w-full rounded-[64px] border border-white/10 object-cover [filter:saturate(0.9)_contrast(1.02)]"
               />
               <p className="flex flex-col gap-1">
                 <span className="font-display text-[17px] font-semibold text-white">Theo Håkansson</span>

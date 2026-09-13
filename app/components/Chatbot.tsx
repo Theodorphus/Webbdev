@@ -22,10 +22,6 @@ export default function Chatbot() {
   // Honeypot: osynligt fält som bara bottar fyller i.
   const [company, setCompany] = useState('');
 
-  // Visa en liten "Fråga oss"-etikett tills besökaren öppnat chatten en
-  // första gång (sparas i sessionen så den inte tjatar på varje sidladdning).
-  const [showLabel, setShowLabel] = useState(false);
-
   // Lead-kort: formulär som mejlar Theo via /api/lead.
   const [showLead, setShowLead] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
@@ -49,24 +45,7 @@ export default function Chatbot() {
     if (open) inputRef.current?.focus();
   }, [open]);
 
-  // Visa etiketten en kort stund efter laddning — men bara om besökaren
-  // inte redan öppnat chatten i den här sessionen.
-  useEffect(() => {
-    if (sessionStorage.getItem('webbdev-chat-seen')) return;
-    const id = setTimeout(() => setShowLabel(true), 2500);
-    return () => clearTimeout(id);
-  }, []);
-
-  // Markera som "sedd" i sessionen så fort chatten öppnas (extern sync, ok i
-  // effekt). Själva etiketten döljs redan i renderingen via `!open`, och
-  // hålls borta permanent när vi öppnar genom att nollställa showLabel i
-  // klick-hanteraren — så ingen setState behövs här.
-  useEffect(() => {
-    if (open) sessionStorage.setItem('webbdev-chat-seen', '1');
-  }, [open]);
-
   function openChat() {
-    setShowLabel(false);
     setOpen(true);
   }
 
@@ -191,21 +170,6 @@ export default function Chatbot() {
     <>
       {/* Flytande knapp med etikett */}
       <div className={`chat-dock fixed bottom-5 right-5 z-50 flex items-center gap-3 md:bottom-6 md:right-6 ${open ? 'chat-dock--open' : ''}`}>
-        {/* "Fråga oss"-etikett — visas tills chatten öppnats en gång */}
-        {showLabel && !open && (
-          <button
-            type="button"
-            onClick={openChat}
-            className="chat-label hidden items-center gap-2 rounded-full border border-white/10 bg-[#06060f]/90 py-2.5 pl-4 pr-4 text-sm font-medium text-[#e8eaf6] shadow-xl shadow-black/40 backdrop-blur-xl transition-colors hover:bg-white/5 sm:flex"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            {t.chat.etikett}
-          </button>
-        )}
-
         <div className={!open ? 'chat-fab' : undefined}>
           <button
             ref={toggleRef}
@@ -228,12 +192,10 @@ export default function Chatbot() {
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                 </svg>
                 {/* Notisprick — antyder att någon är redo att svara */}
-                {!showLabel && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-[#06060f] bg-emerald-400" />
-                  </span>
-                )}
+                <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
+                  <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-[#06060f] bg-emerald-400" />
+                </span>
               </>
             )}
           </button>

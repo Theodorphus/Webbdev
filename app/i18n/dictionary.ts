@@ -302,7 +302,6 @@ export const dictionary = {
     chat: {
       oppna: 'Öppna chatten',
       stang: 'Stäng chatten',
-      etikett: 'Fråga oss 👋',
       onlineStatus: 'Online nu',
       rubrik: 'Fråga oss',
       underrubrik: 'Vi svarar direkt — fråga om priser, process eller något annat.',
@@ -634,7 +633,6 @@ export const dictionary = {
     chat: {
       oppna: 'Open chat',
       stang: 'Close chat',
-      etikett: 'Ask us 👋',
       onlineStatus: 'Online now',
       rubrik: 'Ask us',
       underrubrik: 'We reply instantly — ask about pricing, process or anything else.',
