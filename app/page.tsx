@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { faqByLang } from './faq';
-import { Item, Magnetic, MaskReveal, Reveal, Stagger, WipeImage } from './components/animations/Motion';
+import { Item, Magnetic, MaskReveal, Reveal, Stagger } from './components/animations/Motion';
 import MobileNav from './components/MobileNav';
 import StickyCta from './components/StickyCta';
 import PriceCalculator from './components/PriceCalculator';
 import { orter } from './webbutveckling/orter';
+import { featuredProjects, otherProjects } from './portfolio/projects';
+import { ProjectCard, ProjectCardSmall } from './components/ProjectPreview';
 import { LanguageProvider, useLang } from './i18n/LanguageProvider';
 import type { Lang } from './i18n/dictionary';
 import { getHomeSchema } from './lib/homeSchema';
@@ -19,14 +21,6 @@ function IconArrow() {
   return (
     <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden>
       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconDiagonal() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M4 12L12 4M6 4h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -83,6 +77,7 @@ function HeroCodeWindow() {
 // Kundnamn i marquee-bandet.
 const MARQUEE_NAMES = [
   'Karla Cleaning Crew',
+  'Öckerö Cementgjuteri',
   'Konstbyte',
   'Prolink',
   'SwedenSweet',
@@ -91,25 +86,6 @@ const MARQUEE_NAMES = [
   'Bolagdirekt',
   'Oddsverket',
   'Erotikmässan',
-];
-
-// Metadata för de fyra stora casen — texterna bor i dictionary (t.arbete.cases,
-// samma index). reverse växlar bildsida varannan rad.
-const CASE_META = [
-  { url: 'https://www.konstbyte.se/', img: '/3.png', tech: ['Next.js', 'Prisma', 'Stripe', 'AI'], reverse: false },
-  { url: 'https://www.wildkullpayroll.se/', img: '/6.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: true },
-  { url: 'https://www.andre-roslund.se/', img: '/8.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: false },
-  { url: 'https://karlacleaningcrew.se/', img: '/1.png', tech: ['Next.js', 'Tailwind', 'Vercel'], reverse: true },
-];
-
-// URL:er för "övriga projekt"-listan (texterna i t.arbete.ovriga, samma index).
-const MORE_URLS = [
-  'https://swedensweet.vercel.app/',
-  'https://www.prolink.se/',
-  'https://flex-league.vercel.app/',
-  'https://bolagdirekt.vercel.app/',
-  'https://oddsverket.se/',
-  'https://www.erotikmassan.com/',
 ];
 
 const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE/review';
@@ -385,86 +361,45 @@ function HomeContent() {
             </span>
           </Reveal>
 
-          <div className="flex flex-col gap-24">
-            {t.arbete.cases.map((c, i) => {
-              const meta = CASE_META[i];
-              return (
-                <Reveal key={c.namn}>
-                  <a
-                    href={meta.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group grid items-center gap-10 lg:gap-14 ${
-                      meta.reverse ? 'lg:grid-cols-[1fr_1.25fr]' : 'lg:grid-cols-[1.25fr_1fr]'
-                    }`}
-                  >
-                    <WipeImage
-                      className={`relative aspect-[16/10] rounded-[20px] border border-white/[0.09] bg-[#0b0b14] ${
-                        meta.reverse ? 'lg:order-2' : ''
-                      }`}
-                    >
-                      <Image
-                        src={meta.img}
-                        alt={c.namn}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 60vw"
-                        className="object-cover object-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(5,5,9,0.35)] to-transparent to-40%" />
-                    </WipeImage>
-                    <div className={meta.reverse ? 'lg:order-1' : ''}>
-                      <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
-                        {c.kategori}
-                      </span>
-                      <h3 className="font-display mt-3.5 text-[34px] font-bold tracking-[-0.02em] text-white">
-                        {c.namn}
-                      </h3>
-                      <p className="mt-[18px] max-w-[26rem] text-[15.5px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
-                        {c.desc}
-                      </p>
-                      <p className="mt-5 inline-flex items-center gap-2.5 border-l-2 border-accent pl-3.5 text-sm font-medium text-[#ededf2]/85">
-                        {c.result}
-                      </p>
-                      <div className="mt-[26px] flex flex-wrap gap-2.5">
-                        {meta.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="rounded-full border border-white/10 px-3.5 py-[5px] font-mono text-[11px] text-[#ededf2]/60"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="mt-[30px] inline-flex items-center gap-2.5 text-sm font-semibold text-accent-light">
-                        {t.arbete.besok}
-                        <IconArrow />
-                      </span>
-                    </div>
-                  </a>
-                </Reveal>
-              );
-            })}
+          {/* De utvalda — stora kort med webbläsarram och preview */}
+          <div className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:gap-x-10 lg:gap-y-16">
+            {featuredProjects.map((p, i) => (
+              <Reveal key={p.slug}>
+                <ProjectCard
+                  project={p}
+                  text={t.arbete.projekt[p.slug]}
+                  besok={t.arbete.besok}
+                  priority={i < 2}
+                />
+              </Reveal>
+            ))}
           </div>
 
-          {/* Övriga projekt — kompakt lista */}
-          <Reveal className="mt-24 border-t border-white/[0.07]">
-            {t.arbete.ovriga.map((p, i) => (
-              <a
-                key={p.namn}
-                href={MORE_URLS[i]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-white/[0.07] px-2 py-[26px] transition-all duration-200 hover:bg-white/[0.02] hover:pl-5 sm:grid-cols-[1fr_2fr_auto] sm:gap-8"
-              >
-                <span className="font-display text-[19px] font-semibold tracking-[-0.01em] text-white">
-                  {p.namn}
-                </span>
-                <span className="hidden text-sm text-[#ededf2]/50 sm:block">{p.kategori}</span>
-                <span className="text-[#ededf2]/60">
-                  <IconDiagonal />
-                </span>
-              </a>
+          {/* Fler projekt — samma preview, kompakt format */}
+          <Reveal className="mt-[104px] flex items-center gap-5">
+            <h3 className="font-display text-[21px] font-bold tracking-[-0.02em] text-white">
+              {t.arbete.fler}
+            </h3>
+            <span className="h-px flex-1 bg-white/[0.09]" />
+          </Reveal>
+          <div className="mt-9 grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+            {otherProjects.map((p) => (
+              <Reveal key={p.slug}>
+                <ProjectCardSmall project={p} text={t.arbete.projekt[p.slug]} />
+              </Reveal>
             ))}
+          </div>
+
+          <Reveal className="mt-16 flex justify-center">
+            <Link
+              href="/portfolio"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-white/12 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white/25 hover:bg-white/[0.04]"
+            >
+              {t.arbete.alla}
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                <IconArrow />
+              </span>
+            </Link>
           </Reveal>
         </div>
       </section>
@@ -881,6 +816,7 @@ function HomeContent() {
                 <a href="#priser" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.priser}</a>
                 <a href="#om" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.om}</a>
                 <Link href="/tjanster" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.tjanster}</Link>
+                <Link href="/portfolio" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.portfolio}</Link>
                 <Link href="/blogg" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.blogg}</Link>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">

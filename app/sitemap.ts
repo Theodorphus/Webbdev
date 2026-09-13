@@ -26,6 +26,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    // Portfolio.
+    {
+      url: `${SITE_URL}/portfolio`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     // Lokala landningssidor — viktiga för lokal SEO.
     {
       url: `${SITE_URL}/webbutveckling`,
