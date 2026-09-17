@@ -129,7 +129,7 @@ export default async function OrtPage({ params }: Props) {
             Få en gratis analys
           </Link>
           <Link
-            href="/#priser"
+            href="/priser"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white"
           >
             Se priser

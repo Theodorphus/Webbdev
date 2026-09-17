@@ -13,6 +13,7 @@ export type Project = {
   tech: string[];
   /** Stort kort på startsidan. Övriga hamnar i det kompakta rutnätet. */
   featured: boolean;
+  caseHref?: string;
 };
 
 // Ordningen här är ordningen på sidan.
@@ -27,6 +28,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'ockerocement',
+    caseHref: '/portfolio/ockerocement',
     namn: 'Öckerö Cementgjuteri',
     url: 'https://ockerocement.vercel.app/',
     img: '/work/ockerocement.webp',
@@ -61,6 +63,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'wildkull',
+    caseHref: '/portfolio/wildkull',
     namn: 'Wildkull Payroll',
     url: 'https://www.wildkullpayroll.se/',
     img: '/work/wildkull.webp',

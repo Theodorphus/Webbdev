@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { business } from "../lib/business";
 
 export const metadata: Metadata = {
   // Layoutens title-template lägger till " | Webbdev Studio".
@@ -45,7 +46,7 @@ export default function IntegritetspolicyPage() {
         <div className="mt-12 space-y-10">
           <Section title="1. Personuppgiftsansvarig">
             <p>
-              Webbdev Studio (enskild firma, org.nr 19950721-XXXX) är
+              {business.name} (enskild firma, org.nr {business.registrationNumber}) är
               personuppgiftsansvarig för de uppgifter som behandlas via denna
               webbplats. Du når oss på{" "}
               <a href="mailto:webbdevstudio@gmail.com" className="text-indigo-400 hover:text-indigo-300">
@@ -57,7 +58,7 @@ export default function IntegritetspolicyPage() {
 
           <Section title="2. Vilka uppgifter vi samlar in">
             <p>
-              När du använder kontaktformuläret, offertformuläret eller chatten
+              När du använder kontaktformuläret, demobyggaren, offertformuläret eller chatten
               behandlar vi de uppgifter du själv anger:
             </p>
             <ul className="mt-3 space-y-2">
@@ -66,8 +67,18 @@ export default function IntegritetspolicyPage() {
               <Li>Meddelanden, chatthistorik och projektinformation du skickar</Li>
             </ul>
             <p className="mt-3">
+              Demobyggaren sparar företagsnamn och designval lokalt i din
+              webbläsare så att du kan fortsätta med ditt utkast i upp till
+              30 dagar. Du kan rensa utkastet i byggaren. Kontaktuppgifter
+              och fritext sparas inte i utkastet. Om du delar en designlänk
+              kan mottagaren se företagsnamnet och designvalen i länken.
+            </p>
+            <p className="mt-3">
               Vi använder cookielös, aggregerad besöksstatistik via Vercel
-              Analytics för att förstå hur webbplatsen används.
+              Analytics för att förstå hur webbplatsen används. Vi mäter även
+              när demobyggaren och priskalkylatorn används och när en förfrågan
+              skickas. Dessa mäthändelser innehåller inte namn, e-post, fritext
+              eller innehållet i delade designlänkar.
             </p>
           </Section>
 

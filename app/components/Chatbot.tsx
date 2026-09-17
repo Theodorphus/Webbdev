@@ -1,5 +1,7 @@
 'use client';
 
+import { trackConversion } from '../lib/analytics';
+
 import { useEffect, useRef, useState } from 'react';
 import { useLang } from '../i18n/LanguageProvider';
 
@@ -155,11 +157,13 @@ export default function Chatbot() {
         }),
       });
       if (!res.ok) throw new Error('lead failed');
+      trackConversion('chat_lead_submitted');
       setLeadSent(true);
       setShowLead(false);
       // Bekräfta i chatten.
       setMessages((prev) => [...prev, { role: 'assistant', content: t.chat.lead.success }]);
     } catch {
+      trackConversion('chat_lead_error');
       setLeadError(t.chat.lead.fel);
     } finally {
       setLeadSending(false);

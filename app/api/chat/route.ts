@@ -1,3 +1,4 @@
+import { priceTerms } from '../../lib/business';
 import Anthropic from '@anthropic-ai/sdk';
 import { NextResponse } from 'next/server';
 import { hasTrustedOrigin, readJsonBody } from '../_lib/request';
@@ -49,10 +50,11 @@ function systemPrompt(lang: Lang): string {
 FÖRETAG: Webbdev Studio — en enmansbyrå för webbutveckling i Göteborg, driven av Theodor (Theo).
 KONTAKT: webbdevstudio@gmail.com · +46 70 952 58 22 · webbdev.se
 TJÄNSTER: Moderna, snabba, konverteringsoptimerade hemsidor byggda i Next.js, React, TypeScript och Tailwind. Supabase-backend, admin-panel (CMS), Stripe-betalningar (e-handel), SEO-optimering.
-LEVERANS: 3–7 arbetsdagar från godkänt designförslag. Fast pris — inga dolda kostnader, inget timpris.
+LEVERANS: Normalt 3–7 arbetsdagar från godkänt designförslag och komplett material, beroende på omfattning.
+PRISVILLKOR: ${priceTerms.sv.vat} ${priceTerms.sv.scope} ${priceTerms.sv.running} ${priceTerms.sv.support}
 PRISNIVÅER: cirka 2000, 4000 och 6000+ SEK beroende på projektets omfattning och kundens krav. Kunden får alltid en tydlig offert innan arbetet börjar. Tre paket:
-- Bas (cirka 2000 SEK): responsiv hemsida, 5 sidor, kontaktformulär, mobiloptimerad.
-- Premium (populärast, cirka 4000 SEK): allt i Bas + upp till 15 sidor + admin-panel + SEO + 1 månads support.
+- Bas (cirka 2000 SEK): responsiv hemsida, upp till 5 sidor, kontaktformulär, mobiloptimerad.
+- Premium (cirka 4000 SEK): allt i Bas + upp till 15 sidor + admin-panel + SEO + 1 månads support.
 - Full Service (från cirka 6000 SEK): allt i Premium + fler sidor + e-handel via Stripe + avancerad admin-panel + 3 månaders support.
 PROCESS: 1) Gratis analys/samtal, 2) Designförslag (godkänns innan bygget), 3) Byggnation, 4) Lansering (domän, SSL, hosting sköts åt kunden), 5) Support.
 ÄGANDE: Kunden äger 100% av kod, design och innehåll — ingen inlåsning.

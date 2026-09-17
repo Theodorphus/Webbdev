@@ -65,16 +65,18 @@ export function ProjectCard({
   text,
   besok,
   priority = false,
+  caseLabel = "Läs kundcaset",
 }: {
   project: Project;
+  caseLabel?: string;
   text: ProjectText;
   besok: string;
   priority?: boolean;
 }) {
   return (
     <a
-      href={project.url}
-      target="_blank"
+      href={project.caseHref ?? project.url}
+      target={project.caseHref ? undefined : "_blank"}
       rel="noopener noreferrer"
       className="group block"
     >
@@ -90,7 +92,7 @@ export function ProjectCard({
           {text.desc}
         </p>
         <span className="mt-4 inline-flex items-center gap-2 text-[13.5px] font-semibold text-accent-light">
-          {besok}
+          {project.caseHref ? caseLabel : besok}
           <span className="transition-transform duration-300 group-hover:translate-x-1">
             <IconDiagonal />
           </span>
@@ -104,8 +106,8 @@ export function ProjectCard({
 export function ProjectCardSmall({ project, text }: { project: Project; text: ProjectText }) {
   return (
     <a
-      href={project.url}
-      target="_blank"
+      href={project.caseHref ?? project.url}
+      target={project.caseHref ? undefined : "_blank"}
       rel="noopener noreferrer"
       className="group block"
     >

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { LanguageProvider } from "./i18n/LanguageProvider";
+import SiteAnalytics from "./components/SiteAnalytics";
+import SiteShell from "./components/SiteShell";
 import DeferredWidgets from "./components/DeferredWidgets";
 import "./globals.css";
 
@@ -70,13 +70,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#050509] text-[#ededf2]">
         <div className="scroll-progress" aria-hidden="true" />
-        <LanguageProvider>
+        <SiteShell>
           {children}
           <DeferredWidgets />
 
-        </LanguageProvider>
+        </SiteShell>
         <div className="noise-overlay" aria-hidden="true" />
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

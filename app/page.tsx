@@ -3,19 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useMotionPreference } from './components/animations/useMotionPreference';
 import { faqByLang } from './faq';
 import { Item, Magnetic, MaskReveal, Reveal, Stagger } from './components/animations/Motion';
-import MobileNav from './components/MobileNav';
+import TrafficResults from './components/TrafficResults';
+import ContactForm from './components/ContactForm';
 import StickyCta from './components/StickyCta';
-import PriceCalculator from './components/PriceCalculator';
-import { orter } from './webbutveckling/orter';
 import { featuredProjects, otherProjects } from './portfolio/projects';
 import { ProjectCard, ProjectCardSmall } from './components/ProjectPreview';
 import { LanguageProvider, useLang } from './i18n/LanguageProvider';
 import type { Lang } from './i18n/dictionary';
 import { getHomeSchema } from './lib/homeSchema';
-import LanguageToggle from './i18n/LanguageToggle';
 
 function IconArrow() {
   return (
@@ -42,7 +41,7 @@ function HeroCodeWindow() {
     { chars: 26, delay: 1.9, content: <>{'  '}<span className="tok-fn">leverans</span><span className="tok-pun">:</span> <span className="tok-str">{'"3–7 dagar"'}</span><span className="tok-pun">,</span></> },
     { chars: 16, delay: 2.3, content: <>{'  '}<span className="tok-fn">pris</span><span className="tok-pun">:</span> <span className="tok-str">{'"fast"'}</span><span className="tok-pun">,</span></> },
     { chars: 26, delay: 2.7, content: <>{'  '}<span className="tok-fn">dolda_avgifter</span><span className="tok-pun">:</span> <span className="tok-key">false</span><span className="tok-pun">,</span></> },
-    { chars: 28, delay: 3.1, content: <>{'  '}<span className="tok-fn">resultat</span><span className="tok-pun">:</span> <span className="tok-str">{'"fler kunder"'}</span><span className="tok-pun">,</span></> },
+    { chars: 28, delay: 3.1, content: <>{'  '}<span className="tok-fn">mål</span><span className="tok-pun">:</span> <span className="tok-str">{'"fler kunder"'}</span><span className="tok-pun">,</span></> },
     { chars: 2, delay: 3.5, content: <><span className="tok-pun">{`}`}</span></>, caret: true },
   ];
   return (
@@ -99,13 +98,9 @@ export function Home({ lang = 'sv' }: { lang?: Lang }) {
 }
 
 function HomeContent() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
   const [reviewIndex, setReviewIndex] = useState(0);
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const { lang, t } = useLang();
   const faqItems = faqByLang[lang];
   const homeSchema = getHomeSchema(lang, faqItems);
@@ -128,106 +123,13 @@ function HomeContent() {
     return () => clearInterval(id);
   }, [reduce, t.recension2.lista.length]);
 
-  // Markera aktiv sektion i nav medan man scrollar.
-  useEffect(() => {
-    const ids = ['arbete', 'process', 'priser', 'om'];
-    const sections = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-    const visible = new Set<string>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id);
-          else visible.delete(entry.target.id);
-        }
-        const topMost = ids.find((id) => visible.has(id));
-        setActiveSection(topMost ?? '');
-      },
-      { rootMargin: '-35% 0px -55% 0px' },
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (status === 'loading') return;
-    setStatus('loading');
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) throw new Error('contact request failed');
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '', company: '' });
-      setTimeout(() => setStatus('idle'), 4000);
-    } catch {
-      // Fångar både nätverksfel och icke-2xx-svar — utan denna fastnar
-      // formuläret i "loading" för alltid.
-      setStatus('error');
-    }
-  };
-
   const activeReview = t.recension2.lista[reviewIndex];
 
   return (
     <div lang={lang} className="relative overflow-x-clip">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
-      <header
-        className={`fixed top-0 inset-x-0 z-[60] border-b border-white/[0.07] backdrop-blur-[20px] backdrop-saturate-[1.4] transition-all duration-300 ${
-          scrolled ? 'bg-[rgba(5,5,9,0.88)]' : 'bg-[rgba(5,5,9,0.75)]'
-        }`}
-      >
-        <div
-          className={`mx-auto flex max-w-[80rem] items-center justify-between px-8 transition-all duration-300 ${
-            scrolled ? 'py-3' : 'py-[18px]'
-          }`}
-        >
-          <span className="font-display text-[16px] font-bold tracking-[-0.01em] text-white">
-            Webbdev<span className="text-accent">.</span>studio
-          </span>
-          <nav className="hidden items-center gap-9 text-[13.5px] font-medium text-[#ededf2]/60 md:flex">
-            {[
-              { id: 'arbete', label: t.nav2.arbete },
-              { id: 'process', label: t.nav2.process },
-              { id: 'priser', label: t.nav2.priser },
-              { id: 'om', label: t.nav2.om },
-            ].map((link) => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                className={`transition-colors hover:text-white ${
-                  activeSection === link.id ? 'text-white' : ''
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-          <div className="hidden items-center gap-4 md:flex">
-            <LanguageToggle />
-            <a
-              href="#kontakt"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ededf2] px-[22px] py-2.5 text-[13.5px] font-semibold text-[#0a0a12] transition-all duration-200 hover:-translate-y-px hover:bg-white"
-            >
-              {t.nav2.cta}
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            </a>
-          </div>
-          <MobileNav activeSection={activeSection} />
-        </div>
-      </header>
+
 
       <main>
         <script
@@ -366,6 +268,7 @@ function HomeContent() {
             {featuredProjects.map((p, i) => (
               <Reveal key={p.slug}>
                 <ProjectCard
+                caseLabel={lang === "sv" ? "Läs kundcaset" : "Read the case study (Swedish)"}
                   project={p}
                   text={t.arbete.projekt[p.slug]}
                   besok={t.arbete.besok}
@@ -403,6 +306,8 @@ function HomeContent() {
           </Reveal>
         </div>
       </section>
+
+      <TrafficResults />
 
       {/* ── PROCESS ──────────────────────────────────────────── */}
       <section id="process" className="border-t border-white/[0.07] py-[140px]">
@@ -504,88 +409,31 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* ── PRISER ───────────────────────────────────────────── */}
-      <section id="priser" className="border-t border-white/[0.07] py-[140px]">
-        <div className="mx-auto max-w-[80rem] px-8">
-          <Reveal className="mb-[72px] max-w-[40rem]">
+      {/* ── PRISER (teaser → /priser) ────────────────── */}
+      <section className="border-t border-white/[0.07] py-[88px]">
+        <div className="mx-auto flex max-w-[80rem] flex-col items-center gap-8 px-8 text-center md:flex-row md:justify-between md:gap-12 md:text-left">
+          <Reveal>
             <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
               {t.priser.etikett}
             </span>
-            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
-              {t.priser2.rubrik}
+            <h2 className="font-display mt-3.5 text-[clamp(26px,3vw,36px)] font-bold leading-[1.1] tracking-[-0.02em] text-white">
+              {t.priserTeaser.rubrik}
             </h2>
-          </Reveal>
-          <div className="grid gap-px overflow-hidden rounded-[20px] border border-white/[0.08] bg-white/[0.08] md:grid-cols-3">
-            {t.priser.paket
-              .map((p, i) => ({ ...p, populer: i === 1 }))
-              .map((p) => (
-                <Reveal key={p.tier} className="flex">
-                  <div
-                    className="flex w-full flex-col px-9 py-11"
-                    style={{
-                      background: p.populer ? 'linear-gradient(180deg, #0c0b1c, #08080f)' : '#08080f',
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span
-                        className={`font-mono text-xs uppercase tracking-[0.2em] ${
-                          p.populer ? 'text-[#b4b2ff]' : 'text-[#ededf2]/50'
-                        }`}
-                      >
-                        {p.tier}
-                      </span>
-                      {p.populer && (
-                        <span className="rounded-full border border-[rgba(109,106,248,0.45)] bg-[rgba(109,106,248,0.18)] px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#b4b2ff]">
-                          {t.priser2.badge}
-                        </span>
-                      )}
-                    </div>
-                    <div className="font-display mt-6 text-[52px] font-bold leading-tight tracking-[-0.03em] text-white">
-                      {p.pris}
-                    </div>
-                    <p className="mt-2.5 text-sm text-[#ededf2]/50">{p.desc}</p>
-                    <div className="my-[30px] h-px bg-white/[0.08]" />
-                    <ul className="flex flex-1 flex-col gap-[13px]">
-                      {p.features.map((f) => (
-                        <li key={f} className="flex items-start gap-3 text-[14.5px] text-[#ededf2]/70">
-                          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="mt-[3px] flex-shrink-0" aria-hidden>
-                            <path d="M3.5 8l3 3 5-6.5" stroke="#6d6af8" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href="#kontakt"
-                      className={`mt-9 block rounded-full py-[15px] text-center text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
-                        p.populer
-                          ? 'bg-accent text-white hover:bg-[#7d7aff]'
-                          : 'border border-white/[0.18] text-[#ededf2]/80 hover:border-white/30 hover:text-white'
-                      }`}
-                    >
-                      {t.priser.komIgang}
-                    </a>
-                  </div>
-                </Reveal>
-              ))}
-          </div>
-          <Reveal>
-            <p className="mt-7 text-center text-[13.5px] leading-relaxed text-[#ededf2]/65">
-              {t.priser2.prisNotis}
+            <p className="mt-3.5 max-w-[34rem] text-[15px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
+              {t.priserTeaser.text}
             </p>
           </Reveal>
-          <Reveal>
-            <p className="mt-3 text-center text-[13.5px] text-[#ededf2]/60">
-              {t.priser2.osaker1}{' '}
-              <a href="#kontakt" className="font-medium text-accent-light transition-colors hover:text-[#c7c6ff]">
-                {t.priser2.osakerCta}
-              </a>{' '}
-              {t.priser2.osaker2}
-            </p>
+          <Reveal className="flex-shrink-0">
+            <Link
+              href="/priser"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.18] px-7 py-3.5 text-[14.5px] font-semibold text-[#ededf2]/85 transition-all duration-200 hover:-translate-y-px hover:border-white/30 hover:text-white"
+            >
+              {t.priserTeaser.cta}
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                <IconArrow />
+              </span>
+            </Link>
           </Reveal>
-
-          {/* Priskalkylator — interaktivt estimat */}
-          <PriceCalculator />
         </div>
       </section>
 
@@ -703,66 +551,7 @@ function HomeContent() {
             </p>
           </Reveal>
           <Reveal>
-            <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-3.5 text-left">
-              {/* Honeypot — osynligt för människor, fångar spam-bottar */}
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="absolute -left-[9999px] h-0 w-0 opacity-0"
-              />
-              <div className="grid gap-3.5 sm:grid-cols-2">
-                <input
-                  type="text"
-                  placeholder={t.kontakt.namnPlaceholder}
-                  aria-label={t.kontakt.namn}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className="w-full rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
-                />
-                <input
-                  type="email"
-                  placeholder={t.kontakt.epostPlaceholder}
-                  aria-label={t.kontakt.epost}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="w-full rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
-                />
-              </div>
-              <textarea
-                rows={4}
-                placeholder={t.kontakt.meddelandePlaceholder}
-                aria-label={t.kontakt.meddelande}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-                className="w-full resize-none rounded-[14px] border border-white/[0.12] bg-white/[0.04] px-5 py-[17px] text-[15px] text-white placeholder-white/30 outline-none transition-colors focus:border-[rgba(109,106,248,0.6)] focus:bg-white/[0.06]"
-              />
-              {status === 'error' && (
-                <div className="rounded-[14px] border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                  {t.kontakt.error}
-                </div>
-              )}
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent py-[19px] text-base font-semibold text-white transition-all duration-200 hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] disabled:opacity-60"
-              >
-                {status === 'loading'
-                  ? t.kontakt.skickar
-                  : status === 'success'
-                    ? t.kontakt2.successKnapp
-                    : t.kontakt.skicka}
-                {status !== 'success' && <IconArrow />}
-              </button>
-              <p className="mt-1.5 text-center text-[12.5px] text-[#ededf2]/60">{t.kontakt.risk}</p>
-            </form>
+            <ContactForm />
           </Reveal>
           <Reveal>
             <p className="mt-9 text-sm text-[#ededf2]/60">
@@ -795,82 +584,7 @@ function HomeContent() {
       </main>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-white/[0.07] py-14">
-        <div className="mx-auto max-w-[80rem] px-8">
-          <div className="flex flex-wrap items-start justify-between gap-10">
-            <div>
-              <span className="font-display text-[17px] font-bold text-white">
-                Webbdev<span className="text-accent">.</span>studio
-              </span>
-              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-[#ededf2]/60">
-                {t.footer.tagline}
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-16">
-              <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
-                  {t.footer2.navigera}
-                </span>
-                <a href="#arbete" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.arbete}</a>
-                <a href="#process" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.process}</a>
-                <a href="#priser" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.priser}</a>
-                <a href="#om" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.nav2.om}</a>
-                <Link href="/tjanster" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.tjanster}</Link>
-                <Link href="/portfolio" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.portfolio}</Link>
-                <Link href="/blogg" className="text-[#ededf2]/55 transition-colors hover:text-white">{t.footer2.blogg}</Link>
-              </div>
-              <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
-                  {t.footer.kontakt}
-                </span>
-                <a href="tel:+46709525822" className="text-[#ededf2]/55 transition-colors hover:text-white">
-                  070‑952 58 22
-                </a>
-                <a href="mailto:webbdevstudio@gmail.com" className="text-[#ededf2]/55 transition-colors hover:text-white">
-                  webbdevstudio@gmail.com
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/theo-h%C3%A5kansson-30b112114/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#ededf2]/55 transition-colors hover:text-white"
-                >
-                  LinkedIn
-                </a>
-              </div>
-              <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
-                  {t.footer.foretag}
-                </span>
-                {t.footer.foretagRader.map((rad) => (
-                  <span key={rad} className="text-[#ededf2]/60">{rad}</span>
-                ))}
-                <span className="text-[#ededf2]/60">Västra Gunnesgärde 41, Göteborg</span>
-              </div>
-              <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#ededf2]/60">
-                  {t.footer.orter}
-                </span>
-                {orter.map((o) => (
-                  <Link
-                    key={o.slug}
-                    href={`/webbutveckling/${o.slug}`}
-                    className="text-[#ededf2]/55 transition-colors hover:text-white"
-                  >
-                    {o.namn}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/[0.07] pt-6 text-xs text-[#ededf2]/60 sm:flex-row sm:justify-between">
-            <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
-            <Link href="/integritetspolicy" className="transition-colors hover:text-[#ededf2]/60">
-              {t.footer.integritetspolicy}
-            </Link>
-          </div>
-        </div>
-      </footer>
+
 
       <StickyCta />
     </div>

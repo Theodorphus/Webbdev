@@ -1,7 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useMemo, useRef, useState } from 'react';
 import { useLang } from '../i18n/LanguageProvider';
+import { trackConversion } from '../lib/analytics';
+import { priceTerms } from '../lib/business';
 
 /**
  * Interaktiv priskalkylator i priser-sektionen.
@@ -22,9 +25,9 @@ const BASE: Record<string, number> = {
 
 // Antal sidor som ingår i baspriset innan pris-per-sida slår in.
 const INCLUDED_PAGES: Record<string, number> = {
-  landing: 1,
-  foretag: 5,
-  ehandel: 8,
+  landing: 5,
+  foretag: 15,
+  ehandel: 15,
 };
 
 const PER_PAGE = 400; // tillägg per sida utöver de inkluderade
@@ -46,11 +49,16 @@ export default function PriceCalculator() {
   const [type, setType] = useState('foretag');
   const [pages, setPages] = useState(INCLUDED_PAGES.foretag);
   const [features, setFeatures] = useState<string[]>([]);
+  const started = useRef(false);
+  function startTracking() {
+    if (!started.current) { started.current = true; trackConversion('calculator_started'); }
+  }
 
   // Varje sidtyp startar på sitt inkluderade sidantal. Utan detta ligger
   // slidern kvar från förra valet och en landningssida prissätts som en
   // femsidig sajt — dubbelt mot vad priskortet lovar.
   function selectType(id: string) {
+    startTracking();
     setType(id);
     setPages(INCLUDED_PAGES[id] ?? INCLUDED_PAGES.foretag);
   }
@@ -59,7 +67,8 @@ export default function PriceCalculator() {
     const base = BASE[type] ?? BASE.foretag;
     const included = INCLUDED_PAGES[type] ?? INCLUDED_PAGES.foretag;
     const extraPages = Math.max(0, pages - included);
-    const estimate = base + extraPages * PER_PAGE + features.length * PER_FEATURE;
+    const extraFeatures = features.filter(id => !(id === 'cms' && type !== 'landing'));
+    const estimate = base + extraPages * PER_PAGE + extraFeatures.length * PER_FEATURE;
     // Band runt estimatet: −10 % nedåt, +15 % uppåt. Medvetet asymmetriskt —
     // hellre ett intervall som tar i än ett som lovar för lågt.
     const low = Math.max(2000, estimate * 0.9);
@@ -68,6 +77,7 @@ export default function PriceCalculator() {
   }, [type, pages, features]);
 
   function toggleFeature(id: string) {
+    startTracking();
     setFeatures((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id],
     );
@@ -133,7 +143,7 @@ export default function PriceCalculator() {
               min={1}
               max={MAX_PAGES}
               value={pages}
-              onChange={(e) => setPages(Number(e.target.value))}
+              onChange={(e) => { startTracking(); setPages(Number(e.target.value)); }}
               className="calc-range w-full"
               aria-valuetext={`${pages} ${pages === 1 ? c.sidorEn : c.sidorFlera}`}
             />
@@ -146,12 +156,14 @@ export default function PriceCalculator() {
             </legend>
             <div className="flex flex-wrap gap-2">
               {c.funktioner.map((f) => {
-                const active = features.includes(f.id);
+                const included = f.id === 'cms' && type !== 'landing';
+                const active = included || features.includes(f.id);
                 return (
                   <button
                     key={f.id}
                     type="button"
                     onClick={() => toggleFeature(f.id)}
+                    disabled={included}
                     aria-pressed={active}
                     className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-all ${
                       active
@@ -160,7 +172,7 @@ export default function PriceCalculator() {
                     }`}
                   >
                     {active ? '✓ ' : '+ '}
-                    {f.namn}
+                    {f.namn}{included ? (lang === 'sv' ? ' · Ingår' : ' · Included') : ''}
                   </button>
                 );
               })}
@@ -177,16 +189,18 @@ export default function PriceCalculator() {
             {formatPrice(high, lang)}
           </p>
           <p className="mt-3 text-xs leading-relaxed text-white/60">{c.resultatNote}</p>
+          <p className="mt-2 text-xs text-accent-light">{priceTerms[lang].vat}</p>
 
-          <a
-            href="#kontakt"
+          <Link
+            href={lang === 'sv' ? '/#kontakt' : '/en#kontakt'}
+            onClick={() => { startTracking(); trackConversion('calculator_quote_clicked', { type, pages, feature_count: features.length }); }}
             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-white transition-all hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] active:scale-[0.99]"
           >
             {c.ctaText}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </Link>
           <p className="mt-3 text-center text-[11px] text-white/60">{c.ctaSub}</p>
         </div>
       </div>

@@ -1,25 +1,28 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useLang } from '../i18n/LanguageProvider';
 import LanguageToggle from '../i18n/LanguageToggle';
 
 /**
  * Mobilnavigering — hamburgerknapp som öppnar en fullskärms-overlay.
- * Visas bara under md (desktop använder den vanliga inline-navet).
+ * Visas bara under lg (desktop använder den vanliga inline-navet).
  */
 export default function MobileNav({ activeSection }: { activeSection: string }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const home = lang === 'en' ? '/en' : '/';
 
   const links = [
-    { id: 'arbete', label: t.nav2.arbete },
+    { id: 'portfolio', label: t.footer2.portfolio, href: '/portfolio' },
     { id: 'process', label: t.nav2.process },
-    { id: 'priser', label: t.nav2.priser },
+    { id: 'priser', label: t.nav2.priser, href: '/priser' },
+    { id: 'gratis-demo', label: t.nav2.demo, href: '/gratis-demo' },
     { id: 'om', label: t.nav2.om },
-    { id: 'tjanster-sida', label: t.footer2.tjanster, href: '/tjanster' },
+    { id: 'tjanster', label: t.footer2.tjanster, href: '/tjanster' },
   ];
 
   // Lås bakgrundsscroll medan menyn är öppen + stäng på Escape.
@@ -57,7 +60,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   }, [open]);
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         ref={triggerRef}
         type="button"
@@ -88,27 +91,27 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
         </span>
       </button>
 
-      {/* Overlay — alltid monterad så den kan tonas in och ut. Utan inert
-          ligger den stängda menyns länkar kvar i tabbordningen. */}
-      <div
+      {/* Portalen gör att headerns backdrop-filter inte begränsar mobilmenyns höjd. */}
+      {open && createPortal(<div
         ref={menuRef}
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
         aria-label={t.nav.meny}
-        className={`fixed inset-0 z-40 bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[70] overflow-y-auto bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         inert={!open}
       >
-        <nav className="flex h-full flex-col items-center justify-center gap-2 px-6">
+        <button type="button" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} aria-label={t.nav.stangMeny} className="absolute right-5 top-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-xl text-white">×</button>
+        <nav className="flex min-h-full flex-col items-center justify-center gap-1 px-6 py-20">
           {links.map((link) => (
             <a
               key={link.id}
-              href={link.href ?? `#${link.id}`}
+              href={link.href ?? `${home}#${link.id}`}
               onClick={() => setOpen(false)}
-              className={`w-full max-w-xs rounded-2xl px-6 py-4 text-center text-lg font-semibold transition-colors ${
-                activeSection === link.id
+              className={`w-full max-w-xs rounded-2xl px-6 py-3 text-center text-lg font-semibold transition-colors ${
+                (activeSection === link.id || activeSection.startsWith(link.id + "/"))
                   ? 'bg-accent/10 text-white'
                   : 'text-white/70 hover:bg-white/5 hover:text-white'
               }`}
@@ -117,9 +120,9 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
             </a>
           ))}
           <a
-            href="#kontakt"
+            href={`${home}#kontakt`}
             onClick={() => setOpen(false)}
-            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-4 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
+            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-3 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
           >
             {t.nav2.cta}
           </a>
@@ -127,7 +130,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
             <LanguageToggle compact />
           </div>
         </nav>
-      </div>
+      </div>, document.body)}
     </div>
   );
 }

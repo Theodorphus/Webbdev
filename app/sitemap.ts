@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { orter } from "./webbutveckling/orter";
+import { customerCases } from "./portfolio/cases";
 import { posts } from "./blogg/posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
@@ -7,6 +8,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return [
+    ...customerCases.map(item => ({ url: `${SITE_URL}/portfolio/${item.slug}`, lastModified, changeFrequency: "monthly" as const, priority: 0.8 })),
+    {
+      url: `${SITE_URL}/gratis-demo`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     {
       url: SITE_URL,
       lastModified,
@@ -29,6 +37,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Portfolio.
     {
       url: `${SITE_URL}/portfolio`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    // Priser.
+    {
+      url: `${SITE_URL}/priser`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,

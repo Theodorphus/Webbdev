@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import TrafficResults from '../components/TrafficResults';
 import { Reveal } from '../components/animations/Motion';
 import { BrowserPreview } from '../components/ProjectPreview';
 import { useLang } from '../i18n/LanguageProvider';
@@ -25,14 +26,14 @@ function IconBack() {
 // Ett case i full bredd: preview till vänster, texten till höger. Varannan rad
 // byter sida så att sidan inte blir en enda lodrät kolumn.
 function CaseRow({ project, index }: { project: Project; index: number }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const text = t.arbete.projekt[project.slug];
   const reverse = index % 2 === 1;
   return (
     <Reveal>
       <a
-        href={project.url}
-        target="_blank"
+        href={project.caseHref ?? project.url}
+        target={project.caseHref ? undefined : "_blank"}
         rel="noopener noreferrer"
         className="group grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16"
       >
@@ -63,7 +64,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
             ))}
           </div>
           <span className="mt-[30px] inline-flex items-center gap-2.5 text-sm font-semibold text-accent-light">
-            {t.arbete.besok}
+            {project.caseHref ? (lang === 'sv' ? 'Läs kundcaset' : 'Read the case study (Swedish)') : t.arbete.besok}
             <span className="transition-transform duration-300 group-hover:translate-x-1">
               <IconArrow />
             </span>
@@ -78,7 +79,7 @@ export default function PortfolioContent() {
   const { t } = useLang();
 
   return (
-    <div className="relative overflow-x-hidden pb-32 pt-28">
+    <main className="relative overflow-x-hidden pb-32 pt-28">
       <div className="mx-auto max-w-[80rem] px-8">
         <Link
           href="/"
@@ -105,7 +106,7 @@ export default function PortfolioContent() {
 
         {/* Utvalda projekt — ett case per rad */}
         <div className="mt-[88px] flex flex-col gap-[104px]">
-          {featuredProjects.map((p, i) => (
+          {[...featuredProjects].sort((a, b) => Number(Boolean(b.caseHref)) - Number(Boolean(a.caseHref))).map((p, i) => (
             <CaseRow key={p.slug} project={p} index={i} />
           ))}
         </div>
@@ -146,6 +147,8 @@ export default function PortfolioContent() {
           })}
         </div>
 
+        <div className="mt-20"><TrafficResults /></div>
+
         {/* Avslutande CTA */}
         <Reveal className="mt-[120px] rounded-[24px] border border-white/[0.09] bg-white/[0.02] px-8 py-14 text-center">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-white">
@@ -165,6 +168,6 @@ export default function PortfolioContent() {
           </Link>
         </Reveal>
       </div>
-    </div>
+    </main>
   );
 }

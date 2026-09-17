@@ -1,3 +1,5 @@
+import { business } from '../lib/business';
+
 // Tvåspråkig ordbok (svenska + engelska). All synlig text på sajten bor här;
 // <LanguageProvider> plockar rätt uppsättning utifrån routens språk
 // ('/' = sv, '/en' = en).
@@ -48,6 +50,7 @@ export const dictionary = {
     },
     // ── Premium-redesignen (Claude Design-handoff) ──────────
     nav2: {
+      demo: 'Gratis demo',
       arbete: 'Utvalda projekt',
       process: 'Process',
       priser: 'Priser',
@@ -66,7 +69,7 @@ export const dictionary = {
       stats: [
         { varde: '3–7', label: 'Dagar till lansering' },
         { varde: '5,0', label: 'Betyg på Google' },
-        { varde: '100%', label: 'Fast pris, inga tillägg' },
+        { varde: '100%', label: 'Fast pris enligt offert' },
       ],
     },
     arbete: {
@@ -82,7 +85,7 @@ export const dictionary = {
         ockerocement: { kategori: 'Byggmaterial', desc: 'Sajt för ett cementgjuteri i Göteborgs skärgård — produktkatalog för betong och marksten, maskinuthyrning och leveransinformation.', result: 'Sortiment, uthyrning och leveransområde samlat på ett ställe' },
         erotikmassan: { kategori: 'Eventsida', desc: 'Mässajt med program, utställare, artister och biljettförsäljning — med nedräkning till mässdagarna.', result: 'Besökaren hittar program och biljetter utan att leta' },
         oddsverket: { kategori: 'Speltipssajt', desc: 'Dagliga speltips med analyser, statistik och oddsjämförelse i ett mörkt gränssnitt byggt för snabb överblick.', result: 'Nytt innehåll varje dag utan att sajten blir rörig' },
-        karla: { kategori: 'Företagswebbplats', desc: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', result: 'Snabb, mobiloptimerad och enkel att hitta på Google' },
+        karla: { kategori: 'Företagswebbplats', desc: 'Professionell hemsida för ett städföretag med tydlig presentation av tjänster, priser och kontaktformulär.', result: 'Tjänster, priser och kontakt samlade i en mobilanpassad webbplats' },
         wildkull: { kategori: 'Företagswebbplats', desc: 'Professionell webbplats för en lönebyrå med tydlig presentation av tjänster och förtroendeingivande design.', result: 'Trovärdig och modern sajt som stärker varumärket online' },
         konstbyte: { kategori: 'E-handelsplattform', desc: 'E-handelsplattform för konstnärer med community-features, AI-integration och fullständig administratörsöversikt.', result: 'Skalbar plattform med AI-funktioner och Stripe-betalningar' },
         andreRoslund: { kategori: 'Författarwebbplats', desc: 'Elegant författarwebbplats med bokkatalog, föreläsningar och kontakt — litterär design med mörk ton och guldaccenter.', result: 'Stämningsfull sajt som lyfter författarens varumärke' },
@@ -119,11 +122,23 @@ export const dictionary = {
     },
     priser2: {
       rubrik: 'Fast pris. Inga överraskningar.',
-      badge: 'Mest vald',
-      prisNotis: 'Prisnivåerna är ungefärliga och anpassas efter projektets omfattning och dina krav. Du får alltid en tydlig offert innan arbetet börjar.',
+      badge: 'Med innehållshantering',
+      prisNotis: 'Vägledande priser exklusive moms. Du får en fast offert för överenskommen omfattning innan arbetet börjar.',
       osaker1: 'Osäker på vad du behöver?',
       osakerCta: 'Få en gratis analys',
       osaker2: '— jag rekommenderar rätt nivå för just ditt företag.',
+    },
+    priserSida: {
+      tillbaka: 'Tillbaka till startsidan',
+      ingress: 'Tre paket som täcker det mesta — plus en kalkylator som ger dig ett prisintervall direkt. Inga dolda kostnader, och alltid en tydlig offert innan arbetet börjar.',
+      ctaRubrik: 'Vet du redan vad du behöver?',
+      ctaText: 'Berätta om projektet så får du ett fast pris inom 24 timmar — utan köptvång.',
+      cta: 'Få offert inom 24h',
+    },
+    priserTeaser: {
+      rubrik: 'Från 2 000 kr exkl. moms',
+      text: 'Tre paket med tydliga priser och en kalkylator som ger dig ett intervall på tio sekunder — utan att du behöver mejla först.',
+      cta: 'Se priser & kalkylator',
     },
     omMig2: {
       rubrik: 'Du pratar alltid med den som bygger',
@@ -163,23 +178,23 @@ export const dictionary = {
         { label: 'Slöar försäljningen', desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
         { label: 'Förvirrande UX', desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
         { label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
-        { label: 'Dålig laddtid', desc: 'Varje extra sekund laddtid kostar dig konverteringar och Google-ranking.' },
-        { label: 'Inte mobilvänlig', desc: '70% av trafiken är mobil. Utan responsiv design förlorar du halva marknaden.' },
-        { label: 'Syns inte på Google', desc: 'Utan SEO-optimering hittar ingen dig. Ingen trafik = ingen försäljning.' },
+        { label: 'Dålig laddtid', desc: 'Tunga bilder och onödig kod kan göra sidan långsam. Vi ser över vad som faktiskt behöver laddas.' },
+        { label: 'Inte mobilvänlig', desc: 'Små knappar och svårläst innehåll gör det onödigt svårt att använda sidan på mobilen.' },
+        { label: 'Syns inte på Google', desc: 'Otydliga rubriker och bristande sidstruktur kan göra det svårare för sökmotorer att förstå innehållet.' },
       ],
     },
     tjanster: {
       etikett: 'Det jag levererar',
-      rubrik: 'Teknik & tjänster i världsklass',
+      rubrik: 'En hemsida som hjälper kunden vidare',
       items: [
-        { title: 'Next.js & React', desc: 'Snabbaste ramverket för moderna, SEO-vänliga hemsidor med server-side rendering.', tag: 'Core' },
-        { title: 'Supabase backend', desc: 'Säker databas med realtidsuppdateringar, autentisering och API ur lådan.', tag: 'Backend' },
-        { title: 'Admin-panel', desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.', tag: 'CMS' },
-        { title: 'Optimerad prestanda', desc: 'Lighthouse-score 95+. Core Web Vitals godkänt. Din sida rankar på Google.', tag: 'SEO' },
-        { title: 'Premium design', desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.', tag: 'Design' },
-        { title: 'Stripe-betalningar', desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.', tag: 'E-commerce' },
-        { title: 'Fast pris', desc: 'Inget timpris, inga överraskningar. Du vet exakt vad du betalar från dag ett.', tag: 'Pris' },
-        { title: '3–7 dagars leverans', desc: 'Från brief till live hemsida på 3–7 arbetsdagar. Snabbt när det gäller.', tag: 'Leverans' },
+        { title: 'Presentera ditt företag', desc: 'En snabb och mobilanpassad webbplats där besökaren hittar ditt erbjudande och nästa steg. Byggd med Next.js och React.', tag: 'Webb' },
+        { title: 'Samla kundflöden på ett ställe', desc: 'Samla exempelvis konton och förfrågningar i en lösning anpassad efter verksamheten. Databas och inloggning vid behov.', tag: 'Flöden' },
+        { title: 'Uppdatera innehållet själv', desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.', tag: 'CMS' },
+        { title: 'Gör sidan lätt att använda', desc: 'Optimerade bilder, genomtänkt laddning och kontroll av prestanda före lansering. Sökplaceringar kan inte garanteras.', tag: 'SEO' },
+        { title: 'Ett uttryck som passar dig', desc: 'Modernt, iögonfallande och konverteringsoptimerat. Byggt för att imponera.', tag: 'Design' },
+        { title: 'Sälj och ta betalt online', desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.', tag: 'E-commerce' },
+        { title: 'Fast pris', desc: 'En fast offert för överenskommen omfattning. Nya önskemål prissätts och godkänns separat.', tag: 'Pris' },
+        { title: '3–7 dagars leverans', desc: 'Normalt 3–7 arbetsdagar från godkänd design och komplett material. Tidsplanen anpassas efter omfattning.', tag: 'Leverans' },
       ],
     },
     process: {
@@ -190,7 +205,7 @@ export const dictionary = {
         { title: 'Designförslag', desc: 'Du får ett visuellt förslag som visar exakt hur hemsidan kommer se ut — innan ett tecken kod skrivs.' },
         { title: 'Byggnation', desc: 'Jag bygger med senaste tekniken. Full transparens — du kan följa framsteget i realtid.' },
         { title: 'Lansering', desc: 'Din hemsida är live. Jag hanterar domän, SSL och hosting. Du behöver inte göra något.' },
-        { title: 'Support', desc: 'Första månaden support ingår gratis. Snabba svar, snabba fixes. Du är aldrig ensam.' },
+        { title: 'Support', desc: 'Support enligt valt paket: 1 månad i Premium och 3 månader i Full Service. Fortsatt hjälp avtalas separat.' },
       ],
       ctaText: 'Redo att komma igång? Det kostar ingenting att höra av sig.',
       ctaLank: 'Boka gratis analys',
@@ -225,8 +240,8 @@ export const dictionary = {
       etikett: 'Priser',
       komIgang: 'Kom igång',
       paket: [
-        { tier: 'Bas', pris: '2 000 kr', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', '5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
-        { tier: 'Premium', pris: '4 000 kr', desc: 'Det mest populära alternativet', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
+        { tier: 'Bas', pris: '2 000 kr', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', 'Upp till 5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
+        { tier: 'Premium', pris: '4 000 kr', desc: 'För dig som vill uppdatera innehållet själv', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
         { tier: 'Full Service', pris: '6 000+ kr', desc: 'Större lösning med avancerade funktioner', features: ['Allt från Premium', 'Fler sidor efter projektets behov', 'E-handel via Stripe', 'Avancerad admin-panel', '3 månaders support'] },
       ],
       kalkylator: {
@@ -235,8 +250,8 @@ export const dictionary = {
         ingress: 'Få ett ungefärligt prisintervall på 10 sekunder. Vill du ha en exakt offert hör jag av mig inom 24h.',
         typLabel: 'Typ av sida',
         typer: [
-          { id: 'landing', namn: 'Landningssida', desc: 'En sida som säljer' },
-          { id: 'foretag', namn: 'Företagssida', desc: 'Flera sidor, presenterar verksamheten' },
+          { id: 'landing', namn: 'Mindre företagssida', desc: 'Bas: upp till 5 sidor' },
+          { id: 'foretag', namn: 'Företagssida med CMS', desc: 'Premium: upp till 15 sidor' },
           { id: 'ehandel', namn: 'Webbshop', desc: 'Sälj produkter online' },
         ],
         sidorLabel: 'Antal sidor',
@@ -291,7 +306,7 @@ export const dictionary = {
     footer: {
       tagline: 'Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor.',
       foretag: 'Företag',
-      foretagRader: ['Webbdev Studio — Enskild firma', 'Org.nr: 19950721-XXXX', 'Momsregistrerad: Ja'],
+      foretagRader: ['Webbdev Studio — Enskild firma', `Org.nr: ${business.registrationNumber}`, 'Momsregistrerad: Ja'],
       orter: 'Orter',
       kontakt: 'Kontakt',
       integritetspolicy: 'Integritetspolicy',
@@ -380,6 +395,7 @@ export const dictionary = {
     },
     // ── Premium redesign (Claude Design handoff) ────────────
     nav2: {
+      demo: 'Free demo',
       arbete: 'Selected work',
       process: 'Process',
       priser: 'Pricing',
@@ -398,7 +414,7 @@ export const dictionary = {
       stats: [
         { varde: '3–7', label: 'Days to launch' },
         { varde: '5.0', label: 'Rating on Google' },
-        { varde: '100%', label: 'Fixed price, no extras' },
+        { varde: '100%', label: 'Fixed price for agreed scope' },
       ],
     },
     arbete: {
@@ -412,7 +428,7 @@ export const dictionary = {
         ockerocement: { kategori: 'Building materials', desc: 'Site for a cement works in the Gothenburg archipelago — a product catalogue for concrete and paving, machine rental and delivery information.', result: 'Range, rental and delivery area gathered in one place' },
         erotikmassan: { kategori: 'Event site', desc: 'Trade fair site with the programme, exhibitors, performers and ticket sales — plus a countdown to the fair.', result: 'Visitors find the programme and tickets without hunting' },
         oddsverket: { kategori: 'Betting tips site', desc: 'Daily betting tips with analyses, stats and odds comparison in a dark interface built for a fast overview.', result: 'New content every day without the site getting cluttered' },
-        karla: { kategori: 'Corporate website', desc: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.', result: 'Fast, mobile-optimized and easy to find on Google' },
+        karla: { kategori: 'Corporate website', desc: 'Professional website for a cleaning company with a clear presentation of services, pricing and a contact form.', result: 'Services, prices and contact in one responsive website' },
         wildkull: { kategori: 'Corporate website', desc: 'Professional website for a payroll firm with a clear service presentation and trust-building design.', result: 'Credible, modern site that strengthens the brand online' },
         konstbyte: { kategori: 'E-commerce platform', desc: 'E-commerce platform for artists with community features, AI integration and a full admin dashboard.', result: 'Scalable platform with AI features and Stripe payments' },
         andreRoslund: { kategori: 'Author website', desc: 'Elegant author website with a book catalogue, lectures and contact — a literary design with a dark theme and gold accents.', result: 'Atmospheric site that elevates the author’s brand' },
@@ -450,10 +466,22 @@ export const dictionary = {
     priser2: {
       rubrik: 'Fixed price. No surprises.',
       badge: 'Most picked',
-      prisNotis: 'Price levels are approximate and depend on the project scope and your requirements. You will always receive a clear quote before work begins.',
+      prisNotis: 'Indicative prices excluding VAT. You receive a fixed quote for the agreed scope before work begins.',
       osaker1: 'Not sure what you need?',
       osakerCta: 'Get a free analysis',
       osaker2: '— I’ll recommend the right level for your business.',
+    },
+    priserSida: {
+      tillbaka: 'Back to the homepage',
+      ingress: 'Three packages that cover most needs — plus a calculator that gives you a price range right away. No hidden costs, and always a clear quote before work begins.',
+      ctaRubrik: 'Already know what you need?',
+      ctaText: 'Tell me about the project and you’ll have a fixed price within 24 hours — no strings attached.',
+      cta: 'Get a quote within 24h',
+    },
+    priserTeaser: {
+      rubrik: 'From 2,000 SEK excluding VAT',
+      text: 'Three packages with clear prices and a calculator that gives you a range in ten seconds — no need to email first.',
+      cta: 'See pricing & calculator',
     },
     omMig2: {
       rubrik: 'You always talk to the person building',
@@ -493,23 +521,23 @@ export const dictionary = {
         { label: 'Slows down sales', desc: 'Old websites lose visitors in the first second — you lose customers without even knowing it.' },
         { label: 'Confusing UX', desc: "Poor navigation means customers can't find what they're looking for and go to a competitor." },
         { label: 'Looks unprofessional', desc: 'A dated design signals that you are out of touch and scares customers away.' },
-        { label: 'Slow load times', desc: 'Every extra second of load time costs you conversions and Google ranking.' },
-        { label: 'Not mobile friendly', desc: '70% of traffic is mobile. Without responsive design you lose half the market.' },
-        { label: 'Invisible on Google', desc: 'Without SEO, no one finds you. No traffic = no sales.' },
+        { label: 'Slow load times', desc: 'Heavy images and unnecessary code can slow a site down. We review what actually needs to load.' },
+        { label: 'Not mobile friendly', desc: 'Small buttons and hard-to-read content make a website difficult to use on a phone.' },
+        { label: 'Invisible on Google', desc: 'Clear headings and page structure help search engines understand your content.' },
       ],
     },
     tjanster: {
       etikett: 'What I deliver',
-      rubrik: 'World-class tech & services',
+      rubrik: 'A website that helps your customers take the next step',
       items: [
-        { title: 'Next.js & React', desc: 'The fastest framework for modern, SEO-friendly websites with server-side rendering.', tag: 'Core' },
-        { title: 'Supabase backend', desc: 'Secure database with realtime updates, authentication and an API out of the box.', tag: 'Backend' },
-        { title: 'Admin panel', desc: 'Manage all your content yourself through a modern interface — no code required.', tag: 'CMS' },
-        { title: 'Optimized performance', desc: 'Lighthouse score 95+. Core Web Vitals passed. Your site ranks on Google.', tag: 'SEO' },
-        { title: 'Premium design', desc: 'Modern, eye-catching and conversion-optimized. Built to impress.', tag: 'Design' },
-        { title: 'Stripe payments', desc: 'Secure e-commerce with Stripe. Sell products or services straight from your site.', tag: 'E-commerce' },
-        { title: 'Fixed price', desc: 'No hourly rate, no surprises. You know exactly what you pay from day one.', tag: 'Price' },
-        { title: '3–7 day delivery', desc: 'From brief to live website in 3–7 working days. Fast when it matters.', tag: 'Delivery' },
+        { title: 'Present your business', desc: 'A fast, responsive website that helps visitors find your offer and their next step. Built with Next.js and React.', tag: 'Webb' },
+        { title: 'Bring customer workflows together', desc: 'Secure database with realtime updates, authentication and an API out of the box.', tag: 'Flöden' },
+        { title: 'Update your own content', desc: 'Manage all your content yourself through a modern interface — no code required.', tag: 'CMS' },
+        { title: 'Make your site easy to use', desc: 'Optimized images, considered loading and performance checks before launch. Search rankings cannot be guaranteed.', tag: 'SEO' },
+        { title: 'A design that fits your business', desc: 'Modern, eye-catching and conversion-optimized. Built to impress.', tag: 'Design' },
+        { title: 'Sell and accept payments online', desc: 'Secure e-commerce with Stripe. Sell products or services straight from your site.', tag: 'E-commerce' },
+        { title: 'Fixed price', desc: 'A fixed quote for the agreed scope. Additional requests are priced and approved separately.', tag: 'Price' },
+        { title: '3–7 day delivery', desc: 'Typically 3–7 working days from approved design and complete content. Timing depends on scope.', tag: 'Delivery' },
       ],
     },
     process: {
@@ -520,7 +548,7 @@ export const dictionary = {
         { title: 'Design proposal', desc: 'You get a visual proposal showing exactly how the site will look — before a single line of code is written.' },
         { title: 'Build', desc: 'I build with the latest tech. Full transparency — you can follow the progress in real time.' },
         { title: 'Launch', desc: 'Your website goes live. I handle domain, SSL and hosting. You don’t have to do a thing.' },
-        { title: 'Support', desc: 'The first month of support is included free. Fast replies, fast fixes. You are never on your own.' },
+        { title: 'Support', desc: 'Support follows your package: 1 month with Premium and 3 months with Full Service. Further support is agreed separately.' },
       ],
       ctaText: 'Ready to get started? Reaching out costs nothing.',
       ctaLank: 'Book a free analysis',
@@ -555,8 +583,8 @@ export const dictionary = {
       etikett: 'Pricing',
       komIgang: 'Get started',
       paket: [
-        { tier: 'Basic', pris: '2,000 SEK', desc: 'Perfect for getting started quickly', features: ['Responsive website', '5 pages', 'Contact form', 'Mobile-optimized'] },
-        { tier: 'Premium', pris: '4,000 SEK', desc: 'The most popular option', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
+        { tier: 'Basic', pris: '2,000 SEK', desc: 'Perfect for getting started quickly', features: ['Responsive website', 'Up to 5 pages', 'Contact form', 'Mobile-optimized'] },
+        { tier: 'Premium', pris: '4,000 SEK', desc: 'For managing your own content', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
         { tier: 'Full Service', pris: '6,000+ SEK', desc: 'Larger solution with advanced features', features: ['Everything in Premium', 'More pages based on project needs', 'E-commerce via Stripe', 'Advanced admin panel', '3 months of support'] },
       ],
       kalkylator: {
@@ -565,7 +593,7 @@ export const dictionary = {
         ingress: 'Get a rough price range in 10 seconds. Want an exact quote? I’ll get back to you within 24h.',
         typLabel: 'Type of site',
         typer: [
-          { id: 'landing', namn: 'Landing page', desc: 'One page that sells' },
+          { id: 'landing', namn: 'Small business site', desc: 'Basic: up to 5 pages' },
           { id: 'foretag', namn: 'Business site', desc: 'Several pages, presents your business' },
           { id: 'ehandel', namn: 'Online store', desc: 'Sell products online' },
         ],
@@ -622,7 +650,7 @@ export const dictionary = {
     footer: {
       tagline: 'Modern web development for companies — fast, conversion-optimized websites.',
       foretag: 'Company',
-      foretagRader: ['Webbdev Studio — Sole proprietorship', 'Reg. no: 19950721-XXXX', 'VAT registered: Yes'],
+      foretagRader: ['Webbdev Studio — Sole proprietorship', `Reg. no: ${business.registrationNumber}`, 'VAT registered: Yes'],
       orter: 'Locations',
       kontakt: 'Contact',
       integritetspolicy: 'Privacy policy',

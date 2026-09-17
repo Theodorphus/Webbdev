@@ -1,3 +1,4 @@
+import { priceTerms } from './lib/business';
 import type { Lang } from './i18n/dictionary';
 
 /** FAQ-innehåll (tvåspråkigt) — används av FAQ-sektionen och JSON-LD. */
@@ -9,7 +10,7 @@ export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: 'Vad ingår i priset?',
-      a: 'Allt som listas i paketet: design, utveckling, mobilanpassning, lansering med domänkoppling, SSL och hosting-setup. Fast pris betyder fast pris — inga dolda kostnader eller överraskningar.',
+      a: `${priceTerms.sv.vat} ${priceTerms.sv.scope} Det som ingår i valt paket och lanseringen specificeras i offerten.`,
     },
     {
       q: 'Äger jag hemsidan när den är klar?',
@@ -21,7 +22,7 @@ export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: 'Behöver jag fixa hosting och domän själv?',
-      a: 'Nej, jag sköter hela lanseringen: domän, SSL-certifikat och hosting. Du behöver inte göra något tekniskt — du får en färdig, live hemsida.',
+      a: `Jag hjälper dig med domänkoppling, SSL och att sätta upp drift vid lanseringen. ${priceTerms.sv.running}`,
     },
     {
       q: 'Hur fungerar betalningen?',
@@ -35,7 +36,7 @@ export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: 'What is included in the price?',
-      a: 'Everything listed in the package: design, development, mobile optimization, launch with domain setup, SSL and hosting. Fixed price means fixed price — no hidden costs or surprises.',
+      a: `${priceTerms.en.vat} ${priceTerms.en.scope} Your package and launch setup are specified in the quote.`,
     },
     {
       q: 'Do I own the website when it’s done?',
@@ -47,7 +48,7 @@ export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: 'Do I need to handle hosting and domain myself?',
-      a: 'No, I handle the entire launch: domain, SSL certificate and hosting. You don’t need to do anything technical — you get a finished, live website.',
+      a: `I help with domain setup, SSL and hosting configuration at launch. ${priceTerms.en.running}`,
     },
     {
       q: 'How does payment work?',

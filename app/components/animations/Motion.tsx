@@ -6,10 +6,10 @@ import {
   motion,
   useInView,
   useMotionValue,
-  useReducedMotion,
   useSpring,
   type Variants,
 } from 'framer-motion';
+import { useMotionPreference } from './useMotionPreference';
 
 /** Expo-out — samma kurva som GSAP:s expo.out, för enhetlig känsla. */
 const EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -58,7 +58,7 @@ export function Item({
   children: ReactNode;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   return (
     <motion.div
       variants={reduce ? fadeOnlyVariants : fadeUpVariants}
@@ -77,7 +77,7 @@ export function MaskReveal({
   children: ReactNode;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const variants: Variants = reduce
     ? fadeOnlyVariants
     : {
@@ -104,7 +104,7 @@ export function Magnetic({
   strength?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 200, damping: 18 });
@@ -152,7 +152,7 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const inView = useInView(ref, { once: true, margin: '-10% 0px' });
   const [display, setDisplay] = useState(0);
 
@@ -185,7 +185,7 @@ export function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   return (
     <motion.div
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
@@ -210,7 +210,7 @@ export function WipeImage({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const inView = useInView(ref, { once: true, margin: '0px 0px -12% 0px' });
   const shown = inView || !!reduce;
 
@@ -249,7 +249,7 @@ export function TiltCard({
   className?: string;
   maxTilt?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
   const srx = useSpring(rx, { stiffness: 260, damping: 20 });

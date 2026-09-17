@@ -56,13 +56,13 @@ function IconBack() {
 }
 
 export default function TjansterContent() {
-  const scopeRef = useRef<HTMLDivElement>(null);
+  const scopeRef = useRef<HTMLElement>(null);
   const { t } = useLang();
 
   useAnimations(scopeRef);
 
   return (
-    <div ref={scopeRef} className="relative overflow-x-hidden pt-28">
+    <main ref={scopeRef} className="relative overflow-x-hidden pt-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Tillbaka-länk */}
         <Link
@@ -74,30 +74,6 @@ export default function TjansterContent() {
         </Link>
       </div>
 
-      {/* ── PROBLEM ──────────────────────────────────────────── */}
-      <section className="py-16">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
-            <p className="eyebrow">{t.problem.etikett}</p>
-            <h1 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
-              {t.problem.rubrik}
-            </h1>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
-            {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
-              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                  {item.icon}
-                </div>
-                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TJÄNSTER ─────────────────────────────────────────── */}
       <section id="tjanster" className="relative py-16 bg-grid">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06060f] via-transparent to-[#06060f]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -111,10 +87,11 @@ export default function TjansterContent() {
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="mb-10" data-animate="header">
             <p className="eyebrow">{t.tjanster.etikett}</p>
-            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
+            <h1 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
               {t.tjanster.rubrik}
-            </h2>
+            </h1>
           </div>
+          <p className="mb-8 max-w-2xl text-base leading-relaxed text-white/60">En tydlig presentation, enklare kontakt eller försäljning online. Vi utgår från vad din hemsida ska hjälpa kunden att göra och väljer teknik därefter.</p>
           <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
             {t.tjanster.items.map((item) => (
               <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
@@ -143,6 +120,27 @@ export default function TjansterContent() {
           </div>
         </div>
       </section>
-    </div>
+      <section className="py-16">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-10" data-animate="header">
+            <p className="eyebrow">{t.problem.etikett}</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-white md:text-4xl">
+              {t.problem.rubrik}
+            </h2>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
+            {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
+              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+                  {item.icon}
+                </div>
+                <h3 className="mb-2 text-base font-bold text-white/95">{item.label}</h3>
+                <p className="text-sm leading-relaxed text-white/55">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
