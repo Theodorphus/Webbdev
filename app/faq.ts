@@ -5,8 +5,8 @@ import type { Lang } from './i18n/dictionary';
 export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
   sv: [
     {
-      q: 'Hur kan det gå så snabbt som 3–7 dagar?',
-      a: 'Jag arbetar med en beprövad modern teknikstack (Next.js, Tailwind, Vercel) och en tydlig process. Eftersom designförslaget godkänns innan byggnationen startar försvinner onödiga vändor — jag kan fokusera helt på att bygga klart.',
+      q: 'Hur lång tid tar det att bygga hemsidan?',
+      a: 'För en mindre webbplats tar bygget normalt 3–7 arbetsdagar från godkänd design och komplett material. Större webbplatser och mer avancerade funktioner kan ta längre tid. Vi kommer överens om en tidsplan innan arbetet börjar.',
     },
     {
       q: 'Vad ingår i priset?',
@@ -31,8 +31,8 @@ export const faqByLang: Record<Lang, { q: string; a: string }[]> = {
   ],
   en: [
     {
-      q: 'How can it be as fast as 3–7 days?',
-      a: 'I work with a proven modern tech stack (Next.js, Tailwind, Vercel) and a clear process. Since the design is approved before the build starts, there are no unnecessary back-and-forths — I can focus entirely on finishing the site.',
+      q: 'How long does it take to build a website?',
+      a: 'A smaller website typically takes 3–7 working days from approved design and complete content. Larger sites and more advanced functionality can take longer. We agree on a timeline before work begins.',
     },
     {
       q: 'What is included in the price?',

@@ -27,7 +27,7 @@ export const dictionary = {
       lokal:
         'Webbutveckling i Göteborg för företag som vill synas. Snabba, moderna hemsidor byggda i Next.js — till fast pris.',
       usp: ['Leverans på 3–7 dagar', 'Fast pris', 'Inga dolda kostnader'],
-      ctaPrimar: 'Få offert inom 24h',
+      ctaPrimar: 'Berätta om ditt projekt',
       ctaSekundar: 'Se hur det funkar',
       stats: [
         { to: 7, prefix: '3–', suffix: ' dagar', label: 'Snabb leverans' },
@@ -46,7 +46,7 @@ export const dictionary = {
     },
     tjansterSida: {
       tillbaka: 'Tillbaka till startsidan',
-      cta: 'Få en gratis analys',
+      cta: 'Berätta om ditt projekt',
     },
     // ── Premium-redesignen (Claude Design-handoff) ──────────
     nav2: {
@@ -55,7 +55,7 @@ export const dictionary = {
       process: 'Process',
       priser: 'Priser',
       om: 'Om mig',
-      cta: 'Starta ett projekt',
+      cta: 'Berätta om ditt projekt',
     },
     hero2: {
       status1: 'Webbstudio · Göteborg',
@@ -64,7 +64,7 @@ export const dictionary = {
       accentOrd: 'faktiskt',
       ord: ['säljer', 'syns', 'konverterar', 'levererar'],
       ingress:
-        'Jag designar och bygger snabba, konverteringsoptimerade webbplatser för företag som vill växa. Fast pris, leverans på 3–7 dagar — och du pratar alltid direkt med den som bygger.',
+        'Jag designar och bygger webbplatser som speglar ditt varumärke och hjälper kunden vidare. Du har direktkontakt med mig från första skiss till lansering.',
       ctaSekundar: 'Se utvalda projekt',
       stats: [
         { varde: '3–7', label: 'Dagar till lansering' },
@@ -102,14 +102,14 @@ export const dictionary = {
       fler: 'Fler projekt',
       resultat: 'Resultat',
       ctaRubrik: 'Vill du ha något liknande?',
-      ctaText: 'Berätta vad du behöver så får du ett fast pris inom 24 timmar.',
-      cta: 'Få offert inom 24h',
+      ctaText: 'Jag återkommer inom 24 timmar med frågor och förslag på nästa steg. Du får en fast offert när omfattningen är tydlig.',
+      cta: 'Berätta om ditt projekt',
     },
     processIntro: {
       etikett: 'Processen',
       rubrik: 'Från idé till live — utan omvägar',
       text: 'Designförslaget godkänns innan en rad kod skrivs. Därför går det snabbt — och därför blir det rätt.',
-      cta: 'Boka gratis analys',
+      cta: 'Berätta om ditt projekt',
     },
     recension2: {
       viaGoogle: 'via Google',
@@ -125,25 +125,25 @@ export const dictionary = {
       badge: 'Med innehållshantering',
       prisNotis: 'Vägledande priser exklusive moms. Du får en fast offert för överenskommen omfattning innan arbetet börjar.',
       osaker1: 'Osäker på vad du behöver?',
-      osakerCta: 'Få en gratis analys',
+      osakerCta: 'Berätta om ditt projekt',
       osaker2: '— jag rekommenderar rätt nivå för just ditt företag.',
     },
     priserSida: {
       tillbaka: 'Tillbaka till startsidan',
       ingress: 'Tre paket som täcker det mesta — plus en kalkylator som ger dig ett prisintervall direkt. Inga dolda kostnader, och alltid en tydlig offert innan arbetet börjar.',
       ctaRubrik: 'Vet du redan vad du behöver?',
-      ctaText: 'Berätta om projektet så får du ett fast pris inom 24 timmar — utan köptvång.',
-      cta: 'Få offert inom 24h',
+      ctaText: 'Jag återkommer inom 24 timmar med frågor och förslag på nästa steg. Du förbinder dig inte till något.',
+      cta: 'Berätta om ditt projekt',
     },
     priserTeaser: {
-      rubrik: 'Från 2 000 kr exkl. moms',
-      text: 'Tre paket med tydliga priser och en kalkylator som ger dig ett intervall på tio sekunder — utan att du behöver mejla först.',
+      rubrik: 'Rätt omfattning. Ett tydligt pris.',
+      text: 'Genomtänkt design, mobilanpassning och en personlig kontakt genom hela projektet. Se vad som ingår i paketen, från 2 000 kr exklusive moms.',
       cta: 'Se priser & kalkylator',
     },
     omMig2: {
       rubrik: 'Du pratar alltid med den som bygger',
-      p1: 'Hej, jag heter Theo. Jag bygger snabba, snygga hemsidor för småföretag och egenföretagare som vill synas på riktigt — utan byråpriser och utan krångel.',
-      p2: 'Inga projektledare, inga mellanhänder. Snabba svar, gott om tid för dina frågor och en sida som blir precis som du tänkt dig — inte en mall som tusen andra använder.',
+      p1: 'Hej, jag heter Theo och driver Webbdev Studio i Göteborg. Jag hjälper företag att ge sitt varumärke ett genomarbetat uttryck på webben, med lika stor omsorg om design som funktion.',
+      p2: 'Du har direktkontakt med mig genom hela projektet. Vi går igenom dina mål, stämmer av designen och bygger en webbplats som passar din verksamhet.',
       p3: 'Jag tar varje projekt på allvar och är inte nöjd förrän du är det. Hör av dig så tar vi en förutsättningslös pratstund om din idé.',
       roll: 'Grundare',
     },
@@ -157,7 +157,7 @@ export const dictionary = {
     kontakt2: {
       rubrik1: 'Redo att synas',
       rubrik2: 'på riktigt?',
-      ingress: 'Berätta om ditt projekt så återkommer jag med en gratis analys — inom 24 timmar, utan köptvång.',
+      ingress: 'Jag återkommer inom 24 timmar med frågor och förslag på nästa steg. Därefter kommer vi överens om omfattning, tidsplan och ett fast pris.',
       successKnapp: 'Tack! Jag hör av mig inom 24 timmar.',
       direktFraga: 'Föredrar du att prata direkt?',
     },
@@ -175,7 +175,7 @@ export const dictionary = {
       etikett: 'Varför byta?',
       rubrik: 'Kostar din gamla hemsida affärer?',
       items: [
-        { label: 'Slöar försäljningen', desc: 'Gamla hemsidor tappar besökare på första sekunden — du förlorar kunder utan att veta om det.' },
+        { label: 'Gör det svårare att få förfrågningar', desc: 'Om erbjudandet och nästa steg är otydliga kan besökaren lämna sidan utan att ta kontakt.' },
         { label: 'Förvirrande UX', desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
         { label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
         { label: 'Dålig laddtid', desc: 'Tunga bilder och onödig kod kan göra sidan långsam. Vi ser över vad som faktiskt behöver laddas.' },
@@ -208,7 +208,7 @@ export const dictionary = {
         { title: 'Support', desc: 'Support enligt valt paket: 1 månad i Premium och 3 månader i Full Service. Fortsatt hjälp avtalas separat.' },
       ],
       ctaText: 'Redo att komma igång? Det kostar ingenting att höra av sig.',
-      ctaLank: 'Boka gratis analys',
+      ctaLank: 'Berätta om ditt projekt',
     },
     portfolio: {
       etikett: 'Min portfölj',
@@ -238,7 +238,7 @@ export const dictionary = {
     },
     priser: {
       etikett: 'Priser',
-      komIgang: 'Kom igång',
+      komIgang: 'Berätta om ditt projekt',
       paket: [
         { tier: 'Bas', pris: '2 000 kr', desc: 'Perfekt för att komma igång snabbt', features: ['Responsiv hemsida', 'Upp till 5 sidor', 'Kontaktformulär', 'Mobil-optimerad'] },
         { tier: 'Premium', pris: '4 000 kr', desc: 'För dig som vill uppdatera innehållet själv', features: ['Allt från Bas', 'Upp till 15 sidor', 'Admin-panel för innehåll', 'SEO-optimerad', '1 månads support'] },
@@ -247,7 +247,7 @@ export const dictionary = {
       kalkylator: {
         etikett: 'Priskalkylator',
         rubrik: 'Vad kostar din hemsida?',
-        ingress: 'Få ett ungefärligt prisintervall på 10 sekunder. Vill du ha en exakt offert hör jag av mig inom 24h.',
+        ingress: 'Utforska ett ungefärligt prisintervall. För en fast offert går vi igenom vad din webbplats behöver innehålla.',
         typLabel: 'Typ av sida',
         typer: [
           { id: 'landing', namn: 'Mindre företagssida', desc: 'Bas: upp till 5 sidor' },
@@ -266,7 +266,7 @@ export const dictionary = {
         ],
         resultatLabel: 'Uppskattat pris',
         resultatNote: 'Ungefärligt intervall — exakt pris får du i din kostnadsfria offert.',
-        ctaText: 'Få exakt offert inom 24h',
+        ctaText: 'Berätta om ditt projekt',
         ctaSub: 'Inget köptvång · Svar inom 24h',
       },
     },
@@ -286,7 +286,7 @@ export const dictionary = {
     kontakt: {
       etikett: 'Kom igång',
       rubrik: 'Redo för din nya hemsida?',
-      ingress: 'Fyll i formuläret nedan så hör jag av mig med en gratis analys.',
+      ingress: 'Berätta om ditt projekt så återkommer jag inom 24 timmar med frågor och förslag på nästa steg.',
       namn: 'Namn',
       namnPlaceholder: 'Ditt namn',
       epost: 'E-post',
@@ -297,7 +297,7 @@ export const dictionary = {
       error: 'Något gick fel — försök igen senare.',
       trust: 'Jag svarar alltid inom 24 timmar · Ingen kostnad · Ingen förpliktelse',
       skickar: 'Skickar...',
-      skicka: 'Skicka förfrågan gratis',
+      skicka: 'Skicka förfrågan',
       risk: 'Inget köptvång · Svar inom 24h · Du äger allt',
       mejlFraga: 'Föredrar du mejl?',
       gdpr1: 'Genom att skicka godkänner du att vi behandlar dina uppgifter enligt vår',
@@ -312,13 +312,13 @@ export const dictionary = {
       integritetspolicy: 'Integritetspolicy',
     },
     sticky: {
-      cta: 'Få offert inom 24h',
+      cta: 'Berätta om ditt projekt',
     },
     chat: {
-      oppna: 'Öppna chatten',
+      oppna: 'Öppna AI-assistenten',
       stang: 'Stäng chatten',
-      onlineStatus: 'Online nu',
-      rubrik: 'Fråga oss',
+      onlineStatus: 'Svar om tjänster, priser och process',
+      rubrik: 'Webbdevs AI-assistent',
       underrubrik: 'Vi svarar direkt — fråga om priser, process eller något annat.',
       valkomna:
         'Hej! 👋 Jag är Webbdevs assistent. Fråga mig om hemsidor, priser, leveranstid eller vad som helst — så hjälper jag dig vidare.',
@@ -332,9 +332,9 @@ export const dictionary = {
         'Hur lång tid tar det?',
         'Vad ingår?',
       ],
-      bokaCta: '📅 Boka gratis analys',
+      bokaCta: 'Berätta om ditt projekt',
       lead: {
-        rubrik: 'Få en gratis analys',
+        rubrik: 'Berätta om ditt projekt',
         ingress: 'Lämna dina uppgifter så hör Theo av sig inom 24 timmar.',
         namn: 'Namn',
         namnPlaceholder: 'Ditt namn',
@@ -372,7 +372,7 @@ export const dictionary = {
       lokal:
         'Web development for companies that want to be seen. Fast, modern websites built in Next.js — at a fixed price.',
       usp: ['Delivered in 3–7 days', 'Fixed price', 'No hidden costs'],
-      ctaPrimar: 'Get a quote in 24h',
+      ctaPrimar: 'Tell me about your project',
       ctaSekundar: 'See how it works',
       stats: [
         { to: 7, prefix: '3–', suffix: ' days', label: 'Fast delivery' },
@@ -391,16 +391,16 @@ export const dictionary = {
     },
     tjansterSida: {
       tillbaka: 'Back to the homepage',
-      cta: 'Get a free analysis',
+      cta: 'Tell me about your project',
     },
     // ── Premium redesign (Claude Design handoff) ────────────
     nav2: {
-      demo: 'Free demo',
+      demo: 'Demo (Swedish)',
       arbete: 'Selected work',
       process: 'Process',
       priser: 'Pricing',
       om: 'About',
-      cta: 'Start a project',
+      cta: 'Tell me about your project',
     },
     hero2: {
       status1: 'Web studio · Gothenburg',
@@ -409,7 +409,7 @@ export const dictionary = {
       accentOrd: 'actually',
       ord: ['sell', 'get seen', 'convert', 'deliver'],
       ingress:
-        'I design and build fast, conversion-optimized websites for companies that want to grow. Fixed price, delivered in 3–7 days — and you always talk directly to the person building.',
+        'I design and build websites that reflect your brand and help customers take the next step. You work directly with me from the first sketch to launch.',
       ctaSekundar: 'See selected work',
       stats: [
         { varde: '3–7', label: 'Days to launch' },
@@ -445,14 +445,14 @@ export const dictionary = {
       fler: 'More projects',
       resultat: 'Result',
       ctaRubrik: 'Want something similar?',
-      ctaText: 'Tell me what you need and you’ll have a fixed price within 24 hours.',
-      cta: 'Get a quote within 24h',
+      ctaText: 'I’ll reply within 24 hours with questions and suggested next steps. You receive a fixed quote once we agree on the scope.',
+      cta: 'Tell me about your project',
     },
     processIntro: {
       etikett: 'The process',
       rubrik: 'From idea to live — no detours',
       text: 'The design proposal is approved before a single line of code is written. That’s why it’s fast — and why it turns out right.',
-      cta: 'Book a free analysis',
+      cta: 'Tell me about your project',
     },
     recension2: {
       viaGoogle: 'via Google',
@@ -468,25 +468,25 @@ export const dictionary = {
       badge: 'Most picked',
       prisNotis: 'Indicative prices excluding VAT. You receive a fixed quote for the agreed scope before work begins.',
       osaker1: 'Not sure what you need?',
-      osakerCta: 'Get a free analysis',
+      osakerCta: 'Tell me about your project',
       osaker2: '— I’ll recommend the right level for your business.',
     },
     priserSida: {
       tillbaka: 'Back to the homepage',
       ingress: 'Three packages that cover most needs — plus a calculator that gives you a price range right away. No hidden costs, and always a clear quote before work begins.',
       ctaRubrik: 'Already know what you need?',
-      ctaText: 'Tell me about the project and you’ll have a fixed price within 24 hours — no strings attached.',
-      cta: 'Get a quote within 24h',
+      ctaText: 'I’ll reply within 24 hours with questions and suggested next steps. There is no obligation.',
+      cta: 'Tell me about your project',
     },
     priserTeaser: {
-      rubrik: 'From 2,000 SEK excluding VAT',
-      text: 'Three packages with clear prices and a calculator that gives you a range in ten seconds — no need to email first.',
+      rubrik: 'The right scope. A clear price.',
+      text: 'Thoughtful design, mobile-friendly development and personal contact throughout. Explore packages from SEK 2,000 excluding VAT.',
       cta: 'See pricing & calculator',
     },
     omMig2: {
       rubrik: 'You always talk to the person building',
-      p1: 'Hi, I’m Theo. I build fast, great-looking websites for small businesses and sole traders who want to get seen for real — without agency prices and without hassle.',
-      p2: 'No project managers, no middlemen. Fast replies, plenty of time for your questions and a site that turns out exactly as you imagined — not a template used by a thousand others.',
+      p1: 'Hi, I’m Theo, the founder of Webbdev Studio in Gothenburg. I help businesses bring their brand to life online, with equal attention to design and functionality.',
+      p2: 'You work directly with me throughout the project. We discuss your goals, review the design together and build a website that suits your business.',
       p3: 'I take every project seriously and I’m not satisfied until you are. Get in touch and we’ll have a no-obligation chat about your idea.',
       roll: 'Founder',
     },
@@ -500,7 +500,7 @@ export const dictionary = {
     kontakt2: {
       rubrik1: 'Ready to get seen',
       rubrik2: 'for real?',
-      ingress: 'Tell me about your project and I’ll get back to you with a free analysis — within 24 hours, no strings attached.',
+      ingress: 'I’ll reply within 24 hours with questions and suggested next steps. We then agree on the scope, timeline and a fixed price.',
       successKnapp: 'Thanks! I’ll get back to you within 24 hours.',
       direktFraga: 'Prefer to talk directly?',
     },
@@ -508,7 +508,7 @@ export const dictionary = {
       navigera: 'Navigate',
       tjanster: 'Services',
       portfolio: 'Portfolio',
-      blogg: 'Blog',
+      blogg: 'Blog (Swedish)',
     },
     heroTrust: {
       betyg: '5.0',
@@ -518,7 +518,7 @@ export const dictionary = {
       etikett: 'Why switch?',
       rubrik: 'Is your old website costing you business?',
       items: [
-        { label: 'Slows down sales', desc: 'Old websites lose visitors in the first second — you lose customers without even knowing it.' },
+        { label: 'Makes enquiries harder', desc: 'If your offer and the next step are unclear, visitors may leave without getting in touch.' },
         { label: 'Confusing UX', desc: "Poor navigation means customers can't find what they're looking for and go to a competitor." },
         { label: 'Looks unprofessional', desc: 'A dated design signals that you are out of touch and scares customers away.' },
         { label: 'Slow load times', desc: 'Heavy images and unnecessary code can slow a site down. We review what actually needs to load.' },
@@ -551,7 +551,7 @@ export const dictionary = {
         { title: 'Support', desc: 'Support follows your package: 1 month with Premium and 3 months with Full Service. Further support is agreed separately.' },
       ],
       ctaText: 'Ready to get started? Reaching out costs nothing.',
-      ctaLank: 'Book a free analysis',
+      ctaLank: 'Tell me about your project',
     },
     portfolio: {
       etikett: 'My portfolio',
@@ -581,7 +581,7 @@ export const dictionary = {
     },
     priser: {
       etikett: 'Pricing',
-      komIgang: 'Get started',
+      komIgang: 'Tell me about your project',
       paket: [
         { tier: 'Basic', pris: '2,000 SEK', desc: 'Perfect for getting started quickly', features: ['Responsive website', 'Up to 5 pages', 'Contact form', 'Mobile-optimized'] },
         { tier: 'Premium', pris: '4,000 SEK', desc: 'For managing your own content', features: ['Everything in Basic', 'Up to 15 pages', 'Admin panel for content', 'SEO-optimized', '1 month of support'] },
@@ -590,7 +590,7 @@ export const dictionary = {
       kalkylator: {
         etikett: 'Price calculator',
         rubrik: 'What does your website cost?',
-        ingress: 'Get a rough price range in 10 seconds. Want an exact quote? I’ll get back to you within 24h.',
+        ingress: 'Explore an approximate price range. For a fixed quote, we’ll discuss exactly what your website needs.',
         typLabel: 'Type of site',
         typer: [
           { id: 'landing', namn: 'Small business site', desc: 'Basic: up to 5 pages' },
@@ -610,7 +610,7 @@ export const dictionary = {
         ],
         resultatLabel: 'Estimated price',
         resultatNote: 'Rough range — you’ll get the exact price in your free quote.',
-        ctaText: 'Get an exact quote in 24h',
+        ctaText: 'Tell me about your project',
         ctaSub: 'No obligation · Reply within 24h',
       },
     },
@@ -645,24 +645,24 @@ export const dictionary = {
       risk: 'No obligation · Reply within 24h · You own everything',
       mejlFraga: 'Prefer email?',
       gdpr1: 'By submitting, you agree that we process your data according to our',
-      gdpr2: 'privacy policy',
+      gdpr2: 'privacy policy (Swedish)',
     },
     footer: {
       tagline: 'Modern web development for companies — fast, conversion-optimized websites.',
       foretag: 'Company',
       foretagRader: ['Webbdev Studio — Sole proprietorship', `Reg. no: ${business.registrationNumber}`, 'VAT registered: Yes'],
-      orter: 'Locations',
+      orter: 'Locations (Swedish)',
       kontakt: 'Contact',
-      integritetspolicy: 'Privacy policy',
+      integritetspolicy: 'Privacy policy (Swedish)',
     },
     sticky: {
-      cta: 'Get a quote in 24h',
+      cta: 'Tell me about your project',
     },
     chat: {
-      oppna: 'Open chat',
+      oppna: 'Open AI assistant',
       stang: 'Close chat',
-      onlineStatus: 'Online now',
-      rubrik: 'Ask us',
+      onlineStatus: 'Questions about services, pricing and process',
+      rubrik: 'Webbdev AI assistant',
       underrubrik: 'We reply instantly — ask about pricing, process or anything else.',
       valkomna:
         'Hi! 👋 I’m Webbdev’s assistant. Ask me about websites, pricing, delivery time or anything — I’ll point you in the right direction.',
@@ -676,9 +676,9 @@ export const dictionary = {
         'How long does it take?',
         'What’s included?',
       ],
-      bokaCta: '📅 Book a free analysis',
+      bokaCta: 'Tell me about your project',
       lead: {
-        rubrik: 'Get a free analysis',
+        rubrik: 'Tell me about your project',
         ingress: 'Leave your details and Theo will get back to you within 24 hours.',
         namn: 'Name',
         namnPlaceholder: 'Your name',

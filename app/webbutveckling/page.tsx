@@ -30,20 +30,20 @@ export default function WebbutvecklingIndexPage() {
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-white/40" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-white/70">
+        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
+          <Link href="/" className="transition-colors hover:text-foreground/70">
             Hem
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-white/60">Webbutveckling</span>
+          <span className="text-foreground/60">Webbutveckling</span>
         </nav>
 
-        <h1 className="font-display max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl">
+        <h1 className="font-display max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
           Webbutveckling i Västsverige
         </h1>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70">
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/70">
           Jag bygger snabba, moderna hemsidor för företag i hela Västsverige —
           med bas i Göteborg och kunder från Skaraborg till Halland. Välj din
           ort nedan för lokal information, eller hör av dig direkt så tar vi
@@ -55,12 +55,12 @@ export default function WebbutvecklingIndexPage() {
             <Link
               key={o.slug}
               href={`/webbutveckling/${o.slug}`}
-              className="card-spotlight rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+              className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
             >
-              <h2 className="font-display text-base font-bold text-white/90">
+              <h2 className="font-display text-base font-bold text-foreground/90">
                 Webbutveckling {o.iNamn}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-white/55">
+              <p className="mt-2 text-sm leading-relaxed text-muted">
                 {o.description}
               </p>
             </Link>
@@ -68,23 +68,23 @@ export default function WebbutvecklingIndexPage() {
         </div>
 
         <div className="mt-16 rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-8 sm:p-10">
-          <h2 className="font-display text-2xl font-bold text-white">
+          <h2 className="font-display text-2xl font-bold text-foreground">
             Ser du inte din ort?
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-white/65">
+          <p className="mt-3 text-sm leading-relaxed text-foreground/65">
             Hela processen kan skötas digitalt — videomöten, delade
             designförslag och löpande avstämningar. Jag hjälper företag i hela
             Sverige, oavsett var du sitter.
           </p>
           <Link
             href="/#kontakt"
-            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
+            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
           >
-            Få en gratis analys
+            Berätta om ditt projekt
           </Link>
         </div>
 
-        <div className="mt-12 text-sm text-white/50">
+        <div className="mt-12 text-sm text-muted">
           <Link href="/" className="transition-colors hover:text-indigo-300">
             ← Till startsidan
           </Link>

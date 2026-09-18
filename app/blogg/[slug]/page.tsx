@@ -87,24 +87,24 @@ export default async function BlogPost({ params }: Props) {
 
       <article className="relative mx-auto max-w-3xl px-6 pb-24">
         {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-white/40" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-white/70">
+        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
+          <Link href="/" className="transition-colors hover:text-foreground/70">
             Hem
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <Link href="/blogg" className="transition-colors hover:text-white/70">
+          <Link href="/blogg" className="transition-colors hover:text-foreground/70">
             Blogg
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-white/60">{post.tag}</span>
+          <span className="text-foreground/60">{post.tag}</span>
         </nav>
 
         {/* Rubrik + meta */}
-        <div className="flex items-center gap-3 text-[11px] text-white/40">
+        <div className="flex items-center gap-3 text-[11px] text-muted">
           <span className="rounded-full border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-0.5 font-mono text-indigo-400">
             {post.tag}
           </span>
@@ -112,10 +112,10 @@ export default async function BlogPost({ params }: Props) {
           <span aria-hidden>·</span>
           <span>{post.readingMinutes} min läsning</span>
         </div>
-        <h1 className="font-display mt-5 text-4xl font-bold leading-[1.12] tracking-tight text-white sm:text-5xl">
+        <h1 className="font-display mt-5 text-4xl font-bold leading-[1.12] tracking-tight text-foreground sm:text-5xl">
           {post.title}
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-white/70">
+        <p className="mt-5 text-lg leading-relaxed text-foreground/70">
           {post.description}
         </p>
 
@@ -123,10 +123,10 @@ export default async function BlogPost({ params }: Props) {
         <div className="mt-12 space-y-12">
           {post.sections.map((section) => (
             <section key={section.rubrik}>
-              <h2 className="font-display text-2xl font-bold text-white">
+              <h2 className="font-display text-2xl font-bold text-foreground">
                 {section.rubrik}
               </h2>
-              <div className="mt-4 space-y-4 text-base leading-relaxed text-white/70">
+              <div className="mt-4 space-y-4 text-base leading-relaxed text-foreground/70">
                 {section.stycken.map((p) => (
                   <p key={p.slice(0, 24)}>{p}</p>
                 ))}
@@ -136,7 +136,7 @@ export default async function BlogPost({ params }: Props) {
                   {section.punkter.map((punkt) => (
                     <li
                       key={punkt.slice(0, 24)}
-                      className="flex items-start gap-3 text-base leading-relaxed text-white/70"
+                      className="flex items-start gap-3 text-base leading-relaxed text-foreground/70"
                     >
                       <span className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400" />
                       {punkt}
@@ -150,25 +150,25 @@ export default async function BlogPost({ params }: Props) {
 
         {/* CTA */}
         <div className="mt-16 rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-8 sm:p-10">
-          <h2 className="font-display text-2xl font-bold text-white">
+          <h2 className="font-display text-2xl font-bold text-foreground">
             Redo för en hemsida som säljer?
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-white/65">
-            Få en gratis analys av din nuvarande sajt — eller ett fast pris på en
-            ny. Leverans på 3–7 dagar, inga dolda kostnader.
+          <p className="mt-3 text-sm leading-relaxed text-foreground/65">
+            Berätta om ditt projekt. Jag återkommer inom 24 timmar med frågor
+            och förslag på nästa steg. Du får en fast offert när omfattningen är tydlig.
           </p>
           <Link
             href="/#kontakt"
-            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
+            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
           >
-            Få en gratis analys
+            Berätta om ditt projekt
           </Link>
         </div>
 
         {/* Fler inlägg */}
         {others.length > 0 && (
           <div className="mt-16">
-            <h2 className="font-display text-lg font-bold text-white">
+            <h2 className="font-display text-lg font-bold text-foreground">
               Läs mer
             </h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -176,12 +176,12 @@ export default async function BlogPost({ params }: Props) {
                 <Link
                   key={o.slug}
                   href={`/blogg/${o.slug}`}
-                  className="card-spotlight rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+                  className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
                 >
-                  <h3 className="font-display text-base font-bold text-white/90">
+                  <h3 className="font-display text-base font-bold text-foreground/90">
                     {o.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/55">
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
                     {o.description}
                   </p>
                 </Link>
@@ -190,7 +190,7 @@ export default async function BlogPost({ params }: Props) {
           </div>
         )}
 
-        <div className="mt-12 text-sm text-white/50">
+        <div className="mt-12 text-sm text-muted">
           <Link href="/blogg" className="transition-colors hover:text-indigo-300">
             ← Alla inlägg
           </Link>

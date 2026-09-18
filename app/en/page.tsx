@@ -4,9 +4,9 @@ import { Home } from '../page';
 // Engelsk version av startsidan. Samma sida, men routen sätter språket till
 // 'en' och får egna engelska metadata + canonical/hreflang.
 export const metadata: Metadata = {
-  title: 'Web Development in Gothenburg — Webbdev Studio',
+  title: 'Web Design & Development in Gothenburg',
   description:
-    'Web development in Gothenburg. I build fast, modern, conversion-optimized websites for businesses — Next.js, React, Tailwind. Delivered in 3–7 days at a fixed price.',
+    'Web development in Gothenburg. I build fast, modern, conversion-optimized websites for businesses — Next.js, React, Tailwind. Personal contact from the first sketch to launch, with a fixed price for the agreed scope.',
   alternates: {
     canonical: '/en',
     languages: {

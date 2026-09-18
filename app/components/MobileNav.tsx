@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { localizedHref } from '../i18n/routes';
 import { useLang } from '../i18n/LanguageProvider';
 import LanguageToggle from '../i18n/LanguageToggle';
+import ThemeControl from './ThemeControl';
 
 /**
  * Mobilnavigering — hamburgerknapp som öppnar en fullskärms-overlay.
@@ -17,12 +19,12 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   const home = lang === 'en' ? '/en' : '/';
 
   const links = [
-    { id: 'portfolio', label: t.footer2.portfolio, href: '/portfolio' },
+    { id: 'portfolio', label: t.footer2.portfolio, href: localizedHref('/portfolio', lang) },
     { id: 'process', label: t.nav2.process },
-    { id: 'priser', label: t.nav2.priser, href: '/priser' },
+    { id: 'priser', label: t.nav2.priser, href: localizedHref('/priser', lang) },
     { id: 'gratis-demo', label: t.nav2.demo, href: '/gratis-demo' },
     { id: 'om', label: t.nav2.om },
-    { id: 'tjanster', label: t.footer2.tjanster, href: '/tjanster' },
+    { id: 'tjanster', label: t.footer2.tjanster, href: localizedHref('/tjanster', lang) },
   ];
 
   // Lås bakgrundsscroll medan menyn är öppen + stäng på Escape.
@@ -30,12 +32,13 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const focusable = Array.from(
-      menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [],
-    );
-    focusable[0]?.focus();
+    const getFocusable = () => Array.from(
+      menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled])') ?? [],
+    ).filter(element => !(element instanceof HTMLInputElement) || element.type !== 'radio' || element.checked);
+    getFocusable()[0]?.focus();
 
     const onKey = (e: KeyboardEvent) => {
+      const focusable = getFocusable();
       if (e.key === 'Escape') {
         setOpen(false);
         triggerRef.current?.focus();
@@ -68,7 +71,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
         aria-label={open ? t.nav.stangMeny : t.nav.oppnaMeny}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+        className="relative z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-foreground/10 bg-foreground/5 text-foreground/80 transition-colors hover:bg-foreground/10 hover:text-foreground"
       >
         <span className="sr-only">{t.nav.meny}</span>
         {/* Hamburger → X */}
@@ -98,12 +101,12 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
         role="dialog"
         aria-modal="true"
         aria-label={t.nav.meny}
-        className={`fixed inset-0 z-[70] overflow-y-auto bg-[#050509]/95 backdrop-blur-xl transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[70] overflow-y-auto bg-background/95 backdrop-blur-xl transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         inert={!open}
       >
-        <button type="button" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} aria-label={t.nav.stangMeny} className="absolute right-5 top-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-xl text-white">×</button>
+        <button type="button" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} aria-label={t.nav.stangMeny} className="absolute right-5 top-4 flex h-10 w-10 items-center justify-center rounded-xl border border-foreground/15 text-xl text-foreground">×</button>
         <nav className="flex min-h-full flex-col items-center justify-center gap-1 px-6 py-20">
           {links.map((link) => (
             <a
@@ -112,8 +115,8 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
               onClick={() => setOpen(false)}
               className={`w-full max-w-xs rounded-2xl px-6 py-3 text-center text-lg font-semibold transition-colors ${
                 (activeSection === link.id || activeSection.startsWith(link.id + "/"))
-                  ? 'bg-accent/10 text-white'
-                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  ? 'bg-accent/10 text-foreground'
+                  : 'text-foreground/70 hover:bg-foreground/5 hover:text-foreground'
               }`}
             >
               {link.label}
@@ -122,12 +125,13 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
           <a
             href={`${home}#kontakt`}
             onClick={() => setOpen(false)}
-            className="mt-4 w-full max-w-xs rounded-full bg-[#ededf2] px-6 py-3 text-center text-lg font-semibold text-[#0a0a12] transition-colors hover:bg-white"
+            className="mt-4 w-full max-w-xs rounded-full bg-foreground px-6 py-3 text-center text-lg font-semibold text-background transition-colors hover:bg-foreground"
           >
             {t.nav2.cta}
           </a>
           <div className="mt-6">
             <LanguageToggle compact />
+            <ThemeControl compact />
           </div>
         </nav>
       </div>, document.body)}

@@ -29,17 +29,17 @@ export default function IntegritetspolicyPage() {
       <div className="relative mx-auto max-w-3xl px-6">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors hover:text-indigo-300"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-indigo-300"
         >
           <span className="transition-transform group-hover:-translate-x-0.5"><IconBack /></span>
           Tillbaka till startsidan
         </Link>
 
         <p className="mt-10 font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Juridik</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-white md:text-5xl">
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
           Integritetspolicy
         </h1>
-        <p className="mt-4 text-sm text-white/60">
+        <p className="mt-4 text-sm text-foreground/60">
           Senast uppdaterad: {new Date().toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })}
         </p>
 
@@ -72,6 +72,11 @@ export default function IntegritetspolicyPage() {
               30 dagar. Du kan rensa utkastet i byggaren. Kontaktuppgifter
               och fritext sparas inte i utkastet. Om du delar en designlänk
               kan mottagaren se företagsnamnet och designvalen i länken.
+            </p>
+            <p className="mt-3">
+              Ditt val av ljust, mörkt eller systemanpassat tema sparas lokalt i
+              webbläsaren tills du ändrar valet eller rensar webbplatsens data.
+              Temavalet skickas inte till oss.
             </p>
             <p className="mt-3">
               Vi använder cookielös, aggregerad besöksstatistik via Vercel
@@ -134,8 +139,8 @@ export default function IntegritetspolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-bold text-white/90">{title}</h2>
-      <div className="mt-3 space-y-3 text-sm leading-relaxed text-white/60">{children}</div>
+      <h2 className="text-lg font-bold text-foreground/90">{title}</h2>
+      <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground/60">{children}</div>
     </section>
   );
 }

@@ -26,16 +26,16 @@ export function BrowserPreview({
 }) {
   const stor = storlek === 'stor';
   return (
-    <div className="overflow-hidden rounded-[18px] border border-white/[0.09] bg-[#0b0b14] shadow-[0_24px_70px_-30px_rgba(0,0,0,0.95)] transition-colors duration-300 group-hover:border-white/20">
+    <div className="min-w-0 overflow-hidden rounded-[18px] border border-foreground/[0.09] bg-surface shadow-[0_24px_70px_-30px_rgba(0,0,0,0.95)] transition-colors duration-300 group-hover:border-foreground/20">
       {/* Webbläsarram */}
-      <div className={`flex items-center gap-[6px] border-b border-white/[0.07] bg-white/[0.035] ${stor ? 'px-4 py-3' : 'px-3 py-2.5'}`}>
+      <div className={`flex items-center gap-[6px] border-b border-foreground/[0.07] bg-foreground/[0.035] ${stor ? 'px-4 py-3' : 'px-3 py-2.5'}`}>
         <span className="h-[9px] w-[9px] rounded-full bg-[#ff5f57]/60" />
         <span className="h-[9px] w-[9px] rounded-full bg-[#febc2e]/60" />
         <span className="h-[9px] w-[9px] rounded-full bg-[#28c840]/55" />
-        <span className="mx-2 flex-1 truncate rounded-md bg-white/[0.05] px-2.5 py-[3px] text-center font-mono text-[10.5px] text-[#ededf2]/40">
+        <span className="mx-2 min-w-0 flex-1 truncate rounded-md bg-foreground/[0.05] px-2.5 py-[3px] text-center font-mono text-xs text-muted">
           {domain(project.url)}
         </span>
-        <span className="text-[#ededf2]/30 transition-colors duration-300 group-hover:text-accent-light">
+        <span className="text-muted transition-colors duration-300 group-hover:text-accent-light">
           <IconDiagonal />
         </span>
       </div>
@@ -46,8 +46,8 @@ export function BrowserPreview({
           alt={project.namn}
           width={1200}
           height={1500}
-          sizes={stor ? '(max-width: 768px) 92vw, 46vw' : '(max-width: 640px) 92vw, 30vw'}
-          priority={priority}
+          sizes={stor ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 580px' : '(max-width: 640px) 92vw, 30vw'}
+          preload={priority}
           className={`h-auto w-full transition-transform duration-[3500ms] ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:!translate-y-0 motion-reduce:transition-none ${
             stor ? 'group-hover:translate-y-[-45%]' : 'group-hover:translate-y-[-50%]'
           }`}
@@ -57,7 +57,7 @@ export function BrowserPreview({
   );
 }
 
-export type ProjectText = { kategori: string; desc: string };
+export type ProjectText = { kategori: string; desc: string; result?: string };
 
 /** Stort kort — de utvalda projekten. */
 export function ProjectCard({
@@ -82,15 +82,16 @@ export function ProjectCard({
     >
       <BrowserPreview project={project} priority={priority} />
       <div className="mt-[22px] px-0.5">
-        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+        <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
           {text.kategori}
         </span>
-        <h3 className="font-display mt-2.5 text-[25px] font-bold tracking-[-0.02em] text-white">
+        <h3 className="font-display mt-2.5 text-[25px] font-bold tracking-[-0.02em] text-foreground">
           {project.namn}
         </h3>
-        <p className="mt-2.5 text-[14.5px] leading-[1.6] text-[#ededf2]/55 [text-wrap:pretty]">
+        <p className="mt-2.5 text-base leading-[1.65] text-foreground/70 [text-wrap:pretty]">
           {text.desc}
         </p>
+        {text.result && <p className="mt-4 border-l border-accent-light/50 pl-3 text-sm leading-relaxed text-foreground/85">{text.result}</p>}
         <span className="mt-4 inline-flex items-center gap-2 text-[13.5px] font-semibold text-accent-light">
           {project.caseHref ? caseLabel : besok}
           <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -113,10 +114,10 @@ export function ProjectCardSmall({ project, text }: { project: Project; text: Pr
     >
       <BrowserPreview project={project} storlek="liten" />
       <div className="mt-3.5 flex items-baseline justify-between gap-3 px-0.5">
-        <h3 className="font-display text-[16.5px] font-semibold tracking-[-0.01em] text-white">
+        <h3 className="font-display text-[16.5px] font-semibold tracking-[-0.01em] text-foreground">
           {project.namn}
         </h3>
-        <span className="truncate font-mono text-[10px] uppercase tracking-[0.2em] text-[#ededf2]/40">
+        <span className="truncate font-mono text-xs uppercase tracking-[0.2em] text-muted">
           {text.kategori}
         </span>
       </div>

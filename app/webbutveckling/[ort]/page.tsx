@@ -90,20 +90,20 @@ export default async function OrtPage({ params }: Props) {
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-white/40" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-white/70">
+        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
+          <Link href="/" className="transition-colors hover:text-foreground/70">
             Hem
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <Link href="/webbutveckling" className="transition-colors hover:text-white/70">
+          <Link href="/webbutveckling" className="transition-colors hover:text-foreground/70">
             Webbutveckling
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-white/60">{ort.namn}</span>
+          <span className="text-foreground/60">{ort.namn}</span>
         </nav>
 
         {/* Hero */}
@@ -111,11 +111,11 @@ export default async function OrtPage({ params }: Props) {
           <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
           {ort.namn} · {ort.region}
         </div>
-        <h1 className="font-display mt-6 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
+        <h1 className="font-display mt-6 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl">
           Webbutveckling {ort.iNamn}
         </h1>
 
-        <div className="mt-6 max-w-2xl space-y-4 text-base leading-relaxed text-white/70">
+        <div className="mt-6 max-w-2xl space-y-4 text-base leading-relaxed text-foreground/70">
           {ort.intro.map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
@@ -124,13 +124,13 @@ export default async function OrtPage({ params }: Props) {
         <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href="/#kontakt"
-            className="btn-shine inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:scale-[1.02]"
+            className="btn-shine inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:scale-[1.02]"
           >
-            Få en gratis analys
+            Berätta om ditt projekt
           </Link>
           <Link
             href="/priser"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-foreground/5 px-8 py-4 text-base font-semibold text-foreground/80 transition-all hover:bg-foreground/10 hover:text-foreground"
           >
             Se priser
           </Link>
@@ -141,22 +141,22 @@ export default async function OrtPage({ params }: Props) {
           {ort.poanger.map((p) => (
             <div
               key={p.rubrik}
-              className="card-spotlight rounded-2xl border border-white/8 bg-white/[0.03] p-6"
+              className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6"
             >
-              <h2 className="font-display text-base font-bold text-white/90">
+              <h2 className="font-display text-base font-bold text-foreground/90">
                 {p.rubrik}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-white/55">{p.text}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
             </div>
           ))}
         </div>
 
         {/* Närliggande orter — long-tail-täckning */}
-        <div className="mt-16 rounded-2xl border border-white/8 bg-white/[0.02] p-7">
-          <h2 className="font-display text-lg font-bold text-white">
+        <div className="mt-16 rounded-2xl border border-foreground/8 bg-foreground/[0.02] p-7">
+          <h2 className="font-display text-lg font-bold text-foreground">
             Jag bygger hemsidor i hela {ort.namn}-området
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-white/60">
+          <p className="mt-3 text-sm leading-relaxed text-foreground/60">
             Förutom {ort.namn} hjälper jag företag i bland annat{" "}
             {ort.narliggande.slice(0, -1).join(", ")} och{" "}
             {ort.narliggande[ort.narliggande.length - 1]}. Oavsett var du sitter
@@ -166,16 +166,16 @@ export default async function OrtPage({ params }: Props) {
 
         {/* Lokal FAQ — unik text per ort + FAQPage-schema för rich results */}
         <div className="mt-16">
-          <h2 className="font-display text-2xl font-bold text-white">
+          <h2 className="font-display text-2xl font-bold text-foreground">
             Vanliga frågor om webbutveckling {ort.iNamn}
           </h2>
           <div className="mt-6 space-y-3">
             {faq.map((item) => (
               <details
                 key={item.q}
-                className="group rounded-2xl border border-white/8 bg-white/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-white/15"
+                className="group rounded-2xl border border-foreground/8 bg-foreground/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-foreground/15"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-white/85 [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-foreground/85 [&::-webkit-details-marker]:hidden">
                   {item.q}
                   <svg
                     width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -185,14 +185,14 @@ export default async function OrtPage({ params }: Props) {
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </summary>
-                <p className="px-6 pb-5 text-sm leading-relaxed text-white/60">{item.a}</p>
+                <p className="px-6 pb-5 text-sm leading-relaxed text-foreground/60">{item.a}</p>
               </details>
             ))}
           </div>
         </div>
 
         {/* Tillbaka till startsidan / övriga orter */}
-        <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/50">
+        <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted">
           <Link href="/" className="transition-colors hover:text-indigo-300">
             ← Till startsidan
           </Link>

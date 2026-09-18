@@ -59,21 +59,21 @@ export default function BloggIndex() {
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-white/40" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-white/70">
+        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
+          <Link href="/" className="transition-colors hover:text-foreground/70">
             Hem
           </Link>
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-white/60">Blogg</span>
+          <span className="text-foreground/60">Blogg</span>
         </nav>
 
         <p className="eyebrow">Blogg</p>
-        <h1 className="font-display mt-3 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl">
+        <h1 className="font-display mt-3 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
           Guider om hemsidor & webbutveckling
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/65">
           Konkreta tips om hemsidor, SEO och pris — så att du kan fatta smarta
           beslut för ditt företags närvaro online.
         </p>
@@ -84,23 +84,23 @@ export default function BloggIndex() {
             <Link
               key={post.slug}
               href={`/blogg/${post.slug}`}
-              className="card-spotlight group flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+              className="card-spotlight group flex h-full flex-col rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
             >
-              <div className="flex items-center gap-3 text-[11px] text-white/40">
+              <div className="flex items-center gap-3 text-[11px] text-muted">
                 <span className="rounded-full border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-0.5 font-mono text-indigo-400">
                   {post.tag}
                 </span>
                 <span>{post.readingMinutes} min läsning</span>
               </div>
-              <h2 className="font-display mt-4 text-lg font-bold text-white/90 transition-colors group-hover:text-white">
+              <h2 className="font-display mt-4 text-lg font-bold text-foreground/90 transition-colors group-hover:text-foreground">
                 {post.title}
               </h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/55">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
                 {post.description}
               </p>
               <time
                 dateTime={post.published}
-                className="mt-5 text-xs text-white/35"
+                className="mt-5 text-xs text-muted"
               >
                 {formatDate(post.published)}
               </time>
@@ -109,7 +109,7 @@ export default function BloggIndex() {
         </div>
 
         {/* Tillbaka */}
-        <div className="mt-12 text-sm text-white/50">
+        <div className="mt-12 text-sm text-muted">
           <Link href="/" className="transition-colors hover:text-indigo-300">
             ← Till startsidan
           </Link>

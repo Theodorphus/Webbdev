@@ -86,7 +86,7 @@ export default function PriceCalculator() {
   return (
     <div
       data-animate="block"
-      className="relative mt-16 overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#08080f] p-6 sm:p-9"
+      className="relative mt-16 overflow-hidden rounded-[20px] border border-foreground/[0.08] bg-surface p-6 sm:p-9"
     >
       <div className="pointer-events-none absolute -top-24 right-0 h-56 w-56 rounded-full bg-[rgba(109,106,248,0.12)] blur-[100px]" />
 
@@ -94,12 +94,12 @@ export default function PriceCalculator() {
         {/* Vänster: val */}
         <div>
           <p className="eyebrow">{c.etikett}</p>
-          <h3 className="font-display mt-2 text-2xl font-bold text-white md:text-3xl">{c.rubrik}</h3>
-          <p className="mt-2 max-w-md text-sm leading-relaxed text-white/55">{c.ingress}</p>
+          <h3 className="font-display mt-2 text-2xl font-bold text-foreground md:text-3xl">{c.rubrik}</h3>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">{c.ingress}</p>
 
           {/* Typ av sida */}
           <fieldset className="mt-7">
-            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground/60">
               {c.typLabel}
             </legend>
             <div className="grid gap-2.5 sm:grid-cols-3">
@@ -114,13 +114,13 @@ export default function PriceCalculator() {
                     className={`rounded-2xl border p-3.5 text-left transition-all ${
                       active
                         ? 'border-[rgba(109,106,248,0.6)] bg-accent/10 ring-1 ring-accent/30'
-                        : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
+                        : 'border-foreground/10 bg-foreground/[0.03] hover:border-foreground/20 hover:bg-foreground/[0.05]'
                     }`}
                   >
-                    <span className={`block text-sm font-semibold ${active ? 'text-white' : 'text-white/80'}`}>
+                    <span className={`block text-sm font-semibold ${active ? 'text-foreground' : 'text-foreground/80'}`}>
                       {opt.namn}
                     </span>
-                    <span className="mt-0.5 block text-xs leading-snug text-white/60">{opt.desc}</span>
+                    <span className="mt-0.5 block text-xs leading-snug text-foreground/60">{opt.desc}</span>
                   </button>
                 );
               })}
@@ -130,10 +130,10 @@ export default function PriceCalculator() {
           {/* Antal sidor */}
           <div className="mt-7">
             <div className="mb-3 flex items-center justify-between">
-              <label htmlFor="calc-pages" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+              <label htmlFor="calc-pages" className="text-xs font-semibold uppercase tracking-wider text-foreground/60">
                 {c.sidorLabel}
               </label>
-              <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-mono text-xs text-[#b4b2ff]">
+              <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-mono text-xs text-accent-light">
                 {pages} {pages === 1 ? c.sidorEn : c.sidorFlera}
               </span>
             </div>
@@ -151,7 +151,7 @@ export default function PriceCalculator() {
 
           {/* Extra funktioner */}
           <fieldset className="mt-7">
-            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground/60">
               {c.funktionerLabel}
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -167,8 +167,8 @@ export default function PriceCalculator() {
                     aria-pressed={active}
                     className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-all ${
                       active
-                        ? 'border-[rgba(109,106,248,0.6)] bg-accent/15 text-white'
-                        : 'border-white/10 bg-white/[0.03] text-white/60 hover:border-white/20 hover:text-white/80'
+                        ? 'border-[rgba(109,106,248,0.6)] bg-accent/15 text-foreground'
+                        : 'border-foreground/10 bg-foreground/[0.03] text-foreground/60 hover:border-foreground/20 hover:text-foreground/80'
                     }`}
                   >
                     {active ? '✓ ' : '+ '}
@@ -181,27 +181,27 @@ export default function PriceCalculator() {
         </div>
 
         {/* Höger: resultat */}
-        <div className="flex flex-col justify-center rounded-2xl border border-white/[0.08] bg-[linear-gradient(180deg,#0c0b1c,#08080f)] p-6 sm:p-7">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#b4b2ff]/80">{c.resultatLabel}</p>
-          <p className="font-display mt-2 text-3xl font-bold leading-tight text-white sm:text-4xl">
+        <div className="flex flex-col justify-center rounded-2xl border border-foreground/[0.08] bg-surface-raised p-6 sm:p-7">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent-light/80">{c.resultatLabel}</p>
+          <p className="font-display mt-2 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
             {formatPrice(low, lang)}
-            <span className="mx-1.5 text-white/60">–</span>
+            <span className="mx-1.5 text-foreground/60">–</span>
             {formatPrice(high, lang)}
           </p>
-          <p className="mt-3 text-xs leading-relaxed text-white/60">{c.resultatNote}</p>
+          <p className="mt-3 text-xs leading-relaxed text-foreground/60">{c.resultatNote}</p>
           <p className="mt-2 text-xs text-accent-light">{priceTerms[lang].vat}</p>
 
           <Link
             href={lang === 'sv' ? '/#kontakt' : '/en#kontakt'}
             onClick={() => { startTracking(); trackConversion('calculator_quote_clicked', { type, pages, feature_count: features.length }); }}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-white transition-all hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] active:scale-[0.99]"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-on-accent transition-all hover:bg-[#7d7aff] hover:shadow-[0_20px_60px_-15px_rgba(109,106,248,0.7)] active:scale-[0.99]"
           >
             {c.ctaText}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-          <p className="mt-3 text-center text-[11px] text-white/60">{c.ctaSub}</p>
+          <p className="mt-3 text-center text-[11px] text-foreground/60">{c.ctaSub}</p>
         </div>
       </div>
     </div>

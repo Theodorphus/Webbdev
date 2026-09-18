@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 import { cleanSubject, hasTrustedOrigin, readJsonBody } from '../_lib/request';
+import { isPackageId, packageLabels } from '../../lib/packages';
 
 /**
  * Enkel rate-limit i minnet: max 3 förfrågningar per IP per 10 minuter.
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Otillåten förfrågan.' }, { status: 403 });
   }
 
-  let body: { name?: unknown; email?: unknown; message?: unknown; company?: unknown };
+  let body: { name?: unknown; email?: unknown; message?: unknown; company?: unknown; package?: unknown };
   try {
     body = await readJsonBody(req, 8_000);
   } catch {
@@ -44,6 +45,7 @@ export async function POST(req: Request) {
   }
 
   const { name, email, message, company } = body;
+  const requestedPackage = body.package;
 
   // Honeypot: fältet är osynligt för människor — bottar fyller i det.
   // Svara 200 så botten tror att den lyckades.
@@ -53,6 +55,7 @@ export async function POST(req: Request) {
 
   if (
     typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string' ||
+    (requestedPackage !== undefined && requestedPackage !== '' && !isPackageId(requestedPackage)) ||
     !name.trim() || !email.trim() || !message.trim() ||
     name.length > 200 || email.length > 200 || message.length > 5000 ||
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
@@ -92,6 +95,7 @@ export async function POST(req: Request) {
       html: `
         <p><strong>Namn:</strong> ${escapeHtml(cleanName)}</p>
         <p><strong>E-post:</strong> ${escapeHtml(cleanEmail)}</p>
+        <p><strong>Intresserad av:</strong> ${isPackageId(requestedPackage) ? packageLabels.sv[requestedPackage] : 'Hjälp att välja rätt lösning'}</p>
         <p><strong>Meddelande:</strong></p>
         <p>${escapeHtml(cleanMessage).replace(/\n/g, '<br>')}</p>
       `,

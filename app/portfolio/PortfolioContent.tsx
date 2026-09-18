@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { localizedHref } from '../i18n/routes';
 import TrafficResults from '../components/TrafficResults';
+import MobileProjects from '../components/MobileProjects';
 import { Reveal } from '../components/animations/Motion';
 import { BrowserPreview } from '../components/ProjectPreview';
 import { useLang } from '../i18n/LanguageProvider';
@@ -35,29 +37,29 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
         href={project.caseHref ?? project.url}
         target={project.caseHref ? undefined : "_blank"}
         rel="noopener noreferrer"
-        className="group grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16"
+        className="group grid min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16"
       >
         <div className={reverse ? 'lg:order-2' : ''}>
           <BrowserPreview project={project} priority={index < 2} />
         </div>
         <div className={reverse ? 'lg:order-1' : ''}>
-          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
             {text.kategori}
           </span>
-          <h2 className="font-display mt-3.5 text-[30px] font-bold tracking-[-0.02em] text-white">
+          <h2 className="font-display mt-3.5 text-[30px] font-bold [overflow-wrap:anywhere] tracking-[-0.02em] text-foreground">
             {project.namn}
           </h2>
-          <p className="mt-[18px] max-w-[30rem] text-[15.5px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
+          <p className="mt-[18px] max-w-[30rem] text-[15.5px] leading-[1.65] text-foreground/60 [text-wrap:pretty]">
             {text.desc}
           </p>
-          <p className="mt-5 max-w-[30rem] border-l-2 border-accent pl-3.5 text-sm font-medium text-[#ededf2]/85">
+          <p className="mt-5 max-w-[30rem] border-l-2 border-accent pl-3.5 text-sm font-medium text-foreground/85">
             {text.result}
           </p>
           <div className="mt-[26px] flex flex-wrap gap-2.5">
             {project.tech.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border border-white/10 px-3.5 py-[5px] font-mono text-[11px] text-[#ededf2]/60"
+                className="rounded-full border border-foreground/10 px-3.5 py-[5px] font-mono text-[11px] text-foreground/60"
               >
                 {tech}
               </span>
@@ -76,14 +78,14 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
 }
 
 export default function PortfolioContent() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
 
   return (
-    <main className="relative overflow-x-hidden pb-32 pt-28">
-      <div className="mx-auto max-w-[80rem] px-8">
+    <main className="portfolio-page relative pb-32 pt-28">
+      <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
         <Link
-          href="/"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-[#ededf2]/45 transition-colors hover:text-accent-light"
+          href={localizedHref("/", lang)}
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent-light"
         >
           <span className="transition-transform group-hover:-translate-x-0.5">
             <IconBack />
@@ -93,13 +95,13 @@ export default function PortfolioContent() {
 
         {/* Sidhuvud */}
         <Reveal className="mt-14 max-w-[46rem]">
-          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
             {t.portfolioSida.etikett}
           </span>
-          <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+          <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
             {t.portfolioSida.rubrik}
           </h1>
-          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-[#ededf2]/60 [text-wrap:pretty]">
+          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-foreground/60 [text-wrap:pretty]">
             {t.portfolioSida.ingress}
           </p>
         </Reveal>
@@ -111,12 +113,14 @@ export default function PortfolioContent() {
           ))}
         </div>
 
+        <MobileProjects />
+
         {/* Fler projekt */}
         <Reveal className="mt-[120px] flex items-center gap-5">
-          <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-white">
+          <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-foreground">
             {t.portfolioSida.fler}
           </h2>
-          <span className="h-px flex-1 bg-white/[0.09]" />
+          <span className="h-px flex-1 bg-foreground/[0.09]" />
         </Reveal>
         <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
           {otherProjects.map((p) => {
@@ -131,13 +135,13 @@ export default function PortfolioContent() {
                 >
                   <BrowserPreview project={p} />
                   <div className="mt-5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#8b89ff]">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
                       {text.kategori}
                     </span>
-                    <h3 className="font-display mt-2.5 text-[22px] font-bold tracking-[-0.02em] text-white">
+                    <h3 className="font-display mt-2.5 text-[22px] font-bold tracking-[-0.02em] text-foreground">
                       {p.namn}
                     </h3>
-                    <p className="mt-2.5 text-[14.5px] leading-[1.6] text-[#ededf2]/55 [text-wrap:pretty]">
+                    <p className="mt-2.5 text-[14.5px] leading-[1.6] text-muted [text-wrap:pretty]">
                       {text.desc}
                     </p>
                   </div>
@@ -150,16 +154,16 @@ export default function PortfolioContent() {
         <div className="mt-20"><TrafficResults /></div>
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-[24px] border border-white/[0.09] bg-white/[0.02] px-8 py-14 text-center">
-          <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-white">
+        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-foreground/[0.02] px-5 sm:px-8 py-14 text-center">
+          <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.portfolioSida.ctaRubrik}
           </h2>
-          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-[#ededf2]/60">
+          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-foreground/60">
             {t.portfolioSida.ctaText}
           </p>
           <Link
-            href="/#kontakt"
-            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-[15px] font-semibold text-white transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            href={localizedHref("/#kontakt", lang)}
+            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-5 sm:px-8 py-4 text-[15px] font-semibold text-on-accent transition-transform hover:scale-[1.03] active:scale-[0.98]"
           >
             {t.portfolioSida.cta}
             <span className="transition-transform duration-300 group-hover:translate-x-1">

@@ -8,6 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return [
+    ...["pricing", "services", "portfolio"].map(path => ({ url: `${SITE_URL}/en/${path}`, lastModified, changeFrequency: "monthly" as const, priority: 0.7 })),
     ...customerCases.map(item => ({ url: `${SITE_URL}/portfolio/${item.slug}`, lastModified, changeFrequency: "monthly" as const, priority: 0.8 })),
     {
       url: `${SITE_URL}/gratis-demo`,

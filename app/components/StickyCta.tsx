@@ -58,14 +58,14 @@ export default function StickyCta() {
   // utanför tabbordningen medan den är dold.
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.07] bg-[#050509]/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl transition-all duration-300 md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-foreground/[0.07] bg-background/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl transition-all duration-300 md:hidden ${
         visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-full opacity-0'
       }`}
       inert={!visible}
     >
       <a
         href="#kontakt"
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-base font-bold text-white shadow-xl shadow-[rgba(109,106,248,0.35)] transition-colors hover:bg-[#7d7aff] active:scale-[0.99]"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-base font-bold text-on-accent shadow-xl shadow-[rgba(109,106,248,0.35)] transition-colors hover:bg-[#7d7aff] active:scale-[0.99]"
       >
         {t.sticky.cta}
       </a>

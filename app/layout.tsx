@@ -4,6 +4,7 @@ import SiteAnalytics from "./components/SiteAnalytics";
 import SiteShell from "./components/SiteShell";
 import DeferredWidgets from "./components/DeferredWidgets";
 import "./globals.css";
+import { themeInitScript } from "./lib/theme";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s | Webbdev Studio",
   },
   description:
-    "Webbutveckling i Göteborg. Jag bygger snabba, moderna och konverteringsoptimerade hemsidor för företag — Next.js, React, Tailwind. Leverans på 3–7 dagar till fast pris.",
+    "Genomtänkt webbdesign och webbutveckling i Göteborg. Personlig kontakt från första skiss till lansering och fast pris för överenskommen omfattning.",
   keywords: [
     "webbutveckling Göteborg",
     "webbdesign Göteborg",
@@ -66,9 +67,12 @@ export default function RootLayout({
   return (
     <html
       lang="sv"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#050509] text-[#ededf2]">
+      <head><script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <div className="scroll-progress" aria-hidden="true" />
         <SiteShell>
           {children}

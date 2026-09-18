@@ -3,6 +3,7 @@
 import { trackConversion } from '../lib/analytics';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useLang } from '../i18n/LanguageProvider';
 
 /**
@@ -16,6 +17,9 @@ type Msg = { role: 'user' | 'assistant'; content: string };
 export default function Chatbot() {
   const { t, lang } = useLang();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const [contactVisibility, setContactVisibility] = useState({ path: '', visible: false });
+  const hideDockOnMobile = !open && (pathname === '/gratis-demo' || (contactVisibility.path === pathname && contactVisibility.visible));
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
@@ -36,6 +40,17 @@ export default function Chatbot() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // Leave the contact form unobstructed, without closing an active conversation.
+  useEffect(() => {
+    const contact = document.getElementById('kontakt');
+    if (!contact) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setContactVisibility({ path: pathname, visible: entry.isIntersecting });
+    });
+    observer.observe(contact);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   // Auto-scrolla till botten när nya meddelanden kommer.
   useEffect(() => {
@@ -173,8 +188,8 @@ export default function Chatbot() {
   return (
     <>
       {/* Flytande knapp med etikett */}
-      <div className={`chat-dock fixed bottom-5 right-5 z-50 flex items-center gap-3 md:bottom-6 md:right-6 ${open ? 'chat-dock--open' : ''}`}>
-        <div className={!open ? 'chat-fab' : undefined}>
+      <div className={`chat-dock fixed bottom-5 right-5 z-50 flex items-center gap-3 md:bottom-6 md:right-6 ${open ? 'chat-dock--open' : ''} ${hideDockOnMobile ? 'max-md:hidden' : ''}`}>
+        <div>
           <button
             ref={toggleRef}
             type="button"
@@ -182,9 +197,7 @@ export default function Chatbot() {
             aria-label={open ? t.chat.stang : t.chat.oppna}
             aria-expanded={open}
             aria-controls="chat-panel"
-            className={`btn-shine relative flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white transition-all duration-300 hover:bg-indigo-500 hover:scale-105 active:scale-95 ${
-              open ? 'shadow-xl shadow-indigo-900/50' : 'chat-fab-glow chat-fab-attention'
-            }`}
+            className="relative flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-surface-raised text-accent-light shadow-lg transition-colors hover:bg-surface-raised"
           >
             {open ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
@@ -195,11 +208,6 @@ export default function Chatbot() {
                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                 </svg>
-                {/* Notisprick — antyder att någon är redo att svara */}
-                <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-                  <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-[#06060f] bg-emerald-400" />
-                </span>
               </>
             )}
           </button>
@@ -209,7 +217,7 @@ export default function Chatbot() {
       {/* Chatt-panel */}
       <div
         id="chat-panel"
-        className={`fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#06060f]/95 shadow-2xl shadow-black/60 backdrop-blur-xl transition-all duration-300 md:right-6 ${
+        className={`fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface/95 shadow-2xl shadow-black/60 backdrop-blur-xl transition-all duration-300 md:right-6 ${
           open
             ? 'pointer-events-auto translate-y-0 opacity-100'
             : 'pointer-events-none translate-y-4 opacity-0'
@@ -224,7 +232,7 @@ export default function Chatbot() {
         inert={!open}
       >
         {/* Header */}
-        <div className="relative flex items-start justify-between gap-3 overflow-hidden border-b border-white/10 px-4 py-3.5">
+        <div className="relative flex items-start justify-between gap-3 overflow-hidden border-b border-foreground/10 px-4 py-3.5">
           {/* Subtil gradientglöd i headern (samma palett som heron) */}
           <div
             className="pointer-events-none absolute inset-0 opacity-60"
@@ -237,17 +245,15 @@ export default function Chatbot() {
           <div className="relative flex items-center gap-3">
             {/* Avatar med online-indikator */}
             <div className="relative">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white shadow-lg shadow-indigo-900/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-on-accent shadow-lg shadow-indigo-900/40">
                 W
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#06060f] bg-emerald-400" />
             </div>
             <div>
-              <p className="font-display text-base font-semibold leading-tight text-white">
+              <p className="font-display text-base font-semibold leading-tight text-foreground">
                 {t.chat.rubrik}
               </p>
-              <p className="mt-0.5 flex items-center gap-1.5 text-xs text-emerald-400/90">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <p className="mt-0.5 text-xs text-foreground/65">
                 {t.chat.onlineStatus}
               </p>
             </div>
@@ -262,7 +268,7 @@ export default function Chatbot() {
                 setLeadSent(false);
                 setLeadError('');
               }}
-              className="relative shrink-0 rounded-full px-2 py-1 text-xs text-[#e8eaf6]/50 transition-colors hover:bg-white/5 hover:text-[#e8eaf6]/80"
+              className="relative shrink-0 rounded-full px-2 py-1 text-xs text-muted transition-colors hover:bg-foreground/5 hover:text-foreground/80"
             >
               {t.chat.rensa}
             </button>
@@ -305,7 +311,7 @@ export default function Chatbot() {
             <button
               type="button"
               onClick={() => setShowLead(true)}
-              className="btn-shine w-full rounded-xl bg-indigo-600 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-900/40 transition-colors hover:bg-indigo-500"
+              className="btn-shine w-full rounded-xl bg-indigo-600 py-2.5 text-sm font-semibold text-on-accent shadow-lg shadow-indigo-900/40 transition-colors hover:bg-indigo-500"
             >
               {t.chat.bokaCta}
             </button>
@@ -314,8 +320,8 @@ export default function Chatbot() {
           {/* Lead-formulär */}
           {showLead && (
             <div className="rounded-2xl border border-indigo-400/25 bg-indigo-500/[0.07] p-3.5">
-              <p className="font-display text-sm font-semibold text-white">{t.chat.lead.rubrik}</p>
-              <p className="mt-0.5 text-xs text-[#e8eaf6]/60">{t.chat.lead.ingress}</p>
+              <p className="font-display text-sm font-semibold text-foreground">{t.chat.lead.rubrik}</p>
+              <p className="mt-0.5 text-xs text-foreground/60">{t.chat.lead.ingress}</p>
               <div className="mt-3 space-y-2">
                 <input
                   type="text"
@@ -323,7 +329,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadName(e.target.value)}
                   placeholder={t.chat.lead.namnPlaceholder}
                   aria-label={t.chat.lead.namn}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
                 <input
                   type="text"
@@ -331,7 +337,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadContact(e.target.value)}
                   placeholder={t.chat.lead.kontaktPlaceholder}
                   aria-label={t.chat.lead.kontakt}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
                 <textarea
                   rows={2}
@@ -339,7 +345,7 @@ export default function Chatbot() {
                   onChange={(e) => setLeadMessage(e.target.value)}
                   placeholder={t.chat.lead.meddelandePlaceholder}
                   aria-label={t.chat.lead.meddelande}
-                  className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+                  className="w-full resize-none rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm text-foreground placeholder:text-foreground/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
                 />
               </div>
               {leadError && <p className="mt-2 text-xs text-red-300">{leadError}</p>}
@@ -348,7 +354,7 @@ export default function Chatbot() {
                   type="button"
                   onClick={sendLead}
                   disabled={leadSending}
-                  className="btn-shine flex-1 rounded-lg bg-indigo-600 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+                  className="btn-shine flex-1 rounded-lg bg-indigo-600 py-2 text-sm font-semibold text-on-accent transition-colors hover:bg-indigo-500 disabled:opacity-50"
                 >
                   {leadSending ? t.chat.lead.skickar : t.chat.lead.skicka}
                 </button>
@@ -358,7 +364,7 @@ export default function Chatbot() {
                     setShowLead(false);
                     setLeadError('');
                   }}
-                  className="rounded-lg px-3 py-2 text-sm text-[#e8eaf6]/60 transition-colors hover:bg-white/5"
+                  className="rounded-lg px-3 py-2 text-sm text-foreground/60 transition-colors hover:bg-foreground/5"
                 >
                   {t.chat.lead.avbryt}
                 </button>
@@ -372,7 +378,7 @@ export default function Chatbot() {
         </div>
 
         {/* Inmatning */}
-        <div className="border-t border-white/10 p-3">
+        <div className="border-t border-foreground/10 p-3">
           {/* Honeypot — visuellt dolt, men nåbart för bottar */}
           <input
             type="text"
@@ -393,21 +399,21 @@ export default function Chatbot() {
               onKeyDown={onKeyDown}
               placeholder={t.chat.placeholder}
               aria-label={t.chat.placeholder}
-              className="max-h-28 flex-1 resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-[#e8eaf6] placeholder:text-[#e8eaf6]/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
+              className="max-h-28 flex-1 resize-none rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2.5 text-sm text-foreground placeholder:text-foreground/60 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40"
             />
             <button
               type="button"
               onClick={send}
               disabled={sending || !input.trim()}
               aria-label={t.chat.skicka}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-on-accent transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m22 2-7 20-4-9-9-4 20-7z" />
               </svg>
             </button>
           </div>
-          <p className="mt-2 px-1 text-[10px] leading-tight text-[#e8eaf6]/60">{t.chat.friskrivning}</p>
+          <p className="mt-2 px-1 text-[10px] leading-tight text-foreground/60">{t.chat.friskrivning}</p>
         </div>
       </div>
     </>
@@ -421,8 +427,8 @@ function Bubble({ role, children }: { role: 'user' | 'assistant'; children: Reac
       <div
         className={`max-w-[85%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm leading-relaxed ${
           isUser
-            ? 'rounded-br-sm bg-indigo-600 text-white'
-            : 'rounded-bl-sm bg-white/[0.06] text-[#e8eaf6]'
+            ? 'rounded-br-sm bg-indigo-600 text-on-accent'
+            : 'rounded-bl-sm bg-foreground/[0.06] text-foreground'
         }`}
       >
         {children}
@@ -434,7 +440,7 @@ function Bubble({ role, children }: { role: 'user' | 'assistant'; children: Reac
 function Dot({ delay = '0ms' }: { delay?: string }) {
   return (
     <span
-      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-[#e8eaf6]/50"
+      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-foreground/50"
       style={{ animationDelay: delay }}
     />
   );
