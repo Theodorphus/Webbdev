@@ -53,8 +53,6 @@ export default function BloggIndex() {
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -87,7 +85,7 @@ export default function BloggIndex() {
               className="card-spotlight group flex h-full flex-col rounded-2xl border border-foreground/8 bg-surface p-7 transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
             >
               <div className="flex items-center gap-3 text-[11px] text-muted">
-                <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-mono text-accent-light">
+                <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-sans text-accent-light">
                   {post.tag}
                 </span>
                 <span>{post.readingMinutes} min läsning</span>

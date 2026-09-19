@@ -81,8 +81,6 @@ export default async function BlogPost({ params }: Props) {
 
       {/* Bakgrundsglöd */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <article className="relative mx-auto max-w-3xl px-6 pb-24">
@@ -105,7 +103,7 @@ export default async function BlogPost({ params }: Props) {
 
         {/* Rubrik + meta */}
         <div className="flex items-center gap-3 text-[11px] text-muted">
-          <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-mono text-accent-light">
+          <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-sans text-accent-light">
             {post.tag}
           </span>
           <time dateTime={post.published}>{formatDate(post.published)}</time>
@@ -159,7 +157,7 @@ export default async function BlogPost({ params }: Props) {
           </p>
           <Link
             href="/#kontakt"
-            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:scale-[1.02] hover:bg-accent-hover"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover"
           >
             Berätta om ditt projekt
           </Link>

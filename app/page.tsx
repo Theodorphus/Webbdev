@@ -45,7 +45,7 @@ export function Home({ lang = 'sv' }: { lang?: Lang }) {
 }
 
 function HomeContent() {
-  const [reviewIndex, setReviewIndex] = useState(0);
+  const [reviewIndex, setReviewIndex] = useState(1);
   const { lang, t } = useLang();
   const faqItems = faqByLang[lang];
   const homeSchema = getHomeSchema(lang, faqItems);
@@ -100,15 +100,15 @@ function HomeContent() {
             <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold tracking-[-0.03em] text-foreground">
               {t.arbete.rubrik}
             </h2>
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/70">
+            <span className="font-sans text-xs uppercase tracking-[0.1em] text-foreground/70">
               {t.arbete.period}
             </span>
           </Reveal>
 
           {/* De utvalda — stora kort med webbläsarram och preview */}
-          <div className="grid gap-x-7 gap-y-12 md:grid-cols-3">
-            {selectedProjects.map((p) => (
-              <Reveal key={p.slug}>
+          <div className="selected-work-grid">
+            {selectedProjects.map((p, index) => (
+              <Reveal key={p.slug} className={index === 0 ? 'selected-work-featured' : undefined}>
                 <ProjectCard
                 caseLabel={lang === "sv" ? "Läs kundcaset" : "Read the case study (Swedish)"}
                   project={p}
@@ -139,7 +139,7 @@ function HomeContent() {
       <section id="process" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
+            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
               {t.processIntro.etikett}
             </span>
             <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -235,7 +235,7 @@ function HomeContent() {
       <section className="border-t border-foreground/[0.07] py-[88px]">
         <div className="mx-auto flex max-w-[80rem] flex-col items-center gap-8 px-5 sm:px-8 text-center md:flex-row md:justify-between md:gap-12 md:text-left">
           <Reveal>
-            <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
+            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
               {t.priser.etikett}
             </span>
             <h2 className="font-display mt-3.5 text-[clamp(26px,3vw,36px)] font-bold leading-[1.1] tracking-[-0.02em] text-foreground">
@@ -263,7 +263,7 @@ function HomeContent() {
       <section id="om" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
+            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
               {t.omMig.etikett}
             </span>
             <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -280,7 +280,7 @@ function HomeContent() {
               />
               <p className="flex flex-col gap-1">
                 <span className="font-display text-[17px] font-semibold text-foreground">Theo Håkansson</span>
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-foreground/70">
+                <span className="font-sans text-xs uppercase tracking-[0.1em] text-foreground/70">
                   {t.omMig2.roll}
                 </span>
               </p>
@@ -304,11 +304,11 @@ function HomeContent() {
             <div className="mt-12 grid gap-4 sm:grid-cols-2">
               {t.omMig.fakta.map((row) => (
                 <Reveal key={row.label} className="flex">
-                  <div className="flex w-full flex-col rounded-[20px] border border-foreground/[0.08] bg-surface px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/[0.16]">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent-light">
+                  <div className="flex w-full flex-col rounded-2xl border border-foreground/[0.08] bg-surface px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/[0.16]">
+                    <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
                       {row.tag}
                     </span>
-                    <span className="mt-5 font-mono text-xs uppercase tracking-[0.18em] text-foreground/70">
+                    <span className="mt-5 font-sans text-xs uppercase tracking-[0.1em] text-foreground/70">
                       {row.label}
                     </span>
                     <span className="mt-1.5 text-[15px] font-medium text-foreground/90">{row.value}</span>
@@ -325,7 +325,7 @@ function HomeContent() {
       <section id="faq" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
+            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
               {t.faqIntro.etikett}
             </span>
             <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -359,20 +359,21 @@ function HomeContent() {
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
       <section id="kontakt" className="relative overflow-hidden border-t border-foreground/[0.07] py-20 md:py-28">
-        <div className="relative mx-auto max-w-[52rem] px-5 sm:px-8 text-center">
+        <div className="studio-container contact-layout">
+          <div className="contact-introduction">
           <Reveal>
-            <h2 className="font-display text-[clamp(40px,6vw,80px)] font-bold leading-none tracking-[-0.035em] text-foreground">
+            <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold leading-none tracking-[-0.035em] text-foreground">
               {t.kontakt2.rubrik1} <em className="not-italic text-accent-light">{t.kontakt2.rubrik2}</em>
             </h2>
-            <p className="mx-auto mt-7 max-w-[30rem] text-[17px] leading-[1.6] text-foreground/70 [text-wrap:pretty]">
+            <p className="mt-7 max-w-[30rem] text-[17px] leading-[1.6] text-foreground/70 [text-wrap:pretty]">
               {t.kontakt2.ingress}
             </p>
           </Reveal>
           <div className="contact-person"><Image src="/pp3.webp" alt="Theo Håkansson" width={56} height={56} sizes="56px" /><div><strong>{lang === 'sv' ? 'Din förfrågan går direkt till Theo.' : 'Your enquiry goes directly to Theo.'}</strong><p>{lang === 'sv' ? 'Grundare, designer och utvecklare' : 'Founder, designer and developer'}</p></div></div>
           <p className="contact-next">{lang === 'sv' ? 'I vårt första samtal går vi igenom ditt företag, vad webbplatsen ska hjälpa dig med och vilken omfattning som passar. Du behöver inte ha en färdig kravlista.' : 'In our first conversation, we discuss your business, what your website should help you achieve and the right scope. You don’t need a finished brief.'}</p>
-          <Reveal>
-            <ContactForm />
-          </Reveal>
+          </div>
+          <div className="contact-form-panel">
+          <ContactForm />
           <Reveal>
             <p className="mt-9 text-sm text-foreground/70">
               {t.kontakt2.direktFraga}{' '}
@@ -399,6 +400,7 @@ function HomeContent() {
               .
             </p>
           </Reveal>
+          </div>
         </div>
       </section>
       </main>

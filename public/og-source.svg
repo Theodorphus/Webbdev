@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f7f3ed"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="104" fill="#302b27" font-size="30" font-weight="700" letter-spacing="-1">Webbdev<tspan fill="#a64f38">.</tspan>studio</text>
+    <g transform="translate(1064 62)">
+      <rect width="64" height="64" rx="14" fill="#a64f38"/>
+      <path d="M13 19 22 45 32 23 42 45 51 19" fill="none" stroke="#f7f3ed" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="68" y="263" fill="#302b27" font-size="76" font-weight="700" letter-spacing="-3">Genomtänkta hemsidor.</text>
+    <text x="68" y="357" fill="#a64f38" font-size="76" font-weight="700" letter-spacing="-3">För företag som</text>
+    <text x="68" y="445" fill="#a64f38" font-size="76" font-weight="700" letter-spacing="-3">vill växa.</text>
+    <path d="M72 519H1128" stroke="#302b27" stroke-opacity=".16"/>
+    <text x="72" y="563" fill="#706359" font-size="22">Webbdesign &amp; webbutveckling · Göteborg</text>
+    <text x="1128" y="563" fill="#302b27" font-size="22" text-anchor="end">webbdev.se</text>
+  </g>
+</svg>

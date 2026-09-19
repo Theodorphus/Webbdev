@@ -6,7 +6,7 @@ import { isPackageId, packageIds, packageLabels } from '../lib/packages';
 import { useLang } from '../i18n/LanguageProvider';
 import { trackConversion } from '../lib/analytics';
 
-const inputClass = 'mt-2 w-full rounded-[14px] border border-foreground/15 bg-surface px-5 py-4 text-base text-foreground placeholder:text-muted focus:border-accent-light';
+const inputClass = 'mt-2 w-full rounded-xl border border-foreground/15 bg-surface px-5 py-4 text-base text-foreground placeholder:text-muted focus:border-accent-light';
 
 function PackageField({ selectedPackage = '' }: { selectedPackage?: string }) {
   const { lang } = useLang();
@@ -19,8 +19,8 @@ function PackageField({ selectedPackage = '' }: { selectedPackage?: string }) {
 function RequestedPackageField() {
   const searchParams = useSearchParams();
   const requestedPackage = searchParams.get('paket');
-  const selectedPackage = isPackageId(requestedPackage) ? requestedPackage : '';
-  return <PackageField selectedPackage={selectedPackage} />;
+  if (!isPackageId(requestedPackage)) return null;
+  return <PackageField selectedPackage={requestedPackage} />;
 }
 
 export default function ContactForm() {
@@ -59,9 +59,9 @@ export default function ContactForm() {
     <p className="mb-5 text-xs text-muted">{lang === 'sv' ? 'Fält markerade med * är obligatoriska.' : 'Fields marked * are required.'}</p>
     <fieldset disabled={status === 'loading'} className="space-y-5"><legend className="sr-only">{t.kontakt.rubrik}</legend>
       <div className="hidden" aria-hidden="true"><label>Lämna tomt<input name="company" tabIndex={-1} autoComplete="off" /></label></div>
-      <Suspense fallback={<PackageField />}><RequestedPackageField /></Suspense>
       <div className="grid gap-5 sm:grid-cols-2"><label className="block text-sm">{t.kontakt.namn} *<input name="name" autoComplete="name" required pattern=".*\S.*" maxLength={200} className={inputClass} placeholder={t.kontakt.namnPlaceholder} /></label><label className="block text-sm">{t.kontakt.epost} *<input name="email" autoComplete="email" type="email" required maxLength={200} className={inputClass} placeholder={t.kontakt.epostPlaceholder} /></label></div>
-      <label className="block text-sm">{t.kontakt.meddelande} *<textarea name="message" rows={4} required minLength={2} maxLength={2000} className={inputClass} placeholder={t.kontakt.meddelandePlaceholder} /></label>
+      <label className="block text-sm">{lang === 'sv' ? 'Vad vill du förbättra?' : 'What would you like to improve?'} *<textarea name="message" rows={4} required minLength={2} maxLength={2000} className={inputClass} placeholder={t.kontakt.meddelandePlaceholder} /></label>
+      <Suspense fallback={null}><RequestedPackageField /></Suspense>
       {status === 'error' && <p role="alert" className="rounded-xl border border-red-400/30 bg-red-400/10 p-4 text-sm text-red-200">{limited ? (lang === 'sv' ? 'Flera förfrågningar har skickats. Vänta en stund och försök igen.' : 'Several requests have been sent. Please wait and try again.') : (lang === 'sv' ? 'Det gick inte att skicka. Dina uppgifter finns kvar. Försök igen eller mejla webbdevstudio@gmail.com.' : 'Could not send. Your details are still here. Try again or email webbdevstudio@gmail.com.')}</p>}
       <button type="submit" className="w-full rounded-full bg-accent px-6 py-4 text-base font-semibold text-on-accent hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60">{status === 'loading' ? t.kontakt.skickar : t.kontakt.skicka} ↗</button>
     </fieldset>

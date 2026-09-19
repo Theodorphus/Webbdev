@@ -217,7 +217,7 @@ export function WipeImage({
   return (
     <div ref={ref} className={className}>
       <motion.div
-        className="relative h-full w-full overflow-hidden rounded-[20px]"
+        className="relative h-full w-full overflow-hidden rounded-2xl"
         initial={false}
         animate={{
           clipPath: shown

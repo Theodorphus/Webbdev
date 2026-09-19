@@ -23,7 +23,6 @@ export default function IntegritetspolicyPage() {
   return (
     <main className="relative min-h-screen pt-28 pb-24">
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
       </div>
 
       <div className="relative mx-auto max-w-3xl px-6">
@@ -35,7 +34,7 @@ export default function IntegritetspolicyPage() {
           Tillbaka till startsidan
         </Link>
 
-        <p className="mt-10 font-mono text-xs uppercase tracking-[0.3em] text-accent-light/60">Juridik</p>
+        <p className="mt-10 font-sans text-xs uppercase tracking-[0.1em] text-accent-light/60">Juridik</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
           Integritetspolicy
         </h1>

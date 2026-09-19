@@ -24,8 +24,6 @@ export default function WebbutvecklingIndexPage() {
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       {/* Bakgrundsglöd — matchar ortssidornas känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -78,7 +76,7 @@ export default function WebbutvecklingIndexPage() {
           </p>
           <Link
             href="/#kontakt"
-            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:scale-[1.02] hover:bg-accent-hover"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover"
           >
             Berätta om ditt projekt
           </Link>

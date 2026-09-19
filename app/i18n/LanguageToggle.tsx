@@ -15,7 +15,7 @@ export default function LanguageToggle({ compact = false }: { compact?: boolean 
 
   return (
     <div
-      className={`inline-flex items-center rounded-full border border-foreground/10 bg-foreground/5 p-0.5 font-mono text-[11px] font-semibold ${
+      className={`inline-flex items-center rounded-full border border-foreground/10 bg-foreground/5 p-0.5 font-sans text-[11px] font-semibold ${
         compact ? '' : ''
       }`}
       role="group"

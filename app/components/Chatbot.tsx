@@ -280,7 +280,7 @@ export default function Chatbot() {
                   key={q}
                   type="button"
                   onClick={() => sendQuick(q)}
-                  className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs text-accent-light transition-colors hover:border-accent/60 hover:bg-accent/20"
+                  className="rounded-full border border-foreground/15 bg-surface-raised px-3 py-1.5 text-xs text-accent-light transition-colors hover:border-foreground/30 hover:bg-surface"
                 >
                   {q}
                 </button>
@@ -311,7 +311,7 @@ export default function Chatbot() {
 
           {/* Lead-formulär */}
           {showLead && (
-            <div className="rounded-2xl border border-accent/25 bg-accent/[0.07] p-3.5">
+            <div className="rounded-2xl border border-foreground/15 bg-surface-raised p-3.5">
               <p className="font-display text-sm font-semibold text-foreground">{t.chat.lead.rubrik}</p>
               <p className="mt-0.5 text-xs text-muted">{t.chat.lead.ingress}</p>
               <div className="mt-3 space-y-2">
@@ -405,7 +405,7 @@ export default function Chatbot() {
               </svg>
             </button>
           </div>
-          <p className="mt-2 px-1 text-[10px] leading-tight text-muted">{t.chat.friskrivning}</p>
+          <p className="mt-2 px-1 text-xs leading-tight text-muted">{t.chat.friskrivning}</p>
         </div>
       </div>
     </>
@@ -432,7 +432,7 @@ function Bubble({ role, children }: { role: 'user' | 'assistant'; children: Reac
 function Dot({ delay = '0ms' }: { delay?: string }) {
   return (
     <span
-      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-surface-raised0"
+      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-muted"
       style={{ animationDelay: delay }}
     />
   );

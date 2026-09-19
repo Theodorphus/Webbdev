@@ -43,7 +43,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
           <BrowserPreview project={project} priority={index < 2} />
         </div>
         <div className={reverse ? 'lg:order-1' : ''}>
-          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
+          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
             {text.kategori}
           </span>
           <h2 className="font-display mt-3.5 text-[30px] font-bold [overflow-wrap:anywhere] tracking-[-0.02em] text-foreground">
@@ -55,16 +55,6 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
           <p className="mt-5 max-w-[30rem] border-l-2 border-accent pl-3.5 text-sm font-medium text-foreground/85">
             {text.result}
           </p>
-          <div className="mt-[26px] flex flex-wrap gap-2.5">
-            {project.tech.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-foreground/10 px-3.5 py-[5px] font-mono text-[11px] text-muted"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
           <span className="mt-[30px] inline-flex items-center gap-2.5 text-sm font-semibold text-accent-light">
             {project.caseHref ? (lang === 'sv' ? 'Läs kundcaset' : 'Read the case study (Swedish)') : t.arbete.besok}
             <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -95,7 +85,7 @@ export default function PortfolioContent() {
 
         {/* Sidhuvud */}
         <Reveal className="mt-14 max-w-[46rem]">
-          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
+          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
             {t.portfolioSida.etikett}
           </span>
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -135,7 +125,7 @@ export default function PortfolioContent() {
                 >
                   <BrowserPreview project={p} />
                   <div className="mt-5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
+                    <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
                       {text.kategori}
                     </span>
                     <h3 className="font-display mt-2.5 text-[22px] font-bold tracking-[-0.02em] text-foreground">
@@ -154,7 +144,7 @@ export default function PortfolioContent() {
         <div className="mt-20"><TrafficResults /></div>
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-surface px-5 sm:px-8 py-14 text-center">
+        <Reveal className="mt-[120px] rounded-2xl border border-foreground/[0.09] bg-surface px-5 sm:px-8 py-14 text-center">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.portfolioSida.ctaRubrik}
           </h2>
@@ -163,7 +153,7 @@ export default function PortfolioContent() {
           </p>
           <Link
             href={localizedHref("/#kontakt", lang)}
-            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-5 sm:px-8 py-4 text-[15px] font-semibold text-on-accent transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-5 sm:px-8 py-4 text-[15px] font-semibold text-on-accent transition-transform active:scale-[0.98]"
           >
             {t.portfolioSida.cta}
             <span className="transition-transform duration-300 group-hover:translate-x-1">

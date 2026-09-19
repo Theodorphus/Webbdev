@@ -465,7 +465,7 @@ export const dictionary = {
     },
     priser2: {
       rubrik: 'Fixed price. No surprises.',
-      badge: 'Most picked',
+      badge: 'With content management',
       prisNotis: 'Indicative prices excluding VAT. You receive a fixed quote for the agreed scope before work begins.',
       osaker1: 'Not sure what you need?',
       osakerCta: 'Tell me about your project',

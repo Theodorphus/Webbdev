@@ -84,8 +84,6 @@ export default async function OrtPage({ params }: Props) {
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -107,7 +105,7 @@ export default async function OrtPage({ params }: Props) {
         </nav>
 
         {/* Hero */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-accent-light">
+        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em] text-accent-light">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           {ort.namn} · {ort.region}
         </div>
@@ -124,7 +122,7 @@ export default async function OrtPage({ params }: Props) {
         <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href="/#kontakt"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover hover:scale-[1.02]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover"
           >
             Berätta om ditt projekt
           </Link>

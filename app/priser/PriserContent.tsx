@@ -43,7 +43,7 @@ export default function PriserContent() {
 
         {/* Sidhuvud */}
         <Reveal className="mt-14 max-w-[46rem]">
-          <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent-light">
+          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
             {t.priser.etikett}
           </span>
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -55,7 +55,7 @@ export default function PriserContent() {
         </Reveal>
 
         {/* Paketen */}
-        <div className="mt-[72px] grid gap-px overflow-hidden rounded-[20px] border border-foreground/[0.08] bg-foreground/[0.08] md:grid-cols-3">
+        <div className="mt-[72px] grid gap-px overflow-hidden rounded-2xl border border-foreground/[0.08] bg-foreground/[0.08] md:grid-cols-3">
           {t.priser.paket
             .map((p, i) => ({ ...p, id: packageIds[i], populer: i === 1 }))
             .map((p) => (
@@ -68,14 +68,14 @@ export default function PriserContent() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span
-                      className={`font-mono text-xs uppercase tracking-[0.2em] ${
+                      className={`font-sans text-xs uppercase tracking-[0.1em] ${
                         p.populer ? 'text-accent-light' : 'text-muted'
                       }`}
                     >
                       {p.tier}
                     </span>
                     {p.populer && (
-                      <span className="rounded-full border border-[rgba(166,79,56,0.45)] bg-[rgba(166,79,56,0.18)] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-accent-light">
+                      <span className="rounded-full border border-[rgba(166,79,56,0.45)] bg-[rgba(166,79,56,0.18)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent-light">
                         {t.priser2.badge}
                       </span>
                     )}
@@ -131,7 +131,7 @@ export default function PriserContent() {
         <PriceCalculator />
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-surface px-8 py-14 text-center">
+        <Reveal className="mt-[120px] rounded-2xl border border-foreground/[0.09] bg-surface px-8 py-14 text-center">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.priserSida.ctaRubrik}
           </h2>
@@ -140,7 +140,7 @@ export default function PriserContent() {
           </p>
           <Link
             href={localizedHref("/#kontakt", lang)}
-            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-[15px] font-semibold text-on-accent transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-[15px] font-semibold text-on-accent transition-transform active:scale-[0.98]"
           >
             {t.priserSida.cta}
             <span className="transition-transform duration-300 group-hover:translate-x-1">

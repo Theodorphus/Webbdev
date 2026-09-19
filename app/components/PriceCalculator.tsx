@@ -86,7 +86,7 @@ export default function PriceCalculator() {
   return (
     <div
       data-animate="block"
-      className="relative mt-16 overflow-hidden rounded-[20px] border border-foreground/[0.08] bg-surface p-6 sm:p-9"
+      className="relative mt-16 overflow-hidden rounded-2xl border border-foreground/[0.08] bg-surface p-6 sm:p-9"
     >
 
       <div className="relative grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
@@ -132,7 +132,7 @@ export default function PriceCalculator() {
               <label htmlFor="calc-pages" className="text-xs font-semibold uppercase tracking-wider text-muted">
                 {c.sidorLabel}
               </label>
-              <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-mono text-xs text-accent-light">
+              <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-sans text-xs text-accent-light">
                 {pages} {pages === 1 ? c.sidorEn : c.sidorFlera}
               </span>
             </div>

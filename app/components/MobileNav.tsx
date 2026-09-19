@@ -19,12 +19,9 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   const home = lang === 'en' ? '/en' : '/';
 
   const links = [
-    { id: 'portfolio', label: t.footer2.portfolio, href: localizedHref('/portfolio', lang) },
-    { id: 'process', label: t.nav2.process },
-    { id: 'priser', label: t.nav2.priser, href: localizedHref('/priser', lang) },
-    { id: 'gratis-demo', label: t.nav2.demo, href: '/gratis-demo' },
-    { id: 'om', label: t.nav2.om },
+    { id: 'portfolio', label: lang === 'sv' ? 'Arbeten' : 'Work', href: localizedHref('/portfolio', lang) },
     { id: 'tjanster', label: t.footer2.tjanster, href: localizedHref('/tjanster', lang) },
+    { id: 'om', label: t.nav2.om },
   ];
 
   // Lås bakgrundsscroll medan menyn är öppen + stäng på Escape.
@@ -125,7 +122,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
           <a
             href={`${home}#kontakt`}
             onClick={() => setOpen(false)}
-            className="mt-4 w-full max-w-xs rounded-full bg-foreground px-6 py-3 text-center text-lg font-semibold text-background transition-colors hover:bg-foreground"
+            className="mt-4 w-full max-w-xs rounded-full bg-accent px-6 py-3 text-center text-lg font-semibold text-on-accent transition-colors hover:bg-accent-hover"
           >
             {t.nav2.cta}
           </a>

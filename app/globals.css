@@ -71,8 +71,32 @@
 .testimonial-layout figcaption strong { color: var(--foreground); font-weight: 500; }
 .home-page :where(p, h1, h2, h3) { overflow-wrap: break-word; }
 .home-page :where(.grid > *) { min-width: 0; }
+.selected-work-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+.selected-work-grid > * { min-width: 0; }
+.contact-layout { display: grid; gap: 40px; align-items: start; }
+.contact-layout > * { min-width: 0; }
+.contact-introduction .contact-person { justify-content: flex-start; }
+.contact-introduction .contact-next { max-width: 30rem; }
+.contact-form-panel { padding: clamp(20px, 3vw, 40px); background: var(--surface); border: 1px solid var(--border-soft); border-radius: 16px; }
+.contact-form-panel form { margin-top: 0; }
+.contact-form-panel :where(input, textarea, select) { background: var(--background); }
+@media (min-width: 768px) {
+  .selected-work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; }
+  .selected-work-featured { grid-column: 1 / -1; }
+  .selected-work-featured .project-card { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; gap: 48px; }
+  .selected-work-featured .project-card > div:last-child { margin-top: 0; }
+  .selected-work-featured h3 { font-size: clamp(30px, 3vw, 44px); line-height: 1.15; }
+}
+@media (min-width: 1024px) {
+  .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 72px; }
+}
 .portfolio-page :where(.grid > *) { min-width: 0; }
 .portfolio-page :where(p, h2, h3) { overflow-wrap: anywhere; }
+.case-image-dialog { width: min(1440px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 0; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface); color: var(--foreground); }
+.case-image-dialog::backdrop { background: #211d1acc; }
+.case-image-dialog-content { display: flex; flex-direction: column; max-height: calc(100dvh - 26px); }
+.case-image-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--border-soft); }
+.case-image-dialog-scroll { overflow: auto; min-height: 0; overscroll-behavior: contain; }
 @media (min-width: 360px) { .hero-proof { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 640px) {
   .studio-container { width: min(100% - 64px, 1216px); }
@@ -303,10 +327,9 @@ body {
   transition: bottom 0.3s ease;
 }
 @media (max-width: 767px) {
-  /* Lyft bara den stängda bubblan — öppen panel har egen placering
-     (bottom-24) och X-knappen ska ligga kvar under panelen. */
+  /* Prioritera kontaktknappen på mobil, men behåll en pågående chatt. */
   body.sticky-cta-visible .chat-dock:not(.chat-dock--open) {
-    bottom: 6.5rem;
+    display: none;
   }
 }
 

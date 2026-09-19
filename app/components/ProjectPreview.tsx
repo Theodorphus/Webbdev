@@ -9,10 +9,6 @@ function IconDiagonal() {
   );
 }
 
-// Skärmdumparna är 1200×1500 — dubbelt så höga som ramens fönster. Vid hover
-// dras bilden uppåt så att resten av sajten scrollar förbi i miniatyr.
-// Procenten nedan är räknad på bildens egen höjd: 1 − (fönsterhöjd / bildhöjd),
-// alltså −45 % för 16/11-fönstret och −50 % för 16/10.
 type Storlek = 'stor' | 'liten';
 
 export function BrowserPreview({
@@ -26,13 +22,13 @@ export function BrowserPreview({
 }) {
   const stor = storlek === 'stor';
   return (
-    <div className="min-w-0 overflow-hidden rounded-[18px] border border-foreground/[0.09] bg-surface shadow-card transition-colors duration-300 group-hover:border-foreground/20">
+    <div className="min-w-0 overflow-hidden rounded-2xl border border-foreground/[0.09] bg-surface shadow-card transition-colors duration-300 group-hover:border-foreground/20">
       {/* Webbläsarram */}
       <div className={`flex items-center gap-[6px] border-b border-foreground/[0.07] bg-foreground/[0.035] ${stor ? 'px-4 py-3' : 'px-3 py-2.5'}`}>
-        <span className="h-[9px] w-[9px] rounded-full bg-[#ff5f57]/60" />
-        <span className="h-[9px] w-[9px] rounded-full bg-[#febc2e]/60" />
-        <span className="h-[9px] w-[9px] rounded-full bg-[#28c840]/55" />
-        <span className="mx-2 min-w-0 flex-1 truncate rounded-md bg-foreground/[0.05] px-2.5 py-[3px] text-center font-mono text-xs text-muted">
+        <span className="h-[9px] w-[9px] rounded-full bg-muted/40" />
+        <span className="h-[9px] w-[9px] rounded-full bg-muted/40" />
+        <span className="h-[9px] w-[9px] rounded-full bg-muted/40" />
+        <span className="mx-2 min-w-0 flex-1 truncate rounded-md bg-foreground/[0.05] px-2.5 py-[3px] text-center font-sans text-xs text-muted">
           {domain(project.url)}
         </span>
         <span className="text-muted transition-colors duration-300 group-hover:text-accent-light">
@@ -49,7 +45,7 @@ export function BrowserPreview({
           sizes={stor ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 580px' : '(max-width: 640px) 92vw, 30vw'}
           preload={priority}
           className={`h-auto w-full transition-transform duration-[3500ms] ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:!translate-y-0 motion-reduce:transition-none ${
-            stor ? 'group-hover:translate-y-[-45%]' : 'group-hover:translate-y-[-50%]'
+            stor ? 'group-hover:translate-y-[-45%] group-focus-visible:translate-y-[-45%]' : 'group-hover:translate-y-[-50%] group-focus-visible:translate-y-[-50%]'
           }`}
         />
       </div>
@@ -78,11 +74,11 @@ export function ProjectCard({
       href={project.caseHref ?? project.url}
       target={project.caseHref ? undefined : "_blank"}
       rel="noopener noreferrer"
-      className="group block"
+      className="project-card group block"
     >
       <BrowserPreview project={project} priority={priority} />
       <div className="mt-[22px] px-0.5">
-        <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent-light">
+        <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
           {text.kategori}
         </span>
         <h3 className="font-display mt-2.5 text-[25px] font-bold tracking-[-0.02em] text-foreground">
@@ -117,7 +113,7 @@ export function ProjectCardSmall({ project, text }: { project: Project; text: Pr
         <h3 className="font-display text-[16.5px] font-semibold tracking-[-0.01em] text-foreground">
           {project.namn}
         </h3>
-        <span className="truncate font-mono text-xs uppercase tracking-[0.2em] text-muted">
+        <span className="truncate font-sans text-xs uppercase tracking-[0.1em] text-muted">
           {text.kategori}
         </span>
       </div>
