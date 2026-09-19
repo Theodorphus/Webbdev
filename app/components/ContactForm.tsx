@@ -6,7 +6,7 @@ import { isPackageId, packageIds, packageLabels } from '../lib/packages';
 import { useLang } from '../i18n/LanguageProvider';
 import { trackConversion } from '../lib/analytics';
 
-const inputClass = 'mt-2 w-full rounded-[14px] border border-foreground/15 bg-foreground/[0.04] px-5 py-4 text-base text-foreground placeholder:text-muted focus:border-accent-light';
+const inputClass = 'mt-2 w-full rounded-[14px] border border-foreground/15 bg-surface px-5 py-4 text-base text-foreground placeholder:text-muted focus:border-accent-light';
 
 function PackageField({ selectedPackage = '' }: { selectedPackage?: string }) {
   const { lang } = useLang();
@@ -63,8 +63,8 @@ export default function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2"><label className="block text-sm">{t.kontakt.namn} *<input name="name" autoComplete="name" required pattern=".*\S.*" maxLength={200} className={inputClass} placeholder={t.kontakt.namnPlaceholder} /></label><label className="block text-sm">{t.kontakt.epost} *<input name="email" autoComplete="email" type="email" required maxLength={200} className={inputClass} placeholder={t.kontakt.epostPlaceholder} /></label></div>
       <label className="block text-sm">{t.kontakt.meddelande} *<textarea name="message" rows={4} required minLength={2} maxLength={2000} className={inputClass} placeholder={t.kontakt.meddelandePlaceholder} /></label>
       {status === 'error' && <p role="alert" className="rounded-xl border border-red-400/30 bg-red-400/10 p-4 text-sm text-red-200">{limited ? (lang === 'sv' ? 'Flera förfrågningar har skickats. Vänta en stund och försök igen.' : 'Several requests have been sent. Please wait and try again.') : (lang === 'sv' ? 'Det gick inte att skicka. Dina uppgifter finns kvar. Försök igen eller mejla webbdevstudio@gmail.com.' : 'Could not send. Your details are still here. Try again or email webbdevstudio@gmail.com.')}</p>}
-      <button type="submit" className="w-full rounded-full bg-accent px-6 py-4 text-base font-semibold text-on-accent hover:bg-[#7773ff] disabled:cursor-wait disabled:opacity-60">{status === 'loading' ? t.kontakt.skickar : t.kontakt.skicka} ↗</button>
+      <button type="submit" className="w-full rounded-full bg-accent px-6 py-4 text-base font-semibold text-on-accent hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60">{status === 'loading' ? t.kontakt.skickar : t.kontakt.skicka} ↗</button>
     </fieldset>
-    <p className="mt-4 text-center text-xs text-foreground/60">{t.kontakt.risk}</p>
+    <p className="mt-4 text-center text-xs text-muted">{t.kontakt.risk}</p>
   </form>;
 }

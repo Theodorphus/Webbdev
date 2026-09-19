@@ -81,8 +81,8 @@ export default async function BlogPost({ params }: Props) {
 
       {/* Bakgrundsglöd */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-indigo-600/15 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-violet-600/10 blur-[110px]" />
+        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
+        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <article className="relative mx-auto max-w-3xl px-6 pb-24">
@@ -100,12 +100,12 @@ export default async function BlogPost({ params }: Props) {
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-foreground/60">{post.tag}</span>
+          <span className="text-muted">{post.tag}</span>
         </nav>
 
         {/* Rubrik + meta */}
         <div className="flex items-center gap-3 text-[11px] text-muted">
-          <span className="rounded-full border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-0.5 font-mono text-indigo-400">
+          <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-mono text-accent-light">
             {post.tag}
           </span>
           <time dateTime={post.published}>{formatDate(post.published)}</time>
@@ -138,7 +138,7 @@ export default async function BlogPost({ params }: Props) {
                       key={punkt.slice(0, 24)}
                       className="flex items-start gap-3 text-base leading-relaxed text-foreground/70"
                     >
-                      <span className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400" />
+                      <span className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                       {punkt}
                     </li>
                   ))}
@@ -149,17 +149,17 @@ export default async function BlogPost({ params }: Props) {
         </div>
 
         {/* CTA */}
-        <div className="mt-16 rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-8 sm:p-10">
+        <div className="mt-16 rounded-3xl border border-accent/20 bg-surface-raised p-8 sm:p-10">
           <h2 className="font-display text-2xl font-bold text-foreground">
             Redo för en hemsida som säljer?
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-foreground/65">
+          <p className="mt-3 text-sm leading-relaxed text-muted">
             Berätta om ditt projekt. Jag återkommer inom 24 timmar med frågor
             och förslag på nästa steg. Du får en fast offert när omfattningen är tydlig.
           </p>
           <Link
             href="/#kontakt"
-            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:scale-[1.02] hover:bg-accent-hover"
           >
             Berätta om ditt projekt
           </Link>
@@ -176,7 +176,7 @@ export default async function BlogPost({ params }: Props) {
                 <Link
                   key={o.slug}
                   href={`/blogg/${o.slug}`}
-                  className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+                  className="card-spotlight rounded-2xl border border-foreground/8 bg-surface p-6 transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
                 >
                   <h3 className="font-display text-base font-bold text-foreground/90">
                     {o.title}
@@ -191,7 +191,7 @@ export default async function BlogPost({ params }: Props) {
         )}
 
         <div className="mt-12 text-sm text-muted">
-          <Link href="/blogg" className="transition-colors hover:text-indigo-300">
+          <Link href="/blogg" className="transition-colors hover:text-accent-light">
             ← Alla inlägg
           </Link>
         </div>

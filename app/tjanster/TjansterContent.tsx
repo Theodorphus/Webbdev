@@ -68,7 +68,7 @@ export default function TjansterContent() {
         {/* Tillbaka-länk */}
         <Link
           href={localizedHref("/", lang)}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-indigo-300"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent-light"
         >
           <span className="transition-transform group-hover:-translate-x-0.5"><IconBack /></span>
           {t.tjansterSida.tillbaka}
@@ -79,10 +79,10 @@ export default function TjansterContent() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div data-parallax="-26" className="absolute top-1/4 -left-40">
-            <div className="h-[400px] w-[400px] rounded-full bg-indigo-600/10 blur-[110px]" />
+            <div className="h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
           </div>
           <div data-parallax="-42" className="absolute bottom-0 -right-32">
-            <div className="h-[350px] w-[350px] rounded-full bg-violet-600/10 blur-[100px]" />
+            <div className="h-[350px] w-[350px] rounded-full bg-accent/5 blur-[100px]" />
           </div>
         </div>
         <div className="relative mx-auto max-w-6xl px-6">
@@ -92,12 +92,12 @@ export default function TjansterContent() {
               {t.tjanster.rubrik}
             </h1>
           </div>
-          <p className="mb-8 max-w-2xl text-base leading-relaxed text-foreground/60">{lang === 'sv' ? 'En tydlig presentation, enklare kontakt eller försäljning online. Vi utgår från vad din hemsida ska hjälpa kunden att göra och väljer teknik därefter.' : 'A clear introduction, easier contact or online sales. We start with what your website should help customers do and choose the technology to match.'}</p>
+          <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted">{lang === 'sv' ? 'En tydlig presentation, enklare kontakt eller försäljning online. Vi utgår från vad din hemsida ska hjälpa kunden att göra och väljer teknik därefter.' : 'A clear introduction, easier contact or online sales. We start with what your website should help customers do and choose the technology to match.'}</p>
           <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
             {t.tjanster.items.map((item) => (
-              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-900/20">
+              <div key={item.title} className="group card-spotlight flex h-full gap-5 rounded-2xl border border-foreground/8 bg-surface p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:shadow-lg hover:shadow-accent/20">
                 <div className="mt-0.5 flex-shrink-0">
-                  <div className="rounded-lg border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-1 font-mono text-[10px] text-indigo-400 whitespace-nowrap">
+                  <div className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-mono text-[10px] text-accent-light whitespace-nowrap">
                     {item.tag}
                   </div>
                 </div>
@@ -113,7 +113,7 @@ export default function TjansterContent() {
           <div className="mt-14 flex flex-col items-center gap-4 text-center">
             <Link
               href={localizedHref("/#kontakt", lang)}
-              className="group btn-shine inline-flex items-center justify-center gap-2.5 rounded-full bg-indigo-600 px-9 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:scale-[1.03] active:scale-[0.98]"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-9 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover hover:scale-[1.03] active:scale-[0.98]"
             >
               {t.tjansterSida.cta}
               <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
@@ -131,7 +131,7 @@ export default function TjansterContent() {
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
             {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
-              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/30 hover:bg-indigo-500/5">
+              <div key={item.label} className="card-spotlight h-full rounded-2xl border border-foreground/8 bg-surface p-7 transition-all duration-300 hover:border-accent/30 hover:bg-accent/5">
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
                   {item.icon}
                 </div>

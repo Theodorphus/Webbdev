@@ -53,8 +53,8 @@ export default function BloggIndex() {
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-indigo-600/15 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-violet-600/10 blur-[110px]" />
+        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
+        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -66,14 +66,14 @@ export default function BloggIndex() {
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-foreground/60">Blogg</span>
+          <span className="text-muted">Blogg</span>
         </nav>
 
         <p className="eyebrow">Blogg</p>
         <h1 className="font-display mt-3 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
           Guider om hemsidor & webbutveckling
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/65">
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
           Konkreta tips om hemsidor, SEO och pris — så att du kan fatta smarta
           beslut för ditt företags närvaro online.
         </p>
@@ -84,10 +84,10 @@ export default function BloggIndex() {
             <Link
               key={post.slug}
               href={`/blogg/${post.slug}`}
-              className="card-spotlight group flex h-full flex-col rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-7 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+              className="card-spotlight group flex h-full flex-col rounded-2xl border border-foreground/8 bg-surface p-7 transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
             >
               <div className="flex items-center gap-3 text-[11px] text-muted">
-                <span className="rounded-full border border-indigo-500/25 bg-indigo-500/10 px-2.5 py-0.5 font-mono text-indigo-400">
+                <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-mono text-accent-light">
                   {post.tag}
                 </span>
                 <span>{post.readingMinutes} min läsning</span>
@@ -110,7 +110,7 @@ export default function BloggIndex() {
 
         {/* Tillbaka */}
         <div className="mt-12 text-sm text-muted">
-          <Link href="/" className="transition-colors hover:text-indigo-300">
+          <Link href="/" className="transition-colors hover:text-accent-light">
             ← Till startsidan
           </Link>
         </div>

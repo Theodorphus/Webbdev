@@ -13,7 +13,7 @@ export function applyTheme(preference: ThemePreference) {
   document.documentElement.dataset.theme = resolved;
   document.documentElement.dataset.themePreference = preference;
   document.documentElement.style.colorScheme = resolved;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', resolved === 'dark' ? '#050509' : '#fafafd');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', resolved === 'dark' ? '#211d1a' : '#f7f3ed');
   window.dispatchEvent(new Event(eventName));
 }
 
@@ -24,7 +24,7 @@ export function setTheme(preference: ThemePreference) {
 
 export function themeSnapshot(): ThemePreference {
   const value = document.documentElement.dataset.themePreference;
-  return isTheme(value) ? value : 'system';
+  return isTheme(value) ? value : 'light';
 }
 
 export function subscribeTheme(listener: () => void) {
@@ -33,4 +33,4 @@ export function subscribeTheme(listener: () => void) {
 }
 
 // Runs in the document head before body paint. No user input is interpolated.
-export const themeInitScript = `(function(){var p='system';try{var s=localStorage.getItem('${themeStorageKey}');if(s==='light'||s==='dark'||s==='system')p=s;}catch(e){}var t=p==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):p;var d=document.documentElement;d.dataset.theme=t;d.dataset.themePreference=p;d.style.colorScheme=t;})();`;
+export const themeInitScript = `(function(){var p='light';try{var s=localStorage.getItem('${themeStorageKey}');if(s==='light'||s==='dark'||s==='system')p=s;}catch(e){}var t=p==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):p;var d=document.documentElement;d.dataset.theme=t;d.dataset.themePreference=p;d.style.colorScheme=t;})();`;

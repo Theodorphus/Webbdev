@@ -26,7 +26,7 @@ function IconArrow() {
 
 function Star() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#6d6af8" aria-hidden>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)" aria-hidden>
       <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01L12 2z" />
     </svg>
   );
@@ -122,7 +122,7 @@ function HomeContent() {
           <Reveal className="mt-12 flex flex-wrap items-center justify-center gap-6">
             <Link
               href={localizedHref("/portfolio", lang)}
-              className="group inline-flex items-center gap-2.5 rounded-full border border-foreground/12 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-foreground/25 hover:bg-foreground/[0.04]"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-foreground/12 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-foreground/25 hover:bg-surface"
             >
               {t.arbete.alla}
               <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -181,11 +181,6 @@ function HomeContent() {
 
       {/* ── RECENSIONER ──────────────────────────────────────── */}
       <section id="recensioner" className="relative overflow-hidden border-t border-foreground/[0.07] py-20 md:py-28">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-[40%] left-1/2 h-[600px] w-[900px] -translate-x-1/2 blur-[50px]"
-          style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(109,106,248,0.12), transparent 70%)' }}
-        />
         <div className="relative mx-auto max-w-[56rem] px-5 sm:px-8 text-center">
           <h2 className="studio-eyebrow mb-6">{t.recensioner.rubrik}</h2>
           <Reveal className="flex justify-center gap-1">
@@ -309,7 +304,7 @@ function HomeContent() {
             <div className="mt-12 grid gap-4 sm:grid-cols-2">
               {t.omMig.fakta.map((row) => (
                 <Reveal key={row.label} className="flex">
-                  <div className="flex w-full flex-col rounded-[20px] border border-foreground/[0.08] bg-foreground/[0.02] px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/[0.16]">
+                  <div className="flex w-full flex-col rounded-[20px] border border-foreground/[0.08] bg-surface px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/[0.16]">
                     <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent-light">
                       {row.tag}
                     </span>
@@ -317,7 +312,7 @@ function HomeContent() {
                       {row.label}
                     </span>
                     <span className="mt-1.5 text-[15px] font-medium text-foreground/90">{row.value}</span>
-                    {row.tag === 'SPEED' && <p className="mt-2 text-xs leading-relaxed text-foreground/65">{lang === 'sv' ? 'Från godkänd design och komplett material. Tidsplanen anpassas efter omfattning.' : 'From approved design and complete content. Timing depends on scope.'}</p>}
+                    {row.tag === 'SPEED' && <p className="mt-2 text-xs leading-relaxed text-muted">{lang === 'sv' ? 'Från godkänd design och komplett material. Tidsplanen anpassas efter omfattning.' : 'From approved design and complete content. Timing depends on scope.'}</p>}
                   </div>
                 </Reveal>
               ))}
@@ -364,15 +359,10 @@ function HomeContent() {
 
       {/* ── KONTAKT ──────────────────────────────────────────── */}
       <section id="kontakt" className="relative overflow-hidden border-t border-foreground/[0.07] py-20 md:py-28">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-[20%] left-1/2 h-[700px] w-[1100px] -translate-x-1/2 blur-[60px]"
-          style={{ background: 'radial-gradient(45% 45% at 50% 50%, rgba(109,106,248,0.18), transparent 70%)' }}
-        />
         <div className="relative mx-auto max-w-[52rem] px-5 sm:px-8 text-center">
           <Reveal>
             <h2 className="font-display text-[clamp(40px,6vw,80px)] font-bold leading-none tracking-[-0.035em] text-foreground">
-              {t.kontakt2.rubrik1} <em className="not-italic text-accent">{t.kontakt2.rubrik2}</em>
+              {t.kontakt2.rubrik1} <em className="not-italic text-accent-light">{t.kontakt2.rubrik2}</em>
             </h2>
             <p className="mx-auto mt-7 max-w-[30rem] text-[17px] leading-[1.6] text-foreground/70 [text-wrap:pretty]">
               {t.kontakt2.ingress}

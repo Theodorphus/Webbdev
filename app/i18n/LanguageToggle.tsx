@@ -30,7 +30,7 @@ export default function LanguageToggle({ compact = false }: { compact?: boolean 
           aria-current={lang === opt ? 'page' : undefined}
           className={`rounded-full px-2.5 py-1 uppercase transition-colors ${
             lang === opt
-              ? 'bg-indigo-500/20 text-indigo-200'
+              ? 'bg-accent/20 text-accent-light'
               : 'text-muted hover:text-foreground/80'
           }`}
         >

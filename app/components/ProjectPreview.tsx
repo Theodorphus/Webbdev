@@ -26,7 +26,7 @@ export function BrowserPreview({
 }) {
   const stor = storlek === 'stor';
   return (
-    <div className="min-w-0 overflow-hidden rounded-[18px] border border-foreground/[0.09] bg-surface shadow-[0_24px_70px_-30px_rgba(0,0,0,0.95)] transition-colors duration-300 group-hover:border-foreground/20">
+    <div className="min-w-0 overflow-hidden rounded-[18px] border border-foreground/[0.09] bg-surface shadow-card transition-colors duration-300 group-hover:border-foreground/20">
       {/* Webbläsarram */}
       <div className={`flex items-center gap-[6px] border-b border-foreground/[0.07] bg-foreground/[0.035] ${stor ? 'px-4 py-3' : 'px-3 py-2.5'}`}>
         <span className="h-[9px] w-[9px] rounded-full bg-[#ff5f57]/60" />

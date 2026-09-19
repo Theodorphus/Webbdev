@@ -15,15 +15,15 @@ export default function SiteFooter() {
           <div className="flex flex-wrap items-start justify-between gap-10">
             <div>
               <span className="font-display text-[17px] font-bold text-foreground">
-                Webbdev<span className="text-accent">.</span>studio
+                Webbdev<span className="text-accent-light">.</span>studio
               </span>
-              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-foreground/60">
+              <p className="mt-3 max-w-[22rem] text-[13px] leading-relaxed text-muted">
                 {t.footer.tagline}
               </p>
             </div>
             <div className="flex flex-wrap gap-16">
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/60">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                   {t.footer2.navigera}
                 </span>
                 <a href={`${home}#arbete`} className="text-muted transition-colors hover:text-foreground">{t.nav2.arbete}</a>
@@ -36,7 +36,7 @@ export default function SiteFooter() {
                 <Link href="/blogg" className="text-muted transition-colors hover:text-foreground">{t.footer2.blogg}</Link>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/60">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                   {t.footer.kontakt}
                 </span>
                 <a href="tel:+46709525822" className="text-muted transition-colors hover:text-foreground">
@@ -55,16 +55,16 @@ export default function SiteFooter() {
                 </a>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/60">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                   {t.footer.foretag}
                 </span>
                 {[business.name, `Org.nr: ${business.registrationNumber}`, lang === "sv" ? "Priser exklusive moms" : "Prices exclude VAT"].map((rad) => (
-                  <span key={rad} className="text-foreground/60">{rad}</span>
+                  <span key={rad} className="text-muted">{rad}</span>
                 ))}
-                <span className="text-foreground/60">Västra Gunnesgärde 41, Göteborg</span>
+                <span className="text-muted">Västra Gunnesgärde 41, Göteborg</span>
               </div>
               <div className="flex flex-col gap-2 text-[13px]">
-                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/60">
+                <span className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                   {t.footer.orter}
                 </span>
                 {orter.map((o) => (
@@ -79,9 +79,9 @@ export default function SiteFooter() {
               </div>
             </div>
           </div>
-          <div className="mt-12 flex flex-col items-center gap-2 border-t border-foreground/[0.07] pt-6 text-xs text-foreground/60 sm:flex-row sm:justify-between">
+          <div className="mt-12 flex flex-col items-center gap-2 border-t border-foreground/[0.07] pt-6 text-xs text-muted sm:flex-row sm:justify-between">
             <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
-            <Link href="/integritetspolicy" className="transition-colors hover:text-foreground/60">
+            <Link href="/integritetspolicy" className="transition-colors hover:text-muted">
               {t.footer.integritetspolicy}
             </Link>
           </div>

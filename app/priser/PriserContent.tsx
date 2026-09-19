@@ -49,7 +49,7 @@ export default function PriserContent() {
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
             {t.priser2.rubrik}
           </h1>
-          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-foreground/60 [text-wrap:pretty]">
+          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-muted [text-wrap:pretty]">
             {t.priserSida.ingress}
           </p>
         </Reveal>
@@ -75,7 +75,7 @@ export default function PriserContent() {
                       {p.tier}
                     </span>
                     {p.populer && (
-                      <span className="rounded-full border border-[rgba(109,106,248,0.45)] bg-[rgba(109,106,248,0.18)] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-accent-light">
+                      <span className="rounded-full border border-[rgba(166,79,56,0.45)] bg-[rgba(166,79,56,0.18)] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-accent-light">
                         {t.priser2.badge}
                       </span>
                     )}
@@ -90,7 +90,7 @@ export default function PriserContent() {
                     {p.features.map((f) => (
                       <li key={f} className="flex items-start gap-3 text-[14.5px] text-foreground/70">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="mt-[3px] flex-shrink-0" aria-hidden>
-                          <path d="M3.5 8l3 3 5-6.5" stroke="#6d6af8" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M3.5 8l3 3 5-6.5" stroke="var(--accent)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         {f}
                       </li>
@@ -100,7 +100,7 @@ export default function PriserContent() {
                     href={`${localizedHref('/', lang)}?paket=${p.id}#kontakt`}
                     className={`mt-9 block rounded-full py-[15px] text-center text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
                       p.populer
-                        ? 'bg-accent text-on-accent hover:bg-[#7d7aff]'
+                        ? 'bg-accent text-on-accent hover:bg-accent-hover'
                         : 'border border-foreground/[0.18] text-foreground/80 hover:border-foreground/30 hover:text-foreground'
                     }`}
                   >
@@ -112,12 +112,12 @@ export default function PriserContent() {
         </div>
 
         <Reveal>
-          <p className="mt-7 text-center text-[13.5px] leading-relaxed text-foreground/65">
+          <p className="mt-7 text-center text-[13.5px] leading-relaxed text-muted">
             {t.priser2.prisNotis}
           </p>
         </Reveal>
         <Reveal>
-          <p className="mt-3 text-center text-[13.5px] text-foreground/60">
+          <p className="mt-3 text-center text-[13.5px] text-muted">
             {t.priser2.osaker1}{' '}
             <Link href={localizedHref("/#kontakt", lang)} className="font-medium text-accent-light transition-colors hover:text-accent-light">
               {t.priser2.osakerCta}
@@ -131,11 +131,11 @@ export default function PriserContent() {
         <PriceCalculator />
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-foreground/[0.02] px-8 py-14 text-center">
+        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-surface px-8 py-14 text-center">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.priserSida.ctaRubrik}
           </h2>
-          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-foreground/60">
+          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-muted">
             {t.priserSida.ctaText}
           </p>
           <Link

@@ -65,7 +65,7 @@ export default function StickyCta() {
     >
       <a
         href="#kontakt"
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-base font-bold text-on-accent shadow-xl shadow-[rgba(109,106,248,0.35)] transition-colors hover:bg-[#7d7aff] active:scale-[0.99]"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-base font-bold text-on-accent shadow-card transition-colors hover:bg-accent-hover active:scale-[0.99]"
       >
         {t.sticky.cta}
       </a>

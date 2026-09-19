@@ -24,8 +24,8 @@ export default function WebbutvecklingIndexPage() {
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       {/* Bakgrundsglöd — matchar ortssidornas känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-indigo-600/15 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-violet-600/10 blur-[110px]" />
+        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
+        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -37,7 +37,7 @@ export default function WebbutvecklingIndexPage() {
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-foreground/60">Webbutveckling</span>
+          <span className="text-muted">Webbutveckling</span>
         </nav>
 
         <h1 className="font-display max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
@@ -55,7 +55,7 @@ export default function WebbutvecklingIndexPage() {
             <Link
               key={o.slug}
               href={`/webbutveckling/${o.slug}`}
-              className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/5"
+              className="card-spotlight rounded-2xl border border-foreground/8 bg-surface p-6 transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
             >
               <h2 className="font-display text-base font-bold text-foreground/90">
                 Webbutveckling {o.iNamn}
@@ -67,25 +67,25 @@ export default function WebbutvecklingIndexPage() {
           ))}
         </div>
 
-        <div className="mt-16 rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-violet-950/40 p-8 sm:p-10">
+        <div className="mt-16 rounded-3xl border border-accent/20 bg-surface-raised p-8 sm:p-10">
           <h2 className="font-display text-2xl font-bold text-foreground">
             Ser du inte din ort?
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-foreground/65">
+          <p className="mt-3 text-sm leading-relaxed text-muted">
             Hela processen kan skötas digitalt — videomöten, delade
             designförslag och löpande avstämningar. Jag hjälper företag i hela
             Sverige, oavsett var du sitter.
           </p>
           <Link
             href="/#kontakt"
-            className="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:scale-[1.02] hover:bg-indigo-500"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:scale-[1.02] hover:bg-accent-hover"
           >
             Berätta om ditt projekt
           </Link>
         </div>
 
         <div className="mt-12 text-sm text-muted">
-          <Link href="/" className="transition-colors hover:text-indigo-300">
+          <Link href="/" className="transition-colors hover:text-accent-light">
             ← Till startsidan
           </Link>
         </div>

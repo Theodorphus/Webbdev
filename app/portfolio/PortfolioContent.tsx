@@ -49,7 +49,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
           <h2 className="font-display mt-3.5 text-[30px] font-bold [overflow-wrap:anywhere] tracking-[-0.02em] text-foreground">
             {project.namn}
           </h2>
-          <p className="mt-[18px] max-w-[30rem] text-[15.5px] leading-[1.65] text-foreground/60 [text-wrap:pretty]">
+          <p className="mt-[18px] max-w-[30rem] text-[15.5px] leading-[1.65] text-muted [text-wrap:pretty]">
             {text.desc}
           </p>
           <p className="mt-5 max-w-[30rem] border-l-2 border-accent pl-3.5 text-sm font-medium text-foreground/85">
@@ -59,7 +59,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
             {project.tech.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border border-foreground/10 px-3.5 py-[5px] font-mono text-[11px] text-foreground/60"
+                className="rounded-full border border-foreground/10 px-3.5 py-[5px] font-mono text-[11px] text-muted"
               >
                 {tech}
               </span>
@@ -101,7 +101,7 @@ export default function PortfolioContent() {
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
             {t.portfolioSida.rubrik}
           </h1>
-          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-foreground/60 [text-wrap:pretty]">
+          <p className="mt-[22px] text-[16.5px] leading-[1.65] text-muted [text-wrap:pretty]">
             {t.portfolioSida.ingress}
           </p>
         </Reveal>
@@ -154,11 +154,11 @@ export default function PortfolioContent() {
         <div className="mt-20"><TrafficResults /></div>
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-foreground/[0.02] px-5 sm:px-8 py-14 text-center">
+        <Reveal className="mt-[120px] rounded-[24px] border border-foreground/[0.09] bg-surface px-5 sm:px-8 py-14 text-center">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.portfolioSida.ctaRubrik}
           </h2>
-          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-foreground/60">
+          <p className="mx-auto mt-4 max-w-[34rem] text-[15.5px] leading-[1.65] text-muted">
             {t.portfolioSida.ctaText}
           </p>
           <Link

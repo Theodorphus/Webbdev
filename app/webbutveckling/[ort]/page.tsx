@@ -84,8 +84,8 @@ export default async function OrtPage({ params }: Props) {
 
       {/* Bakgrundsglöd — matchar startsidans känsla */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-indigo-600/15 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-violet-600/10 blur-[110px]" />
+        <div className="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
+        <div className="absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[110px]" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
@@ -103,12 +103,12 @@ export default async function OrtPage({ params }: Props) {
           <span className="mx-2" aria-hidden>
             /
           </span>
-          <span className="text-foreground/60">{ort.namn}</span>
+          <span className="text-muted">{ort.namn}</span>
         </nav>
 
         {/* Hero */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-accent-light">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           {ort.namn} · {ort.region}
         </div>
         <h1 className="font-display mt-6 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl">
@@ -124,7 +124,7 @@ export default async function OrtPage({ params }: Props) {
         <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href="/#kontakt"
-            className="btn-shine inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-8 py-4 text-base font-semibold text-on-accent shadow-2xl shadow-indigo-900/50 transition-all hover:bg-indigo-500 hover:scale-[1.02]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-on-accent shadow-card transition-all hover:bg-accent-hover hover:scale-[1.02]"
           >
             Berätta om ditt projekt
           </Link>
@@ -141,7 +141,7 @@ export default async function OrtPage({ params }: Props) {
           {ort.poanger.map((p) => (
             <div
               key={p.rubrik}
-              className="card-spotlight rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6"
+              className="card-spotlight rounded-2xl border border-foreground/8 bg-surface p-6"
             >
               <h2 className="font-display text-base font-bold text-foreground/90">
                 {p.rubrik}
@@ -152,11 +152,11 @@ export default async function OrtPage({ params }: Props) {
         </div>
 
         {/* Närliggande orter — long-tail-täckning */}
-        <div className="mt-16 rounded-2xl border border-foreground/8 bg-foreground/[0.02] p-7">
+        <div className="mt-16 rounded-2xl border border-foreground/8 bg-surface p-7">
           <h2 className="font-display text-lg font-bold text-foreground">
             Jag bygger hemsidor i hela {ort.namn}-området
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-foreground/60">
+          <p className="mt-3 text-sm leading-relaxed text-muted">
             Förutom {ort.namn} hjälper jag företag i bland annat{" "}
             {ort.narliggande.slice(0, -1).join(", ")} och{" "}
             {ort.narliggande[ort.narliggande.length - 1]}. Oavsett var du sitter
@@ -173,19 +173,19 @@ export default async function OrtPage({ params }: Props) {
             {faq.map((item) => (
               <details
                 key={item.q}
-                className="group rounded-2xl border border-foreground/8 bg-foreground/[0.03] transition-colors open:border-indigo-500/30 open:bg-indigo-500/5 hover:border-foreground/15"
+                className="group rounded-2xl border border-foreground/8 bg-surface transition-colors open:border-accent/30 open:bg-accent/5 hover:border-foreground/15"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-sm font-semibold text-foreground/85 [&::-webkit-details-marker]:hidden">
                   {item.q}
                   <svg
                     width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    className="flex-shrink-0 text-indigo-400 transition-transform duration-300 group-open:rotate-180"
+                    className="flex-shrink-0 text-accent-light transition-transform duration-300 group-open:rotate-180"
                   >
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </summary>
-                <p className="px-6 pb-5 text-sm leading-relaxed text-foreground/60">{item.a}</p>
+                <p className="px-6 pb-5 text-sm leading-relaxed text-muted">{item.a}</p>
               </details>
             ))}
           </div>
@@ -193,7 +193,7 @@ export default async function OrtPage({ params }: Props) {
 
         {/* Tillbaka till startsidan / övriga orter */}
         <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted">
-          <Link href="/" className="transition-colors hover:text-indigo-300">
+          <Link href="/" className="transition-colors hover:text-accent-light">
             ← Till startsidan
           </Link>
           {orter
@@ -203,7 +203,7 @@ export default async function OrtPage({ params }: Props) {
               <Link
                 key={o.slug}
                 href={`/webbutveckling/${o.slug}`}
-                className="transition-colors hover:text-indigo-300"
+                className="transition-colors hover:text-accent-light"
               >
                 Webbutveckling {o.iNamn}
               </Link>

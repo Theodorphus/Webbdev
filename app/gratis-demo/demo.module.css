@@ -3,8 +3,8 @@
 .stage { position: sticky; top: 96px; min-width: 0; border: 1px solid var(--border-soft); border-radius: 20px; background: var(--surface); overflow: hidden; }
 .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 18px; border-bottom: 1px solid var(--border-soft); }
 .canvas { padding: 22px; background: var(--surface-raised); max-height: 760px; overflow: auto; scrollbar-width: thin; scrollbar-color: var(--text-muted) var(--surface-raised); }
-.previewViewport { container-type: inline-size; width: 100%; margin: 0 auto; transition: max-width .35s ease; max-width: 1400px; box-shadow: 0 16px 60px #0005; }
-.phone { max-width: 375px; border: 6px solid #33333f; border-radius: 30px; overflow: hidden; }
+.previewViewport { container-type: inline-size; width: 100%; margin: 0 auto; transition: max-width .35s ease; max-width: 1400px; box-shadow: var(--elevation-panel); }
+.phone { max-width: 375px; border: 6px solid #39302a; border-radius: 30px; overflow: hidden; }
 .previewPage { background: var(--preview-bg); color: var(--preview-fg); overflow: hidden; font-family: Arial, sans-serif; transition: background .3s, color .3s; }
 .previewNav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 5%; border-bottom: 1px solid color-mix(in srgb, var(--preview-fg) 12%, transparent); font-size: 11px; }
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; max-width: 48%; overflow-wrap: anywhere; }
@@ -49,7 +49,7 @@
 .exclusive .heroImage { aspect-ratio: 2 / 1; min-height: 220px; }
 .exclusive .mockButton { background: transparent; border: 1px solid var(--preview-accent); color: var(--preview-accent); }
 .dialog { width: min(1440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--border-strong); border-radius: 18px; background: var(--surface); color: var(--foreground); }
-.dialog::backdrop { background: #020208dd; backdrop-filter: blur(12px); }
+.dialog::backdrop { background: #211d1acc; backdrop-filter: blur(12px); }
 .dialog .canvas { max-height: calc(100dvh - 160px); }
 .mobileSwitch { display: none; }
 @container (max-width: 500px) {

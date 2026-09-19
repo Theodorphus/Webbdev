@@ -23,23 +23,23 @@ export default function IntegritetspolicyPage() {
   return (
     <main className="relative min-h-screen pt-28 pb-24">
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-indigo-600/15 blur-[130px]" />
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-accent/5 blur-[130px]" />
       </div>
 
       <div className="relative mx-auto max-w-3xl px-6">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-indigo-300"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent-light"
         >
           <span className="transition-transform group-hover:-translate-x-0.5"><IconBack /></span>
           Tillbaka till startsidan
         </Link>
 
-        <p className="mt-10 font-mono text-xs uppercase tracking-[0.3em] text-indigo-400/60">Juridik</p>
+        <p className="mt-10 font-mono text-xs uppercase tracking-[0.3em] text-accent-light/60">Juridik</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
           Integritetspolicy
         </h1>
-        <p className="mt-4 text-sm text-foreground/60">
+        <p className="mt-4 text-sm text-muted">
           Senast uppdaterad: {new Date().toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })}
         </p>
 
@@ -49,7 +49,7 @@ export default function IntegritetspolicyPage() {
               {business.name} (enskild firma, org.nr {business.registrationNumber}) är
               personuppgiftsansvarig för de uppgifter som behandlas via denna
               webbplats. Du når oss på{" "}
-              <a href="mailto:webbdevstudio@gmail.com" className="text-indigo-400 hover:text-indigo-300">
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light hover:text-accent-light">
                 webbdevstudio@gmail.com
               </a>{" "}
               eller 070‑952 58 22.
@@ -123,7 +123,7 @@ export default function IntegritetspolicyPage() {
             </ul>
             <p className="mt-3">
               Kontakta oss på{" "}
-              <a href="mailto:webbdevstudio@gmail.com" className="text-indigo-400 hover:text-indigo-300">
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light hover:text-accent-light">
                 webbdevstudio@gmail.com
               </a>{" "}
               så hjälper vi dig. Du har även rätt att lämna klagomål till
@@ -140,7 +140,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section>
       <h2 className="text-lg font-bold text-foreground/90">{title}</h2>
-      <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground/60">{children}</div>
+      <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted">{children}</div>
     </section>
   );
 }
@@ -148,7 +148,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Li({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start gap-3">
-      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400/60" />
+      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent/60" />
       <span>{children}</span>
     </li>
   );

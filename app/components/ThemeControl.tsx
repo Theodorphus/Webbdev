@@ -9,7 +9,7 @@ export function ThemeSync() {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const updateSystem = () => { if (themeSnapshot() === 'system') applyTheme('system'); };
     const updateStorage = (event: StorageEvent) => {
-      if (event.key === themeStorageKey || event.key === null) applyTheme(isTheme(event.newValue) ? event.newValue : 'system');
+      if (event.key === themeStorageKey || event.key === null) applyTheme(isTheme(event.newValue) ? event.newValue : 'light');
     };
     applyTheme(themeSnapshot());
     media.addEventListener('change', updateSystem);
@@ -27,7 +27,7 @@ function ThemeIcon({ theme }: { theme: ThemePreference }) {
 
 export default function ThemeControl({ compact = false }: { compact?: boolean }) {
   const { lang } = useLang();
-  const preference = useSyncExternalStore(subscribeTheme, themeSnapshot, () => 'system' as const);
+  const preference = useSyncExternalStore(subscribeTheme, themeSnapshot, () => 'light' as const);
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -37,14 +37,20 @@ export default function ThemeControl({ compact = false }: { compact?: boolean })
 
   useEffect(() => {
     if (!open) return;
-    const outside = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); };
+    const outside = (event: PointerEvent | FocusEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); };
     document.addEventListener('pointerdown', outside);
+    // A label click briefly blurs the radio before focusing its associated input.
+    // Close on focus arriving outside, so the label can finish selecting a theme.
+    document.addEventListener('focusin', outside);
     root.current?.querySelector<HTMLInputElement>('input:checked')?.focus();
-    return () => document.removeEventListener('pointerdown', outside);
+    return () => {
+      document.removeEventListener('pointerdown', outside);
+      document.removeEventListener('focusin', outside);
+    };
   }, [open]);
 
-  return <div ref={root} className={compact ? 'theme-control theme-control--compact' : 'theme-control'} onKeyDown={event => { if (event.key === 'Escape' && open) { event.stopPropagation(); setOpen(false); trigger.current?.focus(); } }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setOpen(false); }}>
+  return <div ref={root} className={compact ? 'theme-control theme-control--compact' : 'theme-control'} onKeyDown={event => { if (event.key === 'Escape' && open) { event.stopPropagation(); setOpen(false); trigger.current?.focus(); } }}>
     {compact ? <p className="theme-label">{title}</p> : <button ref={trigger} type="button" className="theme-trigger" onClick={() => setOpen(value => !value)} aria-label={`${title}: ${labels[preference]}`} aria-expanded={open} aria-controls={id}><ThemeIcon theme={preference} /></button>}
-    {(compact || open) && <fieldset id={id} className={compact ? 'theme-options theme-options--inline' : 'theme-options'}><legend className="sr-only">{title}</legend>{(['system', 'light', 'dark'] as const).map(option => <label key={option} className="theme-option"><input type="radio" name={id} value={option} checked={preference === option} onChange={() => setTheme(option)} /><ThemeIcon theme={option} /><span>{labels[option]}</span></label>)}</fieldset>}
+    {(compact || open) && <fieldset id={id} className={compact ? 'theme-options theme-options--inline' : 'theme-options'}><legend className="sr-only">{title}</legend>{(['light', 'dark', 'system'] as const).map(option => <label key={option} className="theme-option"><input type="radio" name={id} value={option} checked={preference === option} onChange={() => setTheme(option)} /><ThemeIcon theme={option} /><span>{labels[option]}</span></label>)}</fieldset>}
   </div>;
 }
