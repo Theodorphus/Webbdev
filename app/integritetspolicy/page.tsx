@@ -86,6 +86,12 @@ export default function IntegritetspolicyPage() {
             </p>
           </Section>
 
+          <Section title="Annonsmätning och cookies">
+            <p>Om du godkänner annonsmätning laddar vi Google Ads för att mäta om annonser leder till kontaktförfrågningar. Google kan då använda cookies och behandla teknisk information om ditt besök och annonsklick. Vi skickar inte namn, e-postadress eller meddelanden från formuläret till Google.</p>
+            <p>Google-taggen laddas först efter ditt samtycke. Ditt val sparas lokalt i webbläsaren tills du ändrar det eller rensar webbplatsens data. Du kan när som helst ändra eller återkalla samtycket via Cookieinställningar längst ned till vänster. Återkallelse stoppar nya konverteringshändelser men tar inte bort uppgifter som redan skickats.</p>
+            <p>Läs mer om Googles behandling i <a className="underline" href="https://policies.google.com/privacy">Googles integritetspolicy</a>.</p>
+          </Section>
+
           <Section title="3. Varför vi behandlar uppgifterna">
             <p>
               Kontaktuppgifter och meddelanden används för att besvara din

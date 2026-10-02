@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import SiteAnalytics from "./components/SiteAnalytics";
+import GoogleAds from "./components/GoogleAds";
 import SiteShell from "./components/SiteShell";
 import DeferredWidgets from "./components/DeferredWidgets";
 import "./globals.css";
@@ -81,6 +82,7 @@ export default function RootLayout({
         </SiteShell>
         <div className="noise-overlay" aria-hidden="true" />
         <SiteAnalytics />
+        <GoogleAds />
       </body>
     </html>
   );

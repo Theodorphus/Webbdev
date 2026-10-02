@@ -113,5 +113,5 @@ export async function POST(req: Request) {
   }
 
   console.log('Email sent:', data?.id);
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, conversionId: crypto.randomUUID() });
 }

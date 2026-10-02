@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { isPackageId, packageIds, packageLabels } from '../lib/packages';
 import { useLang } from '../i18n/LanguageProvider';
 import { trackConversion } from '../lib/analytics';
+import { trackGoogleAdsContact } from '../lib/googleAds';
 
 const inputClass = 'mt-2 w-full rounded-xl border border-foreground/15 bg-surface px-5 py-4 text-base text-foreground placeholder:text-muted focus:border-accent-light';
 
@@ -47,7 +48,12 @@ export default function ContactForm() {
         body: JSON.stringify({ name: String(data.get('name') ?? '').trim(), email: String(data.get('email') ?? '').trim(), message: String(data.get('message') ?? '').trim(), package: data.get('package') ?? '', company: data.get('company') ?? '' }),
       });
       if (!response.ok) { setLimited(response.status === 429); throw new Error('Request failed'); }
-      trackConversion('contact_submitted');
+      const result = await response.json();
+      if (result.ok !== true) throw new Error('Request not accepted');
+      if (typeof result.conversionId === 'string') {
+        trackGoogleAdsContact(result.conversionId);
+        trackConversion('contact_submitted');
+      }
       setStatus('success');
     } catch { setStatus('error'); trackConversion('contact_error'); }
     finally { sending.current = false; }
