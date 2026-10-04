@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Keep privacy settings reachable without covering the mobile contact CTA. */
+@media (max-width: 767px) {
+  .sticky-cta-visible .cookie-settings {
+    bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
+
 :root {
   /* Warm paper, charcoal and terracotta: the default studio palette. */
   color-scheme: light;

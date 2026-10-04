@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { orter, getOrt, getOrtFaq } from "../orter";
+import { business } from "../../lib/business";
+import { sharedOpenGraphImage } from '../../lib/metadata';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -24,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: ort.description,
     alternates: { canonical: `/webbutveckling/${ort.slug}` },
     openGraph: {
+      images: [sharedOpenGraphImage],
       title: `${ort.title} — Webbdev Studio`,
       description: ort.description,
       url: `${SITE_URL}/webbutveckling/${ort.slug}`,
@@ -52,15 +55,11 @@ export default async function OrtPage({ params }: Props) {
       { "@type": "City", name: ort.namn },
       ...ort.narliggande.map((n) => ({ "@type": "City", name: n })),
     ],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: ort.namn,
-      addressRegion: ort.region,
-      addressCountry: "SE",
-    },
+    // The city served is not a physical branch office.
+    address: business.address,
   };
 
-  // FAQPage-schema — kan ge FAQ-rich-results i Google för just den här orten.
+  // FAQPage beskriver sidans synliga frågor och svar.
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

@@ -41,6 +41,6 @@ export default function GoogleAds() {
         <button type="button" onClick={() => choose('denied')} className="rounded-full border border-foreground/30 px-5 py-2 text-sm">{english ? 'Decline' : 'Avvisa'}</button>
         <button type="button" onClick={() => choose('granted')} className="rounded-full border border-foreground/30 px-5 py-2 text-sm">{english ? 'Accept' : 'Godkänn'}</button>
       </div>
-    </section> : ready && <button type="button" onClick={() => setEditing(true)} className="fixed bottom-2 left-2 z-[70] rounded-full border border-foreground/20 bg-background px-3 py-2 text-xs text-foreground">{english ? 'Cookie settings' : 'Cookieinställningar'}</button>}
+    </section> : ready && <button type="button" onClick={() => setEditing(true)} className="cookie-settings fixed bottom-2 left-2 z-[70] rounded-full border border-foreground/20 bg-background px-3 py-2 text-xs text-foreground">{english ? 'Cookie settings' : 'Cookieinställningar'}</button>}
   </>;
 }

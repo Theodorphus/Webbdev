@@ -21,6 +21,7 @@ export default function MobileNav({ activeSection }: { activeSection: string }) 
   const links = [
     { id: 'portfolio', label: lang === 'sv' ? 'Arbeten' : 'Work', href: localizedHref('/portfolio', lang) },
     { id: 'tjanster', label: t.footer2.tjanster, href: localizedHref('/tjanster', lang) },
+    { id: 'priser', label: lang === 'sv' ? 'Priser' : 'Pricing', href: localizedHref('/priser', lang) },
     { id: 'om', label: t.nav2.om },
   ];
 

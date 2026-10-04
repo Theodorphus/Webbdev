@@ -1,4 +1,5 @@
 import type { Lang } from '../i18n/dictionary';
+import { business } from './business';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.webbdev.se';
 
@@ -20,14 +21,7 @@ export function getHomeSchema(lang: Lang, faqItems: FaqItem[]) {
       telephone: '+46709525822',
       image: `${SITE_URL}/opengraph-image.jpg`,
       priceRange: '2000+ SEK',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Västra Gunnesgärde 41',
-        postalCode: '417 47',
-        addressLocality: 'Göteborg',
-        addressRegion: 'Västra Götaland',
-        addressCountry: 'SE',
-      },
+      address: business.address,
       areaServed: [
         { '@type': 'City', name: 'Göteborg' },
         { '@type': 'City', name: 'Skövde' },

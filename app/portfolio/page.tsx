@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { sharedOpenGraphImage } from '../lib/metadata';
 import PortfolioContent from './PortfolioContent';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.webbdev.se';
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
     'Kundprojekt från Webbdev Studio: e-handel, plattformar och företagswebbplatser byggda i Next.js. Se förhandsvisningar av varje sajt och besök den live.',
   alternates: { canonical: '/portfolio', languages: { 'sv-SE': '/portfolio', 'en-US': '/en/portfolio' } },
   openGraph: {
+    images: [sharedOpenGraphImage],
     title: 'Portfolio — Webbdev Studio',
     description:
       'Kundprojekt: e-handel, plattformar och företagswebbplatser byggda i Next.js. Se förhandsvisningar och besök sajterna live.',

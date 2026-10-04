@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sharedOpenGraphImage } from '../lib/metadata';
 import Link from "next/link";
 import { orter } from "./orter";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Snabba, moderna hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
   alternates: { canonical: "/webbutveckling" },
   openGraph: {
+    images: [sharedOpenGraphImage],
     title: "Webbutveckling i Västsverige — Webbdev Studio",
     description:
       "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Fast pris, leverans på 3–7 dagar.",

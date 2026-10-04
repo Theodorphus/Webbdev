@@ -188,10 +188,12 @@ export function Reveal({
   const reduce = useMotionPreference();
   return (
     <motion.div
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
+      // Keep essential content visible in server-rendered HTML, including
+      // when JavaScript is delayed or unavailable.
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-      transition={{ duration: reduce ? 0.4 : 0.9, ease: EXPO, delay }}
+      transition={{ duration: reduce ? 0 : 0.9, ease: EXPO, delay: reduce ? 0 : delay }}
       className={className}
     >
       {children}

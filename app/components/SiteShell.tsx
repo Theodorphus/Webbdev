@@ -24,6 +24,7 @@ function Header() {
   const links = [
     { href: localizedHref('/portfolio', lang), label: lang === 'sv' ? 'Arbeten' : 'Work' },
     { href: localizedHref('/tjanster', lang), label: t.footer2.tjanster },
+    { href: localizedHref('/priser', lang), label: lang === 'sv' ? 'Priser' : 'Pricing' },
     { href: `${home}#om`, label: t.nav2.om },
   ];
   return <header className={`fixed inset-x-0 top-0 z-[60] border-b border-foreground/[0.07] backdrop-blur-xl ${scrolled ? 'bg-background/95' : 'bg-background/85'}`}>

@@ -67,6 +67,8 @@ export async function POST(req: Request) {
   if (
     typeof name !== 'string' ||
     typeof contact !== 'string' ||
+    !name.trim() ||
+    !contact.trim() ||
     name.length > 200 ||
     contact.length > 200 ||
     (message != null && (typeof message !== 'string' || message.length > 2000)) ||

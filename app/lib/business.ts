@@ -4,6 +4,14 @@ export const business = {
   registrationNumber: '950721-6498',
   email: 'webbdevstudio@gmail.com',
   phone: '+46709525822',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Västra Gunnesgärde 41',
+    postalCode: '417 47',
+    addressLocality: 'Göteborg',
+    addressRegion: 'Västra Götaland',
+    addressCountry: 'SE',
+  },
 };
 
 export const priceTerms = {

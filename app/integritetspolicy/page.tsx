@@ -39,7 +39,7 @@ export default function IntegritetspolicyPage() {
           Integritetspolicy
         </h1>
         <p className="mt-4 text-sm text-muted">
-          Senast uppdaterad: {new Date().toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })}
+          Senast uppdaterad: <time dateTime="2026-10-02">2 oktober 2026</time>
         </p>
 
         <div className="mt-12 space-y-10">

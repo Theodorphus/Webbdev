@@ -93,7 +93,7 @@ export default function PriceCalculator() {
         {/* Vänster: val */}
         <div>
           <p className="eyebrow">{c.etikett}</p>
-          <h3 className="font-display mt-2 text-2xl font-bold text-foreground md:text-3xl">{c.rubrik}</h3>
+          <h2 className="font-display mt-2 text-2xl font-bold text-foreground md:text-3xl">{c.rubrik}</h2>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">{c.ingress}</p>
 
           {/* Typ av sida */}
@@ -191,12 +191,12 @@ export default function PriceCalculator() {
           <p className="mt-2 text-xs text-accent-light">{priceTerms[lang].vat}</p>
 
           <Link
-            href={lang === 'sv' ? '/#kontakt' : '/en#kontakt'}
+            href={`${lang === 'sv' ? '/' : '/en'}?paket=${type === 'landing' ? 'bas' : type === 'ehandel' ? 'full-service' : 'premium'}#kontakt`}
             onClick={() => { startTracking(); trackConversion('calculator_quote_clicked', { type, pages, feature_count: features.length }); }}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-bold text-on-accent transition-all hover:bg-accent-hover hover:shadow-card active:scale-[0.99]"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-4 py-3.5 text-center text-sm font-bold text-on-accent transition-all hover:bg-accent-hover hover:shadow-card active:scale-[0.99]"
           >
             {c.ctaText}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>

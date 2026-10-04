@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sharedOpenGraphImage } from '../lib/metadata';
 import Link from "next/link";
 import { posts } from "./posts";
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     "Guider och tips om hemsidor, webbutveckling, SEO och pris. Lär dig vad som gör en hemsida snabb, synlig på Google och lönsam för ditt företag.",
   alternates: { canonical: "/blogg" },
   openGraph: {
+    images: [sharedOpenGraphImage],
     title: "Blogg — Webbdev Studio",
     description:
       "Guider och tips om hemsidor, webbutveckling, SEO och pris för företag.",

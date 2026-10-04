@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { localizedHref } from '../i18n/routes';
-import { useRef, type ReactElement } from 'react';
-import useAnimations from '../components/animations/useAnimations';
+import type { ReactElement } from 'react';
 import { useLang } from '../i18n/LanguageProvider';
 
 // Ikoner för problem-korten (flyttade från framsidan).
@@ -57,13 +56,10 @@ function IconBack() {
 }
 
 export default function TjansterContent() {
-  const scopeRef = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
 
-  useAnimations(scopeRef);
-
   return (
-    <main ref={scopeRef} className="relative overflow-x-hidden pt-28">
+    <main className="relative overflow-x-hidden pt-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Tillbaka-länk */}
         <Link
