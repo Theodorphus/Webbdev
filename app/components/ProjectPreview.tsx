@@ -22,7 +22,7 @@ export function BrowserPreview({
 }) {
   const stor = storlek === 'stor';
   return (
-    <div className="min-w-0 overflow-hidden rounded-2xl border border-foreground/[0.09] bg-surface shadow-card transition-colors duration-300 group-hover:border-foreground/20">
+    <div className="project-preview min-w-0 overflow-hidden rounded-2xl border border-foreground/[0.09] bg-surface shadow-card">
       {/* Webbläsarram */}
       <div className={`flex items-center gap-[6px] border-b border-foreground/[0.07] bg-foreground/[0.035] ${stor ? 'px-4 py-3' : 'px-3 py-2.5'}`}>
         <span className="h-[9px] w-[9px] rounded-full bg-muted/40" />
@@ -44,9 +44,7 @@ export function BrowserPreview({
           height={1500}
           sizes={stor ? '(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 580px' : '(max-width: 640px) 92vw, 30vw'}
           preload={priority}
-          className={`h-auto w-full transition-transform duration-[3500ms] ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:!translate-y-0 motion-reduce:transition-none ${
-            stor ? 'group-hover:translate-y-[-45%] group-focus-visible:translate-y-[-45%]' : 'group-hover:translate-y-[-50%] group-focus-visible:translate-y-[-50%]'
-          }`}
+          className="project-preview-image h-auto w-full"
         />
       </div>
     </div>
@@ -90,7 +88,7 @@ export function ProjectCard({
         {text.result && <p className="mt-4 border-l border-accent-light/50 pl-3 text-sm leading-relaxed text-foreground/85">{text.result}</p>}
         <span className="mt-4 inline-flex items-center gap-2 text-[13.5px] font-semibold text-accent-light">
           {project.caseHref ? caseLabel : besok}
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
+          <span className="project-link-arrow">
             <IconDiagonal />
           </span>
         </span>
@@ -106,7 +104,7 @@ export function ProjectCardSmall({ project, text }: { project: Project; text: Pr
       href={project.caseHref ?? project.url}
       target={project.caseHref ? undefined : "_blank"}
       rel="noopener noreferrer"
-      className="group block"
+      className="project-card group block"
     >
       <BrowserPreview project={project} storlek="liten" />
       <div className="mt-3.5 flex items-baseline justify-between gap-3 px-0.5">

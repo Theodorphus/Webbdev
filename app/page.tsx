@@ -276,8 +276,8 @@ function HomeContent() {
                 alt="Theo Håkansson"
                 width={336}
                 height={336}
-                sizes="(max-width: 639px) 168px, 336px"
-                className="aspect-square h-auto w-[42vw] max-w-[168px] rounded-[32px] border border-foreground/10 object-cover [filter:saturate(0.9)_contrast(1.02)] sm:w-[336px] sm:max-w-full sm:rounded-[64px]"
+                sizes="(max-width: 639px) 84px, 168px"
+                className="aspect-square h-auto w-[21vw] max-w-[84px] rounded-[16px] border border-foreground/10 object-cover [filter:saturate(0.9)_contrast(1.02)] sm:w-[168px] sm:max-w-full sm:rounded-[32px]"
               />
               <p className="flex flex-col gap-1">
                 <span className="font-display text-[17px] font-semibold text-foreground">Theo Håkansson</span>

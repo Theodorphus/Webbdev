@@ -8,7 +8,7 @@ export type Project = {
   slug: ProjectSlug;
   namn: string;
   url: string;
-  /** Skärmdump i /public/work, 1200×1500 (två skärmhöjder — panorerar vid hover). */
+  /** Skärmdump i /public/work, 1200×1500, beskärs i projektkortets bildfönster. */
   img: string;
   tech: string[];
   /** Stort kort på startsidan. Övriga hamnar i det kompakta rutnätet. */
