@@ -7,6 +7,7 @@ import { faqByLang } from './faq';
 import { Reveal } from './components/animations/Motion';
 import HeroProject from './components/HeroProject';
 import QualityChecklist from './components/QualityChecklist';
+import ProlinkPromo from './components/ProlinkPromo';
 import { localizedHref } from './i18n/routes';
 import ContactForm from './components/ContactForm';
 import StickyCta from './components/StickyCta';
@@ -403,6 +404,7 @@ function HomeContent() {
           </div>
         </div>
       </section>
+      <ProlinkPromo lang={lang} />
       </main>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
