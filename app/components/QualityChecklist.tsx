@@ -1,8 +1,6 @@
-'use client';
-import { useLang } from '../i18n/LanguageProvider';
+import type { Lang } from '../i18n/dictionary';
 
-export default function QualityChecklist() {
-  const { lang } = useLang();
+export default function QualityChecklist({ lang }: { lang: Lang }) {
   const sv = lang === 'sv';
   const checks = sv ? [
     'Mobil och dator: text, bilder och knappar ska fungera på olika skärmstorlekar.',

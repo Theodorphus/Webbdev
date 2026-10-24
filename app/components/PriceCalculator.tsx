@@ -84,10 +84,7 @@ export default function PriceCalculator() {
   }
 
   return (
-    <div
-      data-animate="block"
-      className="relative mt-16 overflow-hidden rounded-2xl border border-foreground/[0.08] bg-surface p-6 sm:p-9"
-    >
+    <div className="relative mt-16 overflow-hidden rounded-2xl border border-foreground/[0.08] bg-surface p-6 sm:p-9">
 
       <div className="relative grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
         {/* Vänster: val */}

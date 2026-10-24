@@ -12,7 +12,6 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "optional",
 });
 
 const geistMono = Geist_Mono({
@@ -78,7 +77,6 @@ export default function RootLayout({
         <SiteShell>
           {children}
           <DeferredWidgets />
-
         </SiteShell>
         <div className="noise-overlay" aria-hidden="true" />
         <SiteAnalytics />

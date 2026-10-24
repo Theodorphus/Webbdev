@@ -1,37 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Webbdev Studio — webbdev.se
 
-## Getting Started
+Sajten för Webbdev Studio: Next.js 16 (App Router, Turbopack), React 19,
+TypeScript och Tailwind CSS 4. Hostas på Vercel och deployas automatiskt vid
+push till `main`.
 
-First, run the development server:
+## Kom igång
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # produktionsbygge
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Struktur
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/` — routes. Svenska sidor ligger i roten (`/priser`, `/tjanster` …), engelska under `/en`.
+- `app/components/Home.tsx` — startsidan (server-renderad, delas av `/` och `/en`).
+- `app/i18n/dictionary.ts` — synlig text på svenska och engelska.
+- `app/blogg/posts.ts`, `app/portfolio/cases.ts`, `app/webbutveckling/orter.ts` — innehåll för blogg, kundcase och lokala landningssidor.
+- `app/api/` — kontaktformulär, chatt-lead och AI-chatt. Delad säkerhetslogik (origin-kontroll, rate-limit) i `app/api/_lib/`.
+- `app/sitemap.ts` — uppdatera datumen i `updated` när en sidas innehåll ändras.
+- `assets/originals/` — kundens originalbilder (deployas inte).
+- `docs/conversion-measurement.md` — vilka analytics-händelser som skickas.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Miljövariabler
 
-## Learn More
+| Variabel | Krävs | Används till |
+| --- | --- | --- |
+| `RESEND_API_KEY` | ja | Mejl från kontaktformulär och chatt-leads |
+| `RESEND_FROM` | nej | Avsändaradress för mejlen |
+| `ANTHROPIC_API_KEY` | ja | AI-chatten |
+| `NEXT_PUBLIC_SITE_URL` | nej | Kanonisk URL (standard `https://www.webbdev.se`) |
+| `KV_REST_API_URL` + `KV_REST_API_TOKEN` | rekommenderas | Delad rate-limit via Upstash Redis (Vercel Marketplace → Upstash). `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` fungerar också. Utan dem räknas träffar per serverless-instans. |
+| `CHAT_DAILY_LIMIT` | nej | Max antal chattmeddelanden per dygn för hela sajten (standard 400) |
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-### Google Ads contact conversions
+## Google Ads contact conversions
 
 The root layout mounts `GoogleAds` once, using `next/script` with
 `afterInteractive`. The Ads destination is `AW-18237659170`. GA4 is not required
@@ -68,7 +72,3 @@ Production verification (after deployment):
    duplicate conversion events. Reopen cookie settings to test withdrawal.
 5. Check Ads diagnostics later; a queued event alone does not prove Google received
    it, and a received test event does not guarantee an ad-attributed conversion.
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

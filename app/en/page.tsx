@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Home } from '../page';
+import Home from '../components/Home';
 
 // Engelsk version av startsidan. Samma sida, men routen sätter språket till
 // 'en' och får egna engelska metadata + canonical/hreflang.

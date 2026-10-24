@@ -56,8 +56,6 @@
 .hero-project-toolbar { display: flex; align-items: center; gap: 5px; padding: 11px 14px; }
 .hero-project-toolbar > span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); }
 .hero-project-toolbar p { flex: 1; text-align: center; padding-right: 28px; font-size: .75rem; color: var(--text-muted); }
-.hero-project-detail { max-height: 130px; overflow: hidden; border-top: 8px solid var(--surface); }
-.hero-project-detail img { transform: translateY(-12%); }
 .hero-project-caption { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
 .hero-project-caption h2 { font-size: 1.125rem; font-weight: 500; }
 .hero-project-caption p { margin-top: 6px; color: var(--text-muted); font-size: .75rem; line-height: 1.6; }
@@ -101,7 +99,6 @@
 @media (min-width: 640px) {
   .studio-container { width: min(100% - 64px, 1216px); }
   .hero-copy h1 { max-width: 15ch; }
-  .hero-project-detail { max-height: 170px; }
 }
 @media (min-width: 1024px) {
   .studio-hero { padding: 156px 0 88px; }
@@ -246,80 +243,6 @@ body {
   background: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; }
-  50%       { opacity: 1; }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.animate-fade-up-2 {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
-.animate-fade-up-3 {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-}
-.animate-fade-in {
-  animation: fade-in 1s ease both;
-}
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Grid background pattern */
-.bg-grid {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-/* ── Premium-hero: EN disciplinerad aurora ──────────────── */
-/* Långsam andning i translate/rotate/scale — sajtens enda stora
-   bakgrundsrörelse. Appliceras på en absolut-positionerad div. */
-@keyframes aurora {
-  0%, 100% { transform: translate(-50%, 0) rotate(0deg) scale(1); opacity: 0.55; }
-  50%      { transform: translate(-46%, -4%) rotate(8deg) scale(1.08); opacity: 0.8; }
-}
-.animate-aurora {
-  animation: aurora 18s ease-in-out infinite;
-}
-
-/* ── Marquee (kundnamn) ─────────────────────────────────── */
-/* Två identiska halvor i en flex-rad; -50% ger sömlös loop. */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 38s linear infinite;
-}
-.marquee-track:hover {
-  animation-play-state: paused;
-}
-
-/* ── Pulserande statusprick (hero-statusraden) ──────────── */
-@keyframes ticker-dot {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 1; }
-}
-.animate-ticker-dot {
-  animation: ticker-dot 2.4s ease-in-out infinite;
-}
-
 /* ── Chattbubblan väjer för sticky-CTA-baren på mobil ───── */
 /* StickyCta sätter .sticky-cta-visible på <body> när baren syns;
    då lyfts chatt-docken ovanför baren så knappen inte täcks. */
@@ -331,28 +254,6 @@ body {
   body.sticky-cta-visible .chat-dock:not(.chat-dock--open) {
     display: none;
   }
-}
-
-/* ── Sektionsrytm ───────────────────────────────────────── */
-/* "Lyfta" sektioner: en mycket svag ljuston + mjuka kantlinjer så de
-   skiljer sig subtilt från basbakgrunden (#06060f) utan hårda block. */
-.section-alt {
-  background: var(--surface-1);
-  border-block: 1px solid var(--border-soft);
-}
-
-/* Tunn centrerad gradientlinje som markerar övergångar mellan sektioner. */
-.section-divider {
-  height: 1px;
-  border: 0;
-  margin: 0 auto;
-  max-width: 72rem;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--border-strong) 50%,
-    transparent
-  );
 }
 
 /* ── Eyebrow — sektionsetikett med ledande accent-streck ──── */
@@ -374,110 +275,11 @@ body {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
-/* ── Hero kod-editor-mockup ─────────────────────────────── */
-.code-window {
-  position: relative;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  animation: code-float 7s ease-in-out infinite;
-}
-@keyframes code-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-/* Syntax-färger knyter an till sidans palett. */
-.tok-key { color: #a5a3ff; }    /* accent ljus — nyckelord */
-.tok-fn  { color: #c7c6ff; }    /* ännu ljusare — identifierare */
-.tok-str { color: #67e8f9; }    /* cyan — strängar */
-.tok-com { color: #5b6b7e; }    /* dämpad — kommentarer */
-.tok-pun { color: rgba(255, 255, 255, 0.4); } /* skiljetecken */
-
-/* Typewriter: varje rad avslöjas stegvis med steps(), staplade delays.
-   Bredden klipps via inline --w (antal tecken) så caret hamnar rätt. */
-.code-line {
-  display: block;
-  white-space: pre;
-  overflow: hidden;
-  width: 0;
-  animation: type-line 0.5s steps(var(--steps, 20), end) forwards;
-  animation-delay: var(--delay, 0s);
-}
-@keyframes type-line {
-  to { width: var(--w, 100%); }
-}
-/* Blinkande caret på sista raden. */
-.code-caret::after {
-  content: "";
-  display: inline-block;
-  width: 0.55ch;
-  height: 1.05em;
-  margin-left: 1px;
-  vertical-align: text-bottom;
-  background: var(--accent);
-  animation: caret-blink 1s steps(1) infinite;
-  animation-delay: 3.9s;
-  opacity: 0;
-}
-@keyframes caret-blink {
-  0%, 49%   { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-/* ── Prispaket: fokusera hovrat kort, dimma syskonen ────── */
-.pricing-grid:hover .pricing-card:not(:hover) {
-  opacity: 0.5;
-  transform: scale(0.97);
-  filter: saturate(0.7) brightness(0.85);
-}
-
-/* ── Shimmering gradient text ───────────────────────────── */
-@keyframes gradient-x {
-  0%, 100% { background-position: 0% 50%; }
-  50%      { background-position: 100% 50%; }
-}
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-x 6s ease-in-out infinite;
-}
-
-/* ── Drifting glow orbs ─────────────────────────────────── */
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(35px, -25px) scale(1.06); }
-  66%      { transform: translate(-25px, 30px) scale(0.96); }
-}
-.animate-drift {
-  animation: drift 16s ease-in-out infinite;
-}
-.animate-drift-slow {
-  animation: drift 24s ease-in-out infinite reverse;
-}
-
 /* ── Spotlight cards (mouse-follow glow) ────────────────── */
 .card-spotlight {
   position: relative;
   overflow: hidden;
 }
-/* ── Nav link underline ─────────────────────────────────── */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  height: 1px;
-  width: 100%;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.nav-link:hover::after,
-.nav-link.is-active::after {
-  transform: scaleX(1);
-}
-
 /* ── Scroll progress hairline (CSS scroll-driven, no JS) ── */
 .scroll-progress {
   position: fixed;
@@ -502,27 +304,22 @@ body {
   }
 }
 
-/* ── Hero cursor glow (mjuk ljuskälla som följer musen) ──── */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+/* ── Scroll-reveal (<Reveal>) ───────────────────────────── */
+/* Expo-out-kurvan ger samma känsla som GSAP:s expo.out. Utan JS
+   (scripting: none) visas allt direkt i stället för att förbli dolt. */
+.reveal {
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal:not([data-visible]) {
   opacity: 0;
-  transition: opacity 0.5s ease;
-  background: radial-gradient(
-    500px circle at var(--hx, 50%) var(--hy, 50%),
-    color-mix(in srgb, var(--accent) 8%, transparent),
-    transparent 70%
-  );
+  transform: translateY(32px);
 }
-[data-hero]:hover .hero-glow {
-  opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition-duration: 0.4s; }
+  .reveal:not([data-visible]) { transform: none; }
 }
-@media (hover: none) {
-  .hero-glow {
-    display: none;
-  }
+@media (scripting: none) {
+  .reveal:not([data-visible]) { opacity: 1; transform: none; }
 }
 
 /* ── Mjuka sidövergångar (native MPA View Transitions) ──── */
@@ -548,52 +345,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
 }
-
-/* ── Touch-enheter: hover triggas aldrig, så ge korten liv ─ */
-/* På touch saknas pekarbaserade hover-states. Spotlight-glowen
-   (musföljande) är meningslös där, men korten ska ändå inte se
-   "döda" ut — vi tonar in en subtil ram/bakgrund permanent. */
-@media (hover: none) {
-  .card-spotlight::before { content: none; }
-  .pricing-grid:hover .pricing-card:not(:hover) {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-/* ── Chatt-widget ───────────────────────────────────────── */
-/* Pulserande glow-ring runt chatt-knappen — drar ögat utan att
-   skrika. Samma indigo/violett som heron. */
-.chat-fab {
-  position: relative;
-}
-.chat-fab::before { content: none; }
-@keyframes chat-ring {
-  0%, 100% { transform: scale(1);    opacity: 0.55; }
-  50%      { transform: scale(1.18); opacity: 0;    }
-}
-
-/* Liten "andnings"-glow på själva knappen. */
-.chat-fab-glow {
-  box-shadow: var(--elevation-card);
-}
-@keyframes chat-breathe {
-  0%, 100% { box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent); }
-  50%      { box-shadow: 0 12px 36px -8px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent); }
-}
-
-/* Engångs-uppmärksamhet: knappen studsar lätt strax efter att sidan
-   laddats, så besökaren hinner märka den. */
-.chat-fab-attention {
-  animation: chat-attention 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s 2 both;
-}
-@keyframes chat-attention {
-  0%, 100% { transform: translateY(0)   rotate(0deg); }
-  30%      { transform: translateY(-7px) rotate(-7deg); }
-  60%      { transform: translateY(-2px) rotate(5deg); }
-}
-
 
 /* ── Priskalkylator: range-slider ───────────────────────── */
 .calc-range {
@@ -649,43 +400,7 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .pricing-grid:hover .pricing-card:not(:hover) {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-  .animate-gradient-x,
-  .animate-drift,
-  .animate-drift-slow,
-  .animate-pulse-glow,
-  .animate-fade-up,
-  .animate-fade-up-2,
-  .animate-fade-up-3,
-  .animate-fade-in,
-  .scroll-progress,
-  .code-window,
-  .code-caret::after,
-  .exit-card,
-  .animate-aurora,
-  .animate-ticker-dot,
-  .marquee-track {
-    animation: none;
-  }
-  /* Visa koden fullt utskriven direkt när rörelse inte önskas. */
-  .code-line {
-    width: var(--w, 100%);
-    animation: none;
-  }
-  .code-caret::after {
-    opacity: 1;
-  }
-  .btn-shine::after {
-    display: none;
-  }
-  /* Dämpa chatt-knappens rörelse — behåll en statisk glow. */
-  .chat-fab::before,
-  .chat-fab-glow,
-  .chat-fab-attention {
+  .scroll-progress {
     animation: none;
   }
 }
