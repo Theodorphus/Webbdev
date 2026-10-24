@@ -28,7 +28,7 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Göteborg",
     description:
-      "Webbutveckling i Göteborg för företag som vill synas och sälja. Snabba, moderna hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Göteborg för företag som vill synas och sälja. Snabba, moderna hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Jag är webbutvecklare baserad i Göteborg och bygger moderna hemsidor för lokala företag — från enskilda firmor till etablerade varumärken. Sitter du i Göteborg och behöver en hemsida som faktiskt drar in kunder är du på rätt ställe.",
       "Till skillnad från stora byråer får du personlig kontakt rakt igenom. Jag bygger med samma teknik som de snabbaste sajterna på nätet, men till ett fast pris utan dolda kostnader.",
@@ -40,11 +40,11 @@ export const orter: Ort[] = [
       },
       {
         rubrik: "Byggt för Göteborgs marknad",
-        text: "Hemsidor optimerade för lokala sökningar så att kunder i Göteborgsområdet hittar just dig på Google.",
+        text: "Hemsidor byggda för lokala sökningar, så att det blir lättare för kunder i Göteborgsområdet att hitta dig på Google.",
       },
       {
         rubrik: "Snabb leverans",
-        text: "Din nya hemsida är live på 3–7 arbetsdagar. Inget väntande i månader som hos större byråer.",
+        text: "En mindre hemsida byggs normalt på 3–7 arbetsdagar från godkänd design och komplett material — utan månader av väntan.",
       },
     ],
     narliggande: ["Hisingen", "Mölndal", "Partille", "Kungsbacka", "Lerum"],
@@ -58,7 +58,7 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Skövde",
     description:
-      "Webbutveckling i Skövde för företag i Skaraborg. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Skövde för företag i Skaraborg. Moderna, snabba hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Jag bygger moderna hemsidor för företag i Skövde och övriga Skaraborg. Behöver ditt företag synas bättre lokalt och få en sajt som imponerar på kunderna? Då hjälper jag dig hela vägen.",
       "Du jobbar direkt med utvecklaren — ingen säljare, inga mellanhänder. Bara en snabb, professionell hemsida till ett pris du vet på förhand.",
@@ -74,7 +74,7 @@ export const orter: Ort[] = [
       },
       {
         rubrik: "Fast pris, snabb leverans",
-        text: "Du vet exakt vad det kostar från start, och sajten är live på 3–7 arbetsdagar.",
+        text: "Du vet exakt vad det kostar från start, och en mindre sajt byggs normalt på 3–7 arbetsdagar från godkänd design.",
       },
     ],
     narliggande: ["Skara", "Falköping", "Tibro", "Mariestad", "Lidköping"],
@@ -88,7 +88,7 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Mölndal",
     description:
-      "Webbutveckling i Mölndal för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Mölndal för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Mölndal har ett starkt och växande näringsliv, och allt fler företag här inser att en daterad hemsida kostar kunder. Jag bygger moderna, snabba sajter för Mölndalsföretag som vill ta nästa steg online.",
       "Som granne i Göteborgsområdet är jag aldrig långt borta. Du får en utvecklare som tar projektet på allvar och en hemsida som står sig mot konkurrenterna.",
@@ -118,10 +118,10 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Partille",
     description:
-      "Webbutveckling i Partille för företag som vill synas online. Moderna hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Partille för företag som vill synas online. Moderna hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Driver du företag i Partille och vill ha en hemsida som matchar kvaliteten på det du erbjuder? Jag bygger moderna sajter för lokala företag som vill synas och växa.",
-      "Du slipper krångel med stora byråer. Istället får du en personlig utvecklare, ett fast pris och en sajt live på under en vecka.",
+      "Du slipper krångel med stora byråer. Istället får du en personlig utvecklare, ett fast pris och en mindre sajt som normalt byggs på under en vecka från godkänd design.",
     ],
     poanger: [
       {
@@ -134,7 +134,7 @@ export const orter: Ort[] = [
       },
       {
         rubrik: "Syns på Google",
-        text: "Lokal SEO så att Partilleborna hittar ditt företag när de söker.",
+        text: "Lokal SEO som gör det lättare för Partilleborna att hitta ditt företag när de söker.",
       },
     ],
     narliggande: ["Sävedalen", "Jonsered", "Göteborg", "Lerum", "Öjersjö"],
@@ -178,7 +178,7 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Lerum",
     description:
-      "Webbutveckling i Lerum för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Lerum för lokala företag. Moderna, snabba hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Lerum har många små och medelstora företag som förtjänar en hemsida i toppklass. Jag bygger moderna sajter för lokala verksamheter som vill sticka ut och nå fler kunder.",
       "Du jobbar direkt med utvecklaren från start till mål. Inga mellanhänder, inga överraskningar — bara en snabb och snygg hemsida till ett fast pris.",
@@ -208,7 +208,7 @@ export const orter: Ort[] = [
     region: "Västra Götaland",
     title: "Webbutveckling i Borås",
     description:
-      "Webbutveckling i Borås för företag i Sjuhärad. Moderna, snabba hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+      "Webbutveckling i Borås för företag i Sjuhärad. Moderna, snabba hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
     intro: [
       "Borås är navet i Sjuhärad med en stark tradition av handel och entreprenörskap. Jag bygger moderna hemsidor för Boråsföretag som vill ta sin närvaro online till nästa nivå.",
       "Från e-handel till företagspresentationer — du får en snabb, konverteringsoptimerad sajt och en personlig utvecklare som finns där genom hela projektet.",
@@ -241,7 +241,7 @@ export const orter: Ort[] = [
       "Webbutveckling i Skara för lokala företag i Skaraborg. Moderna, snabba hemsidor i Next.js till fast pris.",
     intro: [
       "Skara är en av Sveriges äldsta städer med ett stadigt lokalt näringsliv. Jag bygger moderna hemsidor för företag här som vill kombinera lokal förankring med en professionell närvaro online.",
-      "Du får en utvecklare som tar sig tid, ett fast pris utan dolda kostnader och en sajt som är live på bara några dagar.",
+      "Du får en utvecklare som tar sig tid, ett fast pris utan dolda kostnader och en mindre sajt som normalt byggs på några arbetsdagar från godkänd design.",
     ],
     poanger: [
       {
@@ -254,7 +254,7 @@ export const orter: Ort[] = [
       },
       {
         rubrik: "Snabbt och prisvärt",
-        text: "Fast pris, tydlig process och leverans på 3–7 arbetsdagar.",
+        text: "Fast pris, tydlig process och normalt 3–7 arbetsdagars bygge från godkänd design.",
       },
     ],
     narliggande: ["Axvall", "Varnhem", "Skövde", "Götene", "Vara"],
@@ -274,11 +274,11 @@ export function getOrtFaq(ort: Ort): { q: string; a: string }[] {
   return [
     {
       q: `Vad kostar en hemsida ${ort.iNamn}?`,
-      a: `Jag erbjuder ungefärliga prisnivåer på 2 000 kr, 4 000 kr och från 6 000 kr för större lösningar. Slutpriset beror på projektets omfattning och dina krav. Du får alltid en tydlig offert innan vi börjar, utan dolda kostnader. Priset är detsamma oavsett om du sitter ${ort.iNamn} eller i någon av grannkommunerna.`,
+      a: `Jag erbjuder ungefärliga prisnivåer på 2 000 kr, 4 000 kr och från 6 000 kr för större lösningar. Slutpriset beror på projektets omfattning och dina krav. Alla priser är exklusive moms, och du får alltid en fast offert innan vi börjar. Priset är detsamma oavsett om du sitter ${ort.iNamn} eller i någon av grannkommunerna.`,
     },
     {
       q: `Hur lång tid tar det att bygga en hemsida ${ort.iNamn}?`,
-      a: `De flesta hemsidor är klara och live på 3–7 arbetsdagar. Du jobbar direkt med utvecklaren, så vi slipper långa väntetider och mellanhänder. ${ort.leveransDetalj}`,
+      a: `En mindre hemsida byggs normalt på 3–7 arbetsdagar från godkänd design och komplett material. Större webbplatser kan ta längre tid. Du jobbar direkt med utvecklaren, så vi slipper mellanhänder. ${ort.leveransDetalj}`,
     },
     {
       q: `Bygger du hemsidor åt företag utanför ${ort.namn}?`,
@@ -286,7 +286,7 @@ export function getOrtFaq(ort: Ort): { q: string; a: string }[] {
     },
     {
       q: `Kommer min hemsida synas på Google?`,
-      a: `Ja — alla sajter jag bygger är SEO-optimerade från grunden med snabb laddtid, strukturerad data och innehåll anpassat för lokala sökningar som "${ort.title.toLowerCase()}". Det ger dig bästa möjliga förutsättningar att ranka och hittas av kunder ${ort.iNamn}.`,
+      a: `Ingen kan garantera placeringar på Google, men alla sajter jag bygger har en teknisk grund för att hittas: snabb laddtid, tydlig sidstruktur, strukturerad data och innehåll som speglar lokala sökningar som "${ort.title.toLowerCase()}". Det ger goda förutsättningar att hittas av kunder ${ort.iNamn}.`,
     },
   ];
 }

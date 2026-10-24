@@ -54,11 +54,11 @@ export default async function BlogPost({ params }: Props) {
     headline: post.title,
     description: post.description,
     datePublished: post.published,
-    dateModified: post.published,
+    dateModified: post.updated ?? post.published,
     // Rekommenderat av Google för Article-rich results.
     image: `${SITE_URL}/opengraph-image.jpg`,
     url: `${SITE_URL}/blogg/${post.slug}`,
-    author: { "@type": "Person", name: "Theodor Håkansson" },
+    author: { "@type": "Person", name: "Theo Håkansson", url: `${SITE_URL}/#om` },
     publisher: {
       "@type": "Organization",
       name: "Webbdev Studio",
@@ -79,10 +79,6 @@ export default async function BlogPost({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
-      {/* Bakgrundsglöd */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      </div>
-
       <article className="relative mx-auto max-w-3xl px-6 pb-24">
         {/* Brödsmula */}
         <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
@@ -102,11 +98,17 @@ export default async function BlogPost({ params }: Props) {
         </nav>
 
         {/* Rubrik + meta */}
-        <div className="flex items-center gap-3 text-[11px] text-muted">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-muted">
           <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-sans text-accent-light">
             {post.tag}
           </span>
           <time dateTime={post.published}>{formatDate(post.published)}</time>
+          {post.updated && (
+            <>
+              <span aria-hidden>·</span>
+              <span>Uppdaterad <time dateTime={post.updated}>{formatDate(post.updated)}</time></span>
+            </>
+          )}
           <span aria-hidden>·</span>
           <span>{post.readingMinutes} min läsning</span>
         </div>
@@ -115,6 +117,13 @@ export default async function BlogPost({ params }: Props) {
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-foreground/70">
           {post.description}
+        </p>
+        <p className="mt-6 text-sm text-muted">
+          Av{" "}
+          <Link href="/#om" className="font-medium text-foreground/80 transition-colors hover:text-accent-light">
+            Theo Håkansson
+          </Link>
+          , webbutvecklare i Göteborg
         </p>
 
         {/* Brödtext */}
@@ -141,6 +150,14 @@ export default async function BlogPost({ params }: Props) {
                     </li>
                   ))}
                 </ul>
+              )}
+              {section.lank && (
+                <Link
+                  href={section.lank.href}
+                  className="mt-5 inline-flex text-[15px] font-semibold text-accent-light transition-colors hover:text-foreground"
+                >
+                  {section.lank.text} →
+                </Link>
               )}
             </section>
           ))}

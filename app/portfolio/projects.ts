@@ -21,7 +21,7 @@ export const projects: Project[] = [
   {
     slug: 'swedensweet',
     namn: 'SwedenSweet',
-    url: 'https://swedensweet.vercel.app/',
+    url: 'https://www.swedensweet.com/',
     img: '/work/swedensweet.webp',
     tech: ['Next.js', 'Tailwind', 'Vercel'],
     featured: true,
@@ -30,7 +30,7 @@ export const projects: Project[] = [
     slug: 'ockerocement',
     caseHref: '/portfolio/ockerocement',
     namn: 'Öckerö Cementgjuteri',
-    url: 'https://ockerocement.vercel.app/',
+    url: 'https://www.ockerocement.se/',
     img: '/work/ockerocement.webp',
     tech: ['Next.js', 'Tailwind', 'Vercel'],
     featured: true,

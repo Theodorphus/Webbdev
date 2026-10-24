@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { localizedHref } from '../i18n/routes';
-import { useRef, type ReactElement } from 'react';
-import useAnimations from '../components/animations/useAnimations';
+import type { ReactElement } from 'react';
 import { useLang } from '../i18n/LanguageProvider';
 
 // Ikoner för problem-korten (flyttade från framsidan).
@@ -57,13 +56,10 @@ function IconBack() {
 }
 
 export default function TjansterContent() {
-  const scopeRef = useRef<HTMLElement>(null);
   const { t, lang } = useLang();
 
-  useAnimations(scopeRef);
-
   return (
-    <main ref={scopeRef} className="relative overflow-x-hidden pt-28">
+    <main className="relative overflow-x-hidden pt-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Tillbaka-länk */}
         <Link
@@ -77,14 +73,14 @@ export default function TjansterContent() {
 
       <section id="tjanster" className="relative py-16">
         <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
+          <div className="mb-10">
             <p className="eyebrow">{t.tjanster.etikett}</p>
             <h1 className="font-display mt-3 text-3xl font-bold text-foreground md:text-4xl">
               {t.tjanster.rubrik}
             </h1>
           </div>
           <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted">{lang === 'sv' ? 'En tydlig presentation, enklare kontakt eller försäljning online. Vi utgår från vad din hemsida ska hjälpa kunden att göra och väljer teknik därefter.' : 'A clear introduction, easier contact or online sales. We start with what your website should help customers do and choose the technology to match.'}</p>
-          <div className="grid gap-4 sm:grid-cols-2" data-animate-group data-stagger="0.07">
+          <div className="grid gap-4 sm:grid-cols-2">
             {t.tjanster.items.map((item) => (
               <div key={item.title} className="group card-spotlight flex h-full flex-col gap-5 sm:flex-row rounded-2xl border border-foreground/8 bg-surface p-6 backdrop-blur-sm transition-all duration-300 hover:border-foreground/20 hover:bg-surface-raised">
                 <div className="mt-0.5 flex-shrink-0">
@@ -114,22 +110,46 @@ export default function TjansterContent() {
       </section>
       <section className="py-16">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10" data-animate="header">
+          <div className="mb-10">
             <p className="eyebrow">{t.problem.etikett}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-foreground md:text-4xl">
               {t.problem.rubrik}
             </h2>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate-group data-stagger="0.08">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {t.problem.items.map((item, i) => ({ ...item, icon: [problemIcons.speed, problemIcons.ux, problemIcons.trust, problemIcons.perf, problemIcons.mobile, problemIcons.seo][i] })).map((item) => (
               <div key={item.label} className="card-spotlight h-full rounded-2xl border border-foreground/8 bg-surface p-7 transition-all duration-300 hover:border-accent/30 hover:bg-accent/5">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent-light">
                   {item.icon}
                 </div>
                 <h3 className="mb-2 text-base font-bold text-foreground/95">{item.label}</h3>
                 <p className="text-sm leading-relaxed text-muted">{item.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* Avslutande CTA — sidan ska inte sluta på problemen. */}
+          <div className="mt-16 rounded-2xl border border-foreground/[0.09] bg-surface px-6 py-12 text-center sm:px-10">
+            <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
+              {lang === 'sv' ? 'Känner du igen något av det här?' : 'Recognise any of this?'}
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-muted">
+              {lang === 'sv'
+                ? 'Berätta hur din webbplats fungerar i dag och vad den borde hjälpa dig med. Jag återkommer inom 24 timmar med frågor och förslag på nästa steg.'
+                : 'Tell me how your website works today and what it should help you with. I’ll reply within 24 hours with questions and suggested next steps.'}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+              <Link
+                href={localizedHref("/#kontakt", lang)}
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-3.5 text-[15px] font-semibold text-on-accent transition-colors hover:bg-accent-hover"
+              >
+                {t.tjansterSida.cta}
+                <span className="transition-transform group-hover:translate-x-1"><IconArrow /></span>
+              </Link>
+              <Link href={localizedHref("/priser", lang)} className="studio-text-link">
+                {lang === 'sv' ? 'Se priser' : 'See pricing'} <span aria-hidden>→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

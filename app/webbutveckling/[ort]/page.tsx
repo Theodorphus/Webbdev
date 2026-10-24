@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { orter, getOrt, getOrtFaq } from "../orter";
+import { customerCases } from "../../portfolio/cases";
+import { dictionary } from "../../i18n/dictionary";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
+
+// Samma omdöme som startsidan lyfter fram först (Wildkull Payroll).
+const testimonial = dictionary.sv.recension2.lista[0];
 
 type Props = { params: Promise<{ ort: string }> };
 
@@ -38,11 +44,13 @@ export default async function OrtPage({ params }: Props) {
 
   const faq = getOrtFaq(ort);
 
-  // Lokal LocalBusiness-schema för just den här orten.
+  // Företaget och dess verkliga adress (Göteborg), med orten som serviceområde.
+  // Adressen får inte följa orten — en påhittad adress per ort är vilseledande
+  // lokaldata som Google kan nedvärdera.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: `Webbdev Studio — Webbutveckling ${ort.iNamn}`,
+    name: "Webbdev Studio",
     description: ort.description,
     url: `${SITE_URL}/webbutveckling/${ort.slug}`,
     email: "webbdevstudio@gmail.com",
@@ -54,8 +62,10 @@ export default async function OrtPage({ params }: Props) {
     ],
     address: {
       "@type": "PostalAddress",
-      addressLocality: ort.namn,
-      addressRegion: ort.region,
+      streetAddress: "Västra Gunnesgärde 41",
+      postalCode: "417 47",
+      addressLocality: "Göteborg",
+      addressRegion: "Västra Götaland",
       addressCountry: "SE",
     },
   };
@@ -81,10 +91,6 @@ export default async function OrtPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
-
-      {/* Bakgrundsglöd — matchar startsidans känsla */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
@@ -148,6 +154,46 @@ export default async function OrtPage({ params }: Props) {
             </div>
           ))}
         </div>
+
+        {/* Socialt bevis — kundcase och ett verkligt omdöme */}
+        <section className="mt-16" aria-labelledby="arbete-rubrik">
+          <h2 id="arbete-rubrik" className="font-display text-2xl font-bold text-foreground">
+            Ett urval av mitt arbete
+          </h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {customerCases.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/portfolio/${item.slug}`}
+                className="group overflow-hidden rounded-2xl border border-foreground/8 bg-surface transition-colors hover:border-foreground/20"
+              >
+                <div className="aspect-[16/9] overflow-hidden border-b border-foreground/[0.07]">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={item.imageWidth}
+                    height={item.imageHeight}
+                    sizes="(max-width: 639px) calc(100vw - 48px), 420px"
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs uppercase tracking-[0.1em] text-accent-light">{item.category}</p>
+                  <h3 className="font-display mt-2 text-base font-bold text-foreground">{item.name}</h3>
+                  <span className="mt-3 inline-flex text-sm font-semibold text-accent-light">Läs kundcaset →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <figure className="mt-4 rounded-2xl border border-foreground/8 bg-surface p-7">
+            <blockquote className="font-display text-lg font-medium leading-snug text-foreground/90 [text-wrap:pretty]">
+              “{testimonial.text}”
+            </blockquote>
+            <figcaption className="mt-4 text-sm text-muted">
+              <strong className="font-semibold text-foreground/80">{testimonial.namn}</strong> · {dictionary.sv.recension2.viaGoogle}
+            </figcaption>
+          </figure>
+        </section>
 
         {/* Närliggande orter — long-tail-täckning */}
         <div className="mt-16 rounded-2xl border border-foreground/8 bg-surface p-7">

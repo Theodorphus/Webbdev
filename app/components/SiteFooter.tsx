@@ -21,7 +21,8 @@ export default function SiteFooter() {
                 {t.footer.tagline}
               </p>
             </div>
-            <div className="grid min-w-0 grid-cols-1 gap-10 min-[420px]:grid-cols-2 lg:grid-cols-4">
+            {/* Under 420px: Navigera + Orter sida vid sida, Kontakt och Företag i full bredd (dense fyller hålet). */}
+            <div className="grid min-w-0 grid-flow-row-dense grid-cols-2 gap-10 lg:grid-cols-[1fr_1.3fr_1.2fr_0.8fr]">
               <div className="flex flex-col gap-2 text-sm">
                 <span className="mb-1.5 font-sans text-xs font-semibold text-foreground">
                   {t.footer2.navigera}
@@ -35,7 +36,7 @@ export default function SiteFooter() {
                 <Link href={localizedHref("/portfolio", lang)} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.footer2.portfolio}</Link>
                 <Link href="/blogg" className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.footer2.blogg}</Link>
               </div>
-              <div className="flex flex-col gap-2 text-sm">
+              <div className="col-span-2 flex flex-col gap-2 text-sm min-[420px]:col-span-1">
                 <span className="mb-1.5 font-sans text-xs font-semibold text-foreground">
                   {t.footer.kontakt}
                 </span>
@@ -54,7 +55,7 @@ export default function SiteFooter() {
                   LinkedIn
                 </a>
               </div>
-              <div className="flex flex-col gap-2 text-sm">
+              <div className="col-span-2 flex flex-col gap-2 text-sm min-[420px]:col-span-1">
                 <span className="mb-1.5 font-sans text-xs font-semibold text-foreground">
                   {t.footer.foretag}
                 </span>

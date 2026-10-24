@@ -4,7 +4,7 @@ export const customerCases = [
     title: 'Från bildtung startsida till en tydlig väg in i sortimentet.',
     intro: 'En uppdaterad webbplats för byggmaterial, betong och maskinuthyrning i Göteborgs skärgård. Här visar vi förändringen i första intryck, produktöversikt och kontaktvägar.',
     image: '/work/cases/cement-after-home.webp', imageWidth: 1600, imageHeight: 743,
-    url: 'https://ockerocement.vercel.app/',
+    url: 'https://www.ockerocement.se/',
     focus: 'Göra det tydligt vad företaget erbjuder och hjälpa besökaren vidare till produkter eller kontakt redan från första skärmen.',
     before: 'Den tidigare startsidan dominerades av en stenbild. Presentationen av företaget började längre ner, och kontaktinformationen låg på en separat sida.',
     solution: 'Den nya startsidan kombinerar en lokal miljöbild med ett tydligt erbjudande och två synliga vägar vidare. Sortimentet delas upp i bildbaserade kategorier. Kontaktuppgifter, öppettider och vägbeskrivning får tydliga egna ytor.',

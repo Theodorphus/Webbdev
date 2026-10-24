@@ -9,12 +9,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 export const metadata: Metadata = {
   title: "Webbutveckling i Västsverige — alla orter",
   description:
-    "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Snabba, moderna hemsidor i Next.js till fast pris — leverans på 3–7 dagar.",
+    "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Snabba, moderna hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
   alternates: { canonical: "/webbutveckling" },
   openGraph: {
     title: "Webbutveckling i Västsverige — Webbdev Studio",
     description:
-      "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Fast pris, leverans på 3–7 dagar.",
+      "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Fast pris och personlig kontakt hela vägen.",
     url: `${SITE_URL}/webbutveckling`,
   },
 };
@@ -22,10 +22,6 @@ export const metadata: Metadata = {
 export default function WebbutvecklingIndexPage() {
   return (
     <main className="relative min-h-screen overflow-x-hidden pt-28">
-      {/* Bakgrundsglöd — matchar ortssidornas känsla */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      </div>
-
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
         <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">

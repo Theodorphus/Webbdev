@@ -1,6 +1,7 @@
 import type { Lang } from './dictionary';
 
-const routes = {
+/** Svenska routes som har en engelsk motsvarighet. */
+export const routes = {
   '/': '/en',
   '/portfolio': '/en/portfolio',
   '/priser': '/en/pricing',

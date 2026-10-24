@@ -51,9 +51,6 @@ export default function BloggIndex() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
-      {/* Bakgrundsglöd — matchar startsidans känsla */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      </div>
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
         {/* Brödsmula */}
