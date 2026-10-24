@@ -2,35 +2,30 @@ import { priceTerms } from '../../lib/business';
 import Anthropic from '@anthropic-ai/sdk';
 import { NextResponse } from 'next/server';
 import { hasTrustedOrigin, readJsonBody } from '../_lib/request';
+import { clientIp, isRateLimited } from '../_lib/rateLimit';
 
 /**
  * AI-chatt-endpoint som streamar svar från Claude.
  *
- * Speglar säkerhetsmönstret i app/api/contact/route.ts: enkel rate-limit i
- * minnet och honeypot. Tar emot hela konversationen (stateless — klienten
- * skickar med historiken varje gång) och streamar tillbaka modellens svar
- * som ren text (text/plain), bit för bit.
+ * Speglar säkerhetsmönstret i app/api/contact/route.ts: delad rate-limit och
+ * honeypot. Tar emot hela konversationen (stateless — klienten skickar med
+ * historiken varje gång) och streamar tillbaka modellens svar som ren text
+ * (text/plain), bit för bit.
  */
 
 // Modell-id är komplett som det står — lägg inte till datum-suffix.
 const MODEL = 'claude-haiku-4-5';
 
-/** Max ~15 meddelanden per IP per 5 minuter (per serverless-instans, best effort). */
+/** Max 15 meddelanden per IP per 5 minuter. */
 const RATE_LIMIT = 15;
 const RATE_WINDOW_MS = 5 * 60 * 1000;
-const hits = new Map<string, number[]>();
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT) {
-    hits.set(ip, recent);
-    return true;
-  }
-  recent.push(now);
-  hits.set(ip, recent);
-  return false;
-}
+/**
+ * Kostnadstak: max antal chattmeddelanden per dygn för hela sajten.
+ * Justeras med CHAT_DAILY_LIMIT. Utan Redis gäller taket per instans.
+ */
+const DAILY_LIMIT = Number(process.env.CHAT_DAILY_LIMIT) || 400;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 type Lang = 'sv' | 'en';
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
@@ -122,10 +117,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Konversationen är för lång.' }, { status: 400 });
   }
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (isRateLimited(ip)) {
+  if (await isRateLimited('chat', clientIp(req), RATE_LIMIT, RATE_WINDOW_MS)) {
     return NextResponse.json(
       { error: 'För många meddelanden — försök igen om en stund.' },
+      { status: 429 },
+    );
+  }
+  if (await isRateLimited('chat-daily', 'all', DAILY_LIMIT, DAY_MS)) {
+    return NextResponse.json(
+      { error: 'Chatten är pausad för idag — använd gärna kontaktformuläret.' },
       { status: 429 },
     );
   }

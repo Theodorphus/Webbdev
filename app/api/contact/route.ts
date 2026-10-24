@@ -1,27 +1,12 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 import { cleanSubject, hasTrustedOrigin, readJsonBody } from '../_lib/request';
+import { clientIp, isRateLimited } from '../_lib/rateLimit';
 import { isPackageId, packageLabels } from '../../lib/packages';
 
-/**
- * Enkel rate-limit i minnet: max 3 förfrågningar per IP per 10 minuter.
- * (Per serverless-instans — best effort, men stoppar burst-spam.)
- */
+/** Max 3 förfrågningar per IP per 10 minuter (se _lib/rateLimit). */
 const RATE_LIMIT = 3;
 const RATE_WINDOW_MS = 10 * 60 * 1000;
-const hits = new Map<string, number[]>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT) {
-    hits.set(ip, recent);
-    return true;
-  }
-  recent.push(now);
-  hits.set(ip, recent);
-  return false;
-}
 
 /** Skydda mejlets HTML mot injicerad markup. */
 function escapeHtml(str: string): string {
@@ -63,8 +48,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Ogiltig förfrågan.' }, { status: 400 });
   }
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (isRateLimited(ip)) {
+  if (await isRateLimited('contact', clientIp(req), RATE_LIMIT, RATE_WINDOW_MS)) {
     return NextResponse.json(
       { error: 'För många förfrågningar — försök igen om en stund.' },
       { status: 429 },
