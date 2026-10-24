@@ -1,6 +1,6 @@
 # Öckerö Cementgjuteri case images
 
-Provided by the site owner in `public/work/Cement`. Originals are preserved. WebP copies are resized to 1600 pixels wide for the portfolio.
+Provided by the site owner. Originals are preserved in `assets/originals/cement` (outside `public/`, so they are not deployed or served). WebP copies are resized to 1600 pixels wide for the portfolio.
 
 | Original | Optimized copy |
 | --- | --- |

@@ -36,8 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
-# claude code (lokal config)
+# claude code / codex (lokal config)
 .claude/
+.codex/
+
+# lokalt designunderlag (handoff-filer, ej en del av sajten)
+design_handoff_premium_redesign/
 
 # typescript
 *.tsbuildinfo
