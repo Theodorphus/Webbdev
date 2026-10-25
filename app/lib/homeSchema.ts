@@ -1,4 +1,5 @@
 import type { Lang } from '../i18n/dictionary';
+import { orter } from '../webbutveckling/orter';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.webbdev.se';
 
@@ -29,8 +30,7 @@ export function getHomeSchema(lang: Lang, faqItems: FaqItem[]) {
         addressCountry: 'SE',
       },
       areaServed: [
-        { '@type': 'City', name: 'Göteborg' },
-        { '@type': 'City', name: 'Skövde' },
+        ...orter.map((ort) => ({ '@type': 'City', name: ort.namn })),
         { '@type': 'Country', name: 'Sverige' },
       ],
       sameAs: [

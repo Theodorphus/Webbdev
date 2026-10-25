@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { localizedHref } from '../i18n/routes';
 import { useLang } from '../i18n/LanguageProvider';
 import { business } from '../lib/business';
+import { openCookieSettings } from '../lib/googleAds';
 import { orter } from '../webbutveckling/orter';
 
 export default function SiteFooter() {
@@ -27,14 +28,12 @@ export default function SiteFooter() {
                 <span className="mb-1.5 font-sans text-xs font-semibold text-foreground">
                   {t.footer2.navigera}
                 </span>
-                <a href={`${home}#arbete`} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.arbete}</a>
-                <a href={`${home}#process`} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.process}</a>
-                <Link href="/gratis-demo" className="text-accent-light hover:text-foreground">{t.nav2.demo}</Link>
-                <Link href={localizedHref("/priser", lang)} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.priser}</Link>
-                <a href={`${home}#om`} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.om}</a>
                 <Link href={localizedHref("/tjanster", lang)} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.footer2.tjanster}</Link>
                 <Link href={localizedHref("/portfolio", lang)} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.footer2.portfolio}</Link>
+                <Link href={localizedHref("/priser", lang)} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.priser}</Link>
+                <Link href="/gratis-demo" className="text-accent-light hover:text-foreground">{t.nav2.demo}</Link>
                 <Link href="/blogg" className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.footer2.blogg}</Link>
+                <a href={`${home}#om`} className="text-muted transition-colors hover:text-foreground hover:underline underline-offset-4">{t.nav2.om}</a>
               </div>
               <div className="col-span-2 flex flex-col gap-2 text-sm min-[420px]:col-span-1">
                 <span className="mb-1.5 font-sans text-xs font-semibold text-foreground">
@@ -82,9 +81,14 @@ export default function SiteFooter() {
           </div>
           <div className="mt-12 flex flex-col items-center gap-2 border-t border-foreground/[0.07] pt-6 text-xs text-muted sm:flex-row sm:justify-between">
             <span>© {new Date().getFullYear()} Webbdev Studio — webbdev.se</span>
-            <Link href="/integritetspolicy" className="transition-colors hover:text-muted">
-              {t.footer.integritetspolicy}
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+              <Link href="/integritetspolicy" className="transition-colors hover:text-foreground">
+                {t.footer.integritetspolicy}
+              </Link>
+              <button type="button" onClick={openCookieSettings} className="transition-colors hover:text-foreground">
+                {lang === 'sv' ? 'Cookieinställningar' : 'Cookie settings'}
+              </button>
+            </div>
           </div>
         </div>
       </footer>

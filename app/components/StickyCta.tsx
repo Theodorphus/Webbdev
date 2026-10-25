@@ -6,7 +6,8 @@ import { useLang } from '../i18n/LanguageProvider';
 /**
  * Sticky CTA för mobil — fast knapp längst ner på skärmen.
  * Visas först när man scrollat förbi hero, och döljs när
- * kontaktsektionen är i vy (då formuläret redan syns).
+ * kontaktsektionen eller footern är i vy (formuläret syns redan, och
+ * baren skulle annars täcka footerns sista rad längst ned på sidan).
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
@@ -14,12 +15,12 @@ export default function StickyCta() {
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>('[data-hero]');
-    const kontakt = document.getElementById('kontakt');
     if (!hero) return;
+    const endTargets = [document.getElementById('kontakt'), document.querySelector('footer')].filter((el): el is HTMLElement => el !== null);
 
     let pastHero = false;
-    let inKontakt = false;
-    const update = () => setVisible(pastHero && !inKontakt);
+    const inView = new Set<Element>();
+    const update = () => setVisible(pastHero && inView.size === 0);
 
     const heroObserver = new IntersectionObserver(
       ([entry]) => {
@@ -30,20 +31,21 @@ export default function StickyCta() {
     );
     heroObserver.observe(hero);
 
-    const kontaktObserver = kontakt
-      ? new IntersectionObserver(
-          ([entry]) => {
-            inKontakt = entry.isIntersecting;
-            update();
-          },
-          { rootMargin: '0px 0px -20% 0px' },
-        )
-      : null;
-    if (kontakt && kontaktObserver) kontaktObserver.observe(kontakt);
+    const endObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) inView.add(entry.target);
+          else inView.delete(entry.target);
+        }
+        update();
+      },
+      { rootMargin: '0px 0px -20% 0px' },
+    );
+    endTargets.forEach((el) => endObserver.observe(el));
 
     return () => {
       heroObserver.disconnect();
-      kontaktObserver?.disconnect();
+      endObserver.disconnect();
     };
   }, []);
 

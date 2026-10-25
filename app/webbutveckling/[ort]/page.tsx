@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { orter, getOrt, getOrtFaq } from "../orter";
 import { customerCases } from "../../portfolio/cases";
 import { dictionary } from "../../i18n/dictionary";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { sharedOpenGraph } from "../../lib/metadata";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -30,9 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: ort.description,
     alternates: { canonical: `/webbutveckling/${ort.slug}` },
     openGraph: {
+      ...sharedOpenGraph(),
       title: `${ort.title} — Webbdev Studio`,
       description: ort.description,
-      url: `${SITE_URL}/webbutveckling/${ort.slug}`,
+      url: `/webbutveckling/${ort.slug}`,
     },
   };
 }
@@ -93,22 +96,7 @@ export default async function OrtPage({ params }: Props) {
       />
 
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
-        {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-foreground/70">
-            Hem
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <Link href="/webbutveckling" className="transition-colors hover:text-foreground/70">
-            Webbutveckling
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <span className="text-muted">{ort.namn}</span>
-        </nav>
+        <Breadcrumbs items={[{ name: "Webbutveckling", href: "/webbutveckling" }, { name: ort.namn }]} className="mb-8" />
 
         {/* Hero */}
         <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em] text-accent-light">

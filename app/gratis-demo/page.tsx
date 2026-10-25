@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import DemoContent from './DemoContent';
+import { sharedOpenGraph } from '../lib/metadata';
 
 export const metadata: Metadata = {
   title: 'Gratis demo av din nya hemsida',
   description: 'Se möjligheterna för ditt företag. Välj stil och berätta vad du behöver så tar Webbdev Studio fram ett gratis designförslag för din startsida. Utan köpkrav.',
   alternates: { canonical: '/gratis-demo' },
   openGraph: {
+    ...sharedOpenGraph(),
     title: 'Hur skulle din nya hemsida kunna se ut?',
     description: 'Begär ett personligt designförslag för din startsida. Gratis och utan köpkrav.',
     url: '/gratis-demo',

@@ -1,6 +1,7 @@
 'use client';
 
 import { trackConversion } from '../lib/analytics';
+import { trackGoogleAdsContact } from '../lib/googleAds';
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -14,6 +15,26 @@ import { useLang } from '../i18n/LanguageProvider';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
+// Samma tak som /api/chat. Skicka bara de senaste meddelandena som ryms, så
+// att en lång konversation fortsätter fungera i stället för att avvisas.
+const MAX_MESSAGES = 40;
+const MAX_CHARS_PER_MESSAGE = 4000;
+const MAX_TOTAL_CHARS = 12_000;
+
+function recentHistory(all: Msg[]): Msg[] {
+  const recent: Msg[] = [];
+  let total = 0;
+  for (let i = all.length - 1; i >= 0 && recent.length < MAX_MESSAGES; i--) {
+    const content = all[i].content.slice(0, MAX_CHARS_PER_MESSAGE);
+    total += content.length;
+    if (total > MAX_TOTAL_CHARS) break;
+    recent.unshift({ role: all[i].role, content });
+  }
+  // API:t kräver att konversationen börjar med besökaren.
+  while (recent.length > 0 && recent[0].role !== 'user') recent.shift();
+  return recent;
+}
+
 export default function Chatbot() {
   const { t, lang } = useLang();
   const [open, setOpen] = useState(false);
@@ -23,7 +44,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
   // Honeypot: osynligt fält som bara bottar fyller i.
   const [company, setCompany] = useState('');
@@ -109,14 +130,20 @@ export default function Chatbot() {
 
   // Bryt ut själva strömningen så både send() och sendQuick() kan återanvända den.
   async function streamReply(nextMessages: Msg[]) {
-    setError(false);
+    setError('');
     setSending(true);
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages, lang, company }),
+        body: JSON.stringify({ messages: recentHistory(nextMessages), lang, company }),
       });
+      if (res.status === 429) {
+        // Rate limit eller dygnstak — visa det i stället för ett generellt fel.
+        setMessages((prev) => prev.slice(0, -1));
+        setError(t.chat.pausad);
+        return;
+      }
       if (!res.ok || !res.body) throw new Error('request failed');
 
       const reader = res.body.getReader();
@@ -134,11 +161,11 @@ export default function Chatbot() {
       }
       if (!acc.trim()) {
         setMessages((prev) => prev.slice(0, -1));
-        setError(true);
+        setError(t.chat.fel);
       }
     } catch {
       setMessages((prev) => prev.slice(0, -1));
-      setError(true);
+      setError(t.chat.fel);
     } finally {
       setSending(false);
     }
@@ -172,6 +199,8 @@ export default function Chatbot() {
         }),
       });
       if (!res.ok) throw new Error('lead failed');
+      const result = await res.json().catch(() => null);
+      if (typeof result?.conversionId === 'string') trackGoogleAdsContact(result.conversionId);
       trackConversion('chat_lead_submitted');
       setLeadSent(true);
       setShowLead(false);
@@ -255,7 +284,7 @@ export default function Chatbot() {
               type="button"
               onClick={() => {
                 setMessages([]);
-                setError(false);
+                setError('');
                 setShowLead(false);
                 setLeadSent(false);
                 setLeadError('');
@@ -365,7 +394,7 @@ export default function Chatbot() {
           )}
 
           {error && (
-            <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300">{t.chat.fel}</p>
+            <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300">{error}</p>
           )}
         </div>
 
@@ -386,6 +415,7 @@ export default function Chatbot() {
             <textarea
               ref={inputRef}
               rows={1}
+              maxLength={MAX_CHARS_PER_MESSAGE}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}

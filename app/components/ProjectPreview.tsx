@@ -1,10 +1,19 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { domain, type Project } from '../portfolio/projects';
 
 function IconDiagonal() {
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
       <path d="M4 12L12 4M6 4h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconArrow() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -69,13 +78,8 @@ export function ProjectCard({
   besok: string;
   priority?: boolean;
 }) {
-  return (
-    <a
-      href={project.caseHref ?? project.url}
-      target={project.caseHref ? undefined : "_blank"}
-      rel="noopener noreferrer"
-      className="project-card group block"
-    >
+  const content = (
+    <>
       <BrowserPreview project={project} priority={priority} />
       <div className="mt-[22px] px-0.5">
         <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
@@ -91,32 +95,14 @@ export function ProjectCard({
         <span className="mt-4 inline-flex items-center gap-2 text-[13.5px] font-semibold text-accent-light">
           {project.caseHref ? caseLabel : besok}
           <span className="transition-transform duration-300 group-hover:translate-x-1">
-            <IconDiagonal />
+            {project.caseHref ? <IconArrow /> : <IconDiagonal />}
           </span>
         </span>
       </div>
-    </a>
+    </>
   );
-}
-
-/** Kompakt kort — övriga projekt. */
-export function ProjectCardSmall({ project, text }: { project: Project; text: ProjectText }) {
-  return (
-    <a
-      href={project.caseHref ?? project.url}
-      target={project.caseHref ? undefined : "_blank"}
-      rel="noopener noreferrer"
-      className="group block"
-    >
-      <BrowserPreview project={project} storlek="liten" />
-      <div className="mt-3.5 flex items-baseline justify-between gap-3 px-0.5">
-        <h3 className="font-display text-[16.5px] font-semibold tracking-[-0.01em] text-foreground">
-          {project.namn}
-        </h3>
-        <span className="truncate font-sans text-xs uppercase tracking-[0.1em] text-muted">
-          {text.kategori}
-        </span>
-      </div>
-    </a>
-  );
+  // Kundcasen är interna sidor (Link, ingen ny flik); övriga öppnar sajten.
+  return project.caseHref
+    ? <Link href={project.caseHref} className="project-card group block">{content}</Link>
+    : <a href={project.url} target="_blank" rel="noopener noreferrer" className="project-card group block">{content}</a>;
 }

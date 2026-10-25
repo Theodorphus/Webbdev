@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { sharedOpenGraph } from "../lib/metadata";
 import { orter } from "./orter";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
 // Indexsida för de lokala landningssidorna. Utan den ger /webbutveckling 404
 // trots att undersidorna finns — dålig intern länkning och trasig brödsmula.
@@ -12,10 +12,11 @@ export const metadata: Metadata = {
     "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Snabba, moderna hemsidor i Next.js till fast pris — normalt 3–7 arbetsdagars bygge.",
   alternates: { canonical: "/webbutveckling" },
   openGraph: {
+    ...sharedOpenGraph(),
     title: "Webbutveckling i Västsverige — Webbdev Studio",
     description:
       "Webbutveckling för företag i Göteborg, Borås, Skövde och fler orter i Västsverige. Fast pris och personlig kontakt hela vägen.",
-    url: `${SITE_URL}/webbutveckling`,
+    url: "/webbutveckling",
   },
 };
 
@@ -23,16 +24,7 @@ export default function WebbutvecklingIndexPage() {
   return (
     <main className="relative min-h-screen overflow-x-hidden pt-28">
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
-        {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-foreground/70">
-            Hem
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <span className="text-muted">Webbutveckling</span>
-        </nav>
+        <Breadcrumbs items={[{ name: "Webbutveckling" }]} className="mb-8" />
 
         <h1 className="font-display max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
           Webbutveckling i Västsverige

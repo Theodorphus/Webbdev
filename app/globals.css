@@ -256,25 +256,6 @@ body {
   }
 }
 
-/* ── Eyebrow — sektionsetikett med ledande accent-streck ──── */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--accent-2);
-}
-.eyebrow::before {
-  content: "";
-  width: 1.6rem;
-  height: 1px;
-  flex-shrink: 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-}
-
 /* ── Spotlight cards (mouse-follow glow) ────────────────── */
 .card-spotlight {
   position: relative;

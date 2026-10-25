@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Breadcrumbs from "../components/Breadcrumbs";
+import CookieSettingsButton from "../components/CookieSettingsButton";
 import { business } from "../lib/business";
+import { sharedOpenGraph } from "../lib/metadata";
+
+// Uppdatera när policyns innehåll ändras (och samma datum i sitemap.ts).
+const UPDATED = "2026-10-25";
 
 export const metadata: Metadata = {
   // Layoutens title-template lägger till " | Webbdev Studio".
@@ -9,37 +14,29 @@ export const metadata: Metadata = {
     "Så hanterar Webbdev Studio dina personuppgifter enligt GDPR. Vilka uppgifter som samlas in, varför, och dina rättigheter.",
   alternates: { canonical: "/integritetspolicy" },
   robots: { index: true, follow: true },
+  openGraph: {
+    ...sharedOpenGraph(),
+    title: "Integritetspolicy — Webbdev Studio",
+    description: "Så hanterar Webbdev Studio dina personuppgifter enligt GDPR.",
+    url: "/integritetspolicy",
+  },
 };
-
-function IconBack() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 export default function IntegritetspolicyPage() {
   return (
     <main className="relative min-h-screen pt-28 pb-24">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      </div>
+      <div className="relative mx-auto max-w-3xl px-5 sm:px-8">
+        <Breadcrumbs items={[{ name: "Integritetspolicy" }]} />
 
-      <div className="relative mx-auto max-w-3xl px-6">
-        <Link
-          href="/"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent-light"
-        >
-          <span className="transition-transform group-hover:-translate-x-0.5"><IconBack /></span>
-          Tillbaka till startsidan
-        </Link>
-
-        <p className="mt-10 font-sans text-xs uppercase tracking-[0.1em] text-accent-light/60">Juridik</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+        <p className="studio-eyebrow mt-10">Juridik</p>
+        <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
           Integritetspolicy
         </h1>
         <p className="mt-4 text-sm text-muted">
-          Senast uppdaterad: {new Date().toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })}
+          Senast uppdaterad:{" "}
+          <time dateTime={UPDATED}>
+            {new Date(UPDATED).toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}
+          </time>
         </p>
 
         <div className="mt-12 space-y-10">
@@ -48,7 +45,7 @@ export default function IntegritetspolicyPage() {
               {business.name} (enskild firma, org.nr {business.registrationNumber}) är
               personuppgiftsansvarig för de uppgifter som behandlas via denna
               webbplats. Du når oss på{" "}
-              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light hover:text-accent-light">
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light underline underline-offset-2">
                 webbdevstudio@gmail.com
               </a>{" "}
               eller 070‑952 58 22.
@@ -57,7 +54,7 @@ export default function IntegritetspolicyPage() {
 
           <Section title="2. Vilka uppgifter vi samlar in">
             <p>
-              När du använder kontaktformuläret, demobyggaren, offertformuläret eller chatten
+              När du använder kontaktformuläret, demobyggaren eller chatten
               behandlar vi de uppgifter du själv anger:
             </p>
             <ul className="mt-3 space-y-2">
@@ -86,22 +83,27 @@ export default function IntegritetspolicyPage() {
             </p>
           </Section>
 
-          <Section title="Annonsmätning och cookies">
+          <Section title="3. Annonsmätning och cookies">
             <p>Om du godkänner annonsmätning laddar vi Google Ads för att mäta om annonser leder till kontaktförfrågningar. Google kan då använda cookies och behandla teknisk information om ditt besök och annonsklick. Vi skickar inte namn, e-postadress eller meddelanden från formuläret till Google.</p>
-            <p>Google-taggen laddas först efter ditt samtycke. Ditt val sparas lokalt i webbläsaren tills du ändrar det eller rensar webbplatsens data. Du kan när som helst ändra eller återkalla samtycket via Cookieinställningar längst ned till vänster. Återkallelse stoppar nya konverteringshändelser men tar inte bort uppgifter som redan skickats.</p>
-            <p>Läs mer om Googles behandling i <a className="underline" href="https://policies.google.com/privacy">Googles integritetspolicy</a>.</p>
+            <p>
+              Google-taggen laddas först efter ditt samtycke. Ditt val sparas lokalt i webbläsaren tills du ändrar det eller rensar webbplatsens data. Du kan när som helst ändra eller återkalla samtycket via{" "}
+              <CookieSettingsButton className="text-accent-light underline underline-offset-2">Cookieinställningar</CookieSettingsButton>
+              , som också finns längst ned på varje sida. Återkallelse stoppar nya konverteringshändelser men tar inte bort uppgifter som redan skickats.
+            </p>
+            <p>Läs mer om Googles behandling i <a className="underline underline-offset-2" href="https://policies.google.com/privacy">Googles integritetspolicy</a>.</p>
           </Section>
 
-          <Section title="3. Varför vi behandlar uppgifterna">
+          <Section title="4. Varför vi behandlar uppgifterna">
             <p>
               Kontaktuppgifter och meddelanden används för att besvara din
               förfrågan och för eventuell efterföljande kontakt om ett uppdrag.
               Den rättsliga grunden är vårt berättigade intresse av att kunna
               svara dig samt, vid ett uppdrag, fullgörande av avtal.
+              Annonsmätning sker endast med ditt samtycke.
             </p>
           </Section>
 
-          <Section title="4. Hur länge vi sparar uppgifterna">
+          <Section title="5. Hur länge vi sparar uppgifterna">
             <p>
               Vi sparar din förfrågan så länge det är nödvändigt för att hantera
               dialogen och eventuellt uppdrag. Leder kontakten inte till något
@@ -109,26 +111,35 @@ export default function IntegritetspolicyPage() {
             </p>
           </Section>
 
-          <Section title="5. Vem som får ta del av uppgifterna">
+          <Section title="6. Vem som får ta del av uppgifterna">
             <p>
               För drift och funktioner används Vercel för hosting och statistik,
-              Resend för e-post samt Anthropic för att generera svar i chatten.
-              Det du skriver i chatten skickas därför till Anthropic. Skicka inte
-              känsliga personuppgifter i formulären eller chatten.
+              Resend för att skicka e-post samt Anthropic för att generera svar
+              i chatten. Förfrågningar från formulären och chatten tas emot i
+              vår e-postinkorg hos Google (Gmail). Det du skriver i chatten
+              skickas till Anthropic. Skicka inte känsliga personuppgifter i
+              formulären eller chatten.
+            </p>
+            <p>
+              Leverantörerna är amerikanska företag, och uppgifterna kan därför
+              behandlas utanför EU/EES.
             </p>
           </Section>
 
-          <Section title="6. Dina rättigheter">
+          <Section title="7. Dina rättigheter">
             <p>Enligt GDPR har du rätt att:</p>
             <ul className="mt-3 space-y-2">
               <Li>Begära ett utdrag över de uppgifter vi har om dig</Li>
               <Li>Få felaktiga uppgifter rättade</Li>
               <Li>Begära att dina uppgifter raderas</Li>
+              <Li>Begära att behandlingen begränsas</Li>
               <Li>Invända mot behandlingen</Li>
+              <Li>Få ut uppgifter du lämnat i ett maskinläsbart format (dataportabilitet)</Li>
+              <Li>När som helst återkalla ett samtycke, till exempel till annonsmätning</Li>
             </ul>
             <p className="mt-3">
               Kontakta oss på{" "}
-              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light hover:text-accent-light">
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light underline underline-offset-2">
                 webbdevstudio@gmail.com
               </a>{" "}
               så hjälper vi dig. Du har även rätt att lämna klagomål till
@@ -144,7 +155,7 @@ export default function IntegritetspolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-bold text-foreground/90">{title}</h2>
+      <h2 className="font-display text-lg font-bold text-foreground/90">{title}</h2>
       <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted">{children}</div>
     </section>
   );

@@ -288,7 +288,7 @@ export default function Home({ lang }: { lang: Lang }) {
             </h2>
             <p className="mt-[22px] max-w-[22rem] text-[15px] leading-[1.65] text-foreground/70">
               {t.faqIntro.text1}{' '}
-              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light transition-colors hover:text-accent-light">
+              <a href="mailto:webbdevstudio@gmail.com" className="text-accent-light underline underline-offset-2 transition-colors hover:text-foreground">
                 {t.faqIntro.mejla}
               </a>{' '}
               {t.faqIntro.text2}

@@ -3,10 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import BeforeAfter from '../../components/BeforeAfter';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CaseCta from '../../components/CaseCta';
 import ImageViewer from '../../components/ImageViewer';
 import MobileProjects from '../../components/MobileProjects';
 import { dictionary } from '../../i18n/dictionary';
+import { sharedOpenGraph } from '../../lib/metadata';
 import { customerCases, getCustomerCase } from '../cases';
 
 export const dynamicParams = false;
@@ -14,7 +16,7 @@ export function generateStaticParams() { return customerCases.map(item => ({ slu
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const item = getCustomerCase((await params).slug);
   if (!item) notFound();
-  return { title: `${item.name} – kundcase`, description: item.intro, alternates: { canonical: `/portfolio/${item.slug}` }, openGraph: { title: `${item.name} – Webbdev Studio`, description: item.intro, url: `/portfolio/${item.slug}`, images: [{ url: item.image }] } };
+  return { title: `${item.name} – kundcase`, description: item.intro, alternates: { canonical: `/portfolio/${item.slug}` }, openGraph: { ...sharedOpenGraph(), title: `${item.name} – Webbdev Studio`, description: item.intro, url: `/portfolio/${item.slug}`, images: [{ url: item.image, width: item.imageWidth, height: item.imageHeight, alt: item.name }] } };
 }
 
 const gallery = [
@@ -30,7 +32,7 @@ export default async function CustomerCasePage({ params }: { params: Promise<{ s
   const nextCase = customerCases.find(candidate => candidate.slug !== item.slug)!;
   const review = dictionary.sv.recensioner.lista.find(review => review.namn === 'Veronika Wildkull');
   return <main className="mx-auto max-w-[80rem] px-5 pb-24 pt-28 sm:px-8">
-    <Link href="/portfolio" className="text-sm text-muted hover:text-foreground">← Alla projekt</Link>
+    <Breadcrumbs items={[{ name: 'Portfolio', href: '/portfolio' }, { name: item.name }]} />
     <div className="mb-12 mt-10 max-w-4xl"><p className="font-sans text-xs uppercase tracking-widest text-accent-light">{item.category}</p><p className="mt-5 text-lg text-muted">{item.name}</p><h1 className="font-display mt-3 text-[clamp(32px,4.6vw,60px)] font-bold leading-[1.08]">{item.title}</h1><p className="mt-6 max-w-3xl text-base leading-relaxed text-muted">{item.intro}</p></div>
     <dl className="mb-12 grid gap-6 border-y border-foreground/10 py-6 sm:grid-cols-3">
       <div><dt className="text-xs text-muted">Verksamhet</dt><dd className="mt-2 text-sm font-medium">{cement ? 'Byggmaterial och maskinuthyrning' : 'Lönehantering och rådgivning'}</dd></div>

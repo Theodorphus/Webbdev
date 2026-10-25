@@ -72,6 +72,9 @@ export async function POST(req: Request) {
 
   const cleanName = name.trim();
   const cleanContact = contact.trim();
+  if (!cleanName || !cleanContact) {
+    return NextResponse.json({ error: 'Namn och kontaktuppgift krävs.' }, { status: 400 });
+  }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -117,5 +120,7 @@ export async function POST(req: Request) {
   }
 
   console.log('Lead email sent:', data?.id);
-  return NextResponse.json({ ok: true });
+  // conversionId ges bara för riktiga leads (inte honeypot) — klienten
+  // använder det som transaction_id i Google Ads.
+  return NextResponse.json({ ok: true, conversionId: crypto.randomUUID() });
 }

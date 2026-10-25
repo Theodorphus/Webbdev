@@ -3,10 +3,13 @@
 import Link from 'next/link';
 import { localizedHref } from '../i18n/routes';
 import { Reveal } from '../components/animations/Motion';
+import Breadcrumbs from '../components/Breadcrumbs';
 import PriceTerms from '../components/PriceTerms';
 import PriceCalculator from '../components/PriceCalculator';
 import { useLang } from '../i18n/LanguageProvider';
 import { packageIds } from '../lib/packages';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.webbdev.se';
 
 function IconArrow() {
   return (
@@ -16,33 +19,44 @@ function IconArrow() {
   );
 }
 
-function IconBack() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 export default function PriserContent() {
   const { t, lang } = useLang();
 
+  // Paketen som erbjudanden. Beloppet läses ur prissträngen ("6 000+ kr"),
+  // så schemat följer automatiskt med om priserna ändras i ordboken.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: lang === 'sv' ? 'Webbdesign och webbutveckling' : 'Web design and development',
+    url: `${SITE_URL}${localizedHref('/priser', lang)}`,
+    provider: { '@type': 'ProfessionalService', name: 'Webbdev Studio', url: SITE_URL },
+    offers: t.priser.paket.map((p) => {
+      const amount = Number(p.pris.replace(/\D/g, ''));
+      return {
+        '@type': 'Offer',
+        name: p.tier,
+        description: p.desc,
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          ...(p.pris.includes('+') ? { minPrice: amount } : { price: amount }),
+          priceCurrency: 'SEK',
+          valueAddedTaxIncluded: false,
+        },
+      };
+    }),
+  };
+
   return (
     <main className="relative overflow-x-hidden pb-32 pt-28">
-      <div className="mx-auto max-w-[80rem] px-8">
-        {/* Tillbaka-länk */}
-        <Link
-          href={localizedHref("/", lang)}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent-light"
-        >
-          <span className="transition-transform group-hover:-translate-x-0.5">
-            <IconBack />
-          </span>
-          {t.priserSida.tillbaka}
-        </Link>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
+        <Breadcrumbs lang={lang} items={[{ name: t.priser.etikett }]} />
 
         {/* Sidhuvud */}
-        <Reveal className="mt-14 max-w-[46rem]">
+        <Reveal className="mt-12 max-w-[46rem]">
           <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
             {t.priser.etikett}
           </span>
@@ -75,7 +89,7 @@ export default function PriserContent() {
                       {p.tier}
                     </span>
                     {p.populer && (
-                      <span className="rounded-full border border-[rgba(166,79,56,0.45)] bg-[rgba(166,79,56,0.18)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent-light">
+                      <span className="rounded-full border border-accent/40 bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent-light">
                         {t.priser2.badge}
                       </span>
                     )}
@@ -119,7 +133,7 @@ export default function PriserContent() {
         <Reveal>
           <p className="mt-3 text-center text-[13.5px] text-muted">
             {t.priser2.osaker1}{' '}
-            <Link href={localizedHref("/#kontakt", lang)} className="font-medium text-accent-light transition-colors hover:text-accent-light">
+            <Link href={localizedHref("/#kontakt", lang)} className="font-medium text-accent-light underline underline-offset-2 transition-colors hover:text-foreground">
               {t.priser2.osakerCta}
             </Link>{' '}
             {t.priser2.osaker2}
@@ -131,7 +145,7 @@ export default function PriserContent() {
         <PriceCalculator />
 
         {/* Avslutande CTA */}
-        <Reveal className="mt-[120px] rounded-2xl border border-foreground/[0.09] bg-surface px-8 py-14 text-center">
+        <Reveal className="mt-[120px] rounded-2xl border border-foreground/[0.09] bg-surface px-6 py-14 text-center sm:px-8">
           <h2 className="font-display text-[clamp(26px,3vw,36px)] font-bold tracking-[-0.02em] text-foreground">
             {t.priserSida.ctaRubrik}
           </h2>

@@ -6,6 +6,7 @@ import DemoPreview from './DemoPreview';
 import { DRAFT_KEY, designHash, industries, initialDesign, needs, palettes, parseDesign, styles, type Design } from './demo-model';
 import css from './demo.module.css';
 import { trackConversion } from '../lib/analytics';
+import { trackGoogleAdsContact } from '../lib/googleAds';
 
 const steps = ['Företag', 'Uttryck', 'Innehåll', 'Din demo'];
 const inputClass = 'mt-2 w-full rounded-xl border border-foreground/15 bg-surface px-3.5 py-3 text-sm text-foreground placeholder:text-muted focus:border-accent-light';
@@ -152,6 +153,8 @@ export default function DemoContent() {
         }),
       });
       if (!response.ok) throw new Error(response.status === 429 ? 'Du har skickat flera förfrågningar. Vänta en stund och försök igen.' : 'Det gick inte att skicka just nu. Försök igen eller mejla webbdevstudio@gmail.com.');
+      const result = await response.json().catch(() => null);
+      if (typeof result?.conversionId === 'string') trackGoogleAdsContact(result.conversionId);
       try { localStorage.removeItem(DRAFT_KEY); } catch { /* Best effort. */ }
       setSaveMessage('Din förfrågan är skickad och det lokala utkastet är rensat.');
       setStatus('success');

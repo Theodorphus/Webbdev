@@ -2,7 +2,7 @@ export const customerCases = [
   {
     slug: 'ockerocement', name: 'Öckerö Cementgjuteri', category: 'Byggmaterial · Före & efter',
     title: 'Från bildtung startsida till en tydlig väg in i sortimentet.',
-    intro: 'En uppdaterad webbplats för byggmaterial, betong och maskinuthyrning i Göteborgs skärgård. Här visar vi förändringen i första intryck, produktöversikt och kontaktvägar.',
+    intro: 'En uppdaterad webbplats för byggmaterial, betong och maskinuthyrning i Göteborgs skärgård. Här visar jag förändringen i första intryck, produktöversikt och kontaktvägar.',
     image: '/work/cases/cement-after-home.webp', imageWidth: 1600, imageHeight: 743,
     url: 'https://www.ockerocement.se/',
     focus: 'Göra det tydligt vad företaget erbjuder och hjälpa besökaren vidare till produkter eller kontakt redan från första skärmen.',

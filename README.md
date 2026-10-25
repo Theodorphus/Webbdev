@@ -50,13 +50,16 @@ code to activate it on the live website.
 Consent uses basic mode: the queue is initialized with denied defaults, but the
 Google script/config is loaded only after accepting advertising measurement.
 Rejecting means no Google network requests on a fresh visit. The choice persists
-in localStorage and can be changed with Cookieinställningar. Analytics storage
-and ad personalization remain denied. Existing Vercel Analytics is separate.
+in localStorage and can be changed with the Cookieinställningar link in the
+footer and on the privacy policy page. Analytics storage and ad personalization
+remain denied. Existing Vercel Analytics is separate.
 
-Only a successful `/api/contact` response with a server-generated `conversionId`
-triggers the Ads event, with that ID as `transaction_id`. Validation failures,
-rate limits, mail errors and honeypot submissions do not trigger a conversion.
-Form contents are never added to the event. Events before consent are not replayed.
+The same Ads conversion is sent for all three enquiry flows: the contact form and
+the free demo (both `/api/contact`) and chat leads (`/api/lead`). Only a
+successful response with a server-generated `conversionId` triggers the event,
+with that ID as `transaction_id`. Validation failures, rate limits, mail errors
+and honeypot submissions do not trigger a conversion. Form contents are never
+added to the event. Events before consent are not replayed.
 
 Production verification (after deployment):
 

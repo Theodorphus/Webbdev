@@ -45,14 +45,11 @@ export const dictionary = {
       cta: 'Se tjänster & varför byta',
     },
     tjansterSida: {
-      tillbaka: 'Tillbaka till startsidan',
       cta: 'Berätta om ditt projekt',
     },
     // ── Premium-redesignen (Claude Design-handoff) ──────────
     nav2: {
       demo: 'Gratis demo',
-      arbete: 'Utvalda projekt',
-      process: 'Process',
       priser: 'Priser',
       om: 'Om mig',
       cta: 'Berätta om ditt projekt',
@@ -94,10 +91,9 @@ export const dictionary = {
       },
     },
     portfolioSida: {
-      tillbaka: 'Tillbaka till startsidan',
       etikett: 'Portfolio',
       rubrik: 'Sajter jag har byggt',
-      ingress: 'Kundprojekt från 2023 och framåt — e-handel, plattformar och företagswebbplatser. Hovra över en preview för att se mer av sajten, klicka för att öppna den på riktigt.',
+      ingress: 'Kundprojekt från 2023 och framåt — e-handel, plattformar och företagswebbplatser. Klicka på ett projekt för att läsa kundcaset eller besöka sajten.',
       utvalda: 'Utvalda projekt',
       fler: 'Fler projekt',
       resultat: 'Resultat',
@@ -129,7 +125,6 @@ export const dictionary = {
       osaker2: '— jag rekommenderar rätt nivå för just ditt företag.',
     },
     priserSida: {
-      tillbaka: 'Tillbaka till startsidan',
       ingress: 'Tre paket som täcker det mesta — plus en kalkylator som ger dig ett prisintervall direkt. Inga dolda kostnader, och alltid en tydlig offert innan arbetet börjar.',
       ctaRubrik: 'Vet du redan vad du behöver?',
       ctaText: 'Jag återkommer inom 24 timmar med frågor och förslag på nästa steg. Du förbinder dig inte till något.',
@@ -176,9 +171,9 @@ export const dictionary = {
       rubrik: 'Kostar din gamla hemsida affärer?',
       items: [
         { label: 'Gör det svårare att få förfrågningar', desc: 'Om erbjudandet och nästa steg är otydliga kan besökaren lämna sidan utan att ta kontakt.' },
-        { label: 'Förvirrande UX', desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
+        { label: 'Svår att navigera', desc: 'Dålig navigation gör att kunder inte hittar det de söker och går till konkurrenten.' },
         { label: 'Ser oprofessionell ut', desc: 'En daterad design signalerar att du inte håller dig uppdaterad och skrämmer bort kunder.' },
-        { label: 'Dålig laddtid', desc: 'Tunga bilder och onödig kod kan göra sidan långsam. Vi ser över vad som faktiskt behöver laddas.' },
+        { label: 'Dålig laddtid', desc: 'Tunga bilder och onödig kod kan göra sidan långsam. Jag ser över vad som faktiskt behöver laddas.' },
         { label: 'Inte mobilvänlig', desc: 'Små knappar och svårläst innehåll gör det onödigt svårt att använda sidan på mobilen.' },
         { label: 'Syns inte på Google', desc: 'Otydliga rubriker och bristande sidstruktur kan göra det svårare för sökmotorer att förstå innehållet.' },
       ],
@@ -192,7 +187,7 @@ export const dictionary = {
         { title: 'Uppdatera innehållet själv', desc: 'Hantera allt innehåll själv via ett modernt gränssnitt — ingen kod krävs.', tag: 'CMS' },
         { title: 'Lätt att hitta och använda', desc: 'Tydlig sidstruktur, rubriker och metadata som sökmotorer förstår, optimerade bilder och kontroll av prestanda före lansering. Sökplaceringar kan inte garanteras.', tag: 'SEO' },
         { title: 'Ett uttryck som passar dig', desc: 'En design som speglar ditt varumärke och gör det enkelt för besökaren att ta nästa steg.', tag: 'Design' },
-        { title: 'Sälj och ta betalt online', desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.', tag: 'E-commerce' },
+        { title: 'Sälj och ta betalt online', desc: 'Säker e-handel med Stripe. Sälj produkter eller tjänster direkt från hemsidan.', tag: 'E-handel' },
         { title: 'Fast pris', desc: 'En fast offert för överenskommen omfattning. Nya önskemål prissätts och godkänns separat.', tag: 'Pris' },
         { title: '3–7 dagars leverans', desc: 'Normalt 3–7 arbetsdagar från godkänd design och komplett material. Tidsplanen anpassas efter omfattning.', tag: 'Leverans' },
       ],
@@ -300,8 +295,8 @@ export const dictionary = {
       skicka: 'Skicka förfrågan',
       risk: 'Inget köptvång · Svar inom 24h · Du äger allt',
       mejlFraga: 'Föredrar du mejl?',
-      gdpr1: 'Genom att skicka godkänner du att vi behandlar dina uppgifter enligt vår',
-      gdpr2: 'integritetspolicy',
+      gdpr1: 'Jag använder dina uppgifter för att besvara förfrågan. Läs mer i',
+      gdpr2: 'integritetspolicyn',
     },
     footer: {
       tagline: 'Modern webbutveckling för företag — snabba, konverteringsoptimerade hemsidor.',
@@ -325,6 +320,7 @@ export const dictionary = {
       placeholder: 'Skriv ett meddelande...',
       skicka: 'Skicka',
       fel: 'Något gick fel — försök igen om en stund.',
+      pausad: 'Chatten tar paus en stund. Försök igen senare eller använd kontaktformuläret.',
       rensa: 'Rensa chatten',
       friskrivning: 'AI via Anthropic — skriv inte känsliga uppgifter. Svar kan innehålla fel.',
       snabbsvar: [
@@ -390,14 +386,11 @@ export const dictionary = {
       cta: 'See services & why switch',
     },
     tjansterSida: {
-      tillbaka: 'Back to the homepage',
       cta: 'Tell me about your project',
     },
     // ── Premium redesign (Claude Design handoff) ────────────
     nav2: {
       demo: 'Demo (Swedish)',
-      arbete: 'Selected work',
-      process: 'Process',
       priser: 'Pricing',
       om: 'About',
       cta: 'Tell me about your project',
@@ -437,10 +430,9 @@ export const dictionary = {
       },
     },
     portfolioSida: {
-      tillbaka: 'Back to the homepage',
       etikett: 'Portfolio',
       rubrik: 'Sites I have built',
-      ingress: 'Client projects from 2023 onwards — e-commerce, platforms and corporate websites. Hover a preview to see more of the site, click to open the real thing.',
+      ingress: 'Client projects from 2023 onwards — e-commerce, platforms and corporate websites. Click a project to read the case study or visit the site.',
       utvalda: 'Selected work',
       fler: 'More projects',
       resultat: 'Result',
@@ -472,7 +464,6 @@ export const dictionary = {
       osaker2: '— I’ll recommend the right level for your business.',
     },
     priserSida: {
-      tillbaka: 'Back to the homepage',
       ingress: 'Three packages that cover most needs — plus a calculator that gives you a price range right away. No hidden costs, and always a clear quote before work begins.',
       ctaRubrik: 'Already know what you need?',
       ctaText: 'I’ll reply within 24 hours with questions and suggested next steps. There is no obligation.',
@@ -519,9 +510,9 @@ export const dictionary = {
       rubrik: 'Is your old website costing you business?',
       items: [
         { label: 'Makes enquiries harder', desc: 'If your offer and the next step are unclear, visitors may leave without getting in touch.' },
-        { label: 'Confusing UX', desc: "Poor navigation means customers can't find what they're looking for and go to a competitor." },
+        { label: 'Hard to navigate', desc: "Poor navigation means customers can't find what they're looking for and go to a competitor." },
         { label: 'Looks unprofessional', desc: 'A dated design signals that you are out of touch and scares customers away.' },
-        { label: 'Slow load times', desc: 'Heavy images and unnecessary code can slow a site down. We review what actually needs to load.' },
+        { label: 'Slow load times', desc: 'Heavy images and unnecessary code can slow a site down. I review what actually needs to load.' },
         { label: 'Not mobile friendly', desc: 'Small buttons and hard-to-read content make a website difficult to use on a phone.' },
         { label: 'Invisible on Google', desc: 'Clear headings and page structure help search engines understand your content.' },
       ],
@@ -644,7 +635,7 @@ export const dictionary = {
       skicka: 'Send your free request',
       risk: 'No obligation · Reply within 24h · You own everything',
       mejlFraga: 'Prefer email?',
-      gdpr1: 'By submitting, you agree that we process your data according to our',
+      gdpr1: 'I use your details to reply to your enquiry. Read more in the',
       gdpr2: 'privacy policy (Swedish)',
     },
     footer: {
@@ -669,6 +660,7 @@ export const dictionary = {
       placeholder: 'Type a message...',
       skicka: 'Send',
       fel: 'Something went wrong — please try again in a moment.',
+      pausad: 'The chat is taking a short break. Please try again later or use the contact form.',
       rensa: 'Clear chat',
       friskrivning: 'AI via Anthropic — do not share sensitive data. Responses may contain errors.',
       snabbsvar: [

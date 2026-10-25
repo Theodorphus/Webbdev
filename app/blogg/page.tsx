@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { sharedOpenGraph } from "../lib/metadata";
 import { posts } from "./posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
@@ -10,10 +12,11 @@ export const metadata: Metadata = {
     "Guider och tips om hemsidor, webbutveckling, SEO och pris. Lär dig vad som gör en hemsida snabb, synlig på Google och lönsam för ditt företag.",
   alternates: { canonical: "/blogg" },
   openGraph: {
+    ...sharedOpenGraph(),
     title: "Blogg — Webbdev Studio",
     description:
       "Guider och tips om hemsidor, webbutveckling, SEO och pris för företag.",
-    url: `${SITE_URL}/blogg`,
+    url: "/blogg",
   },
 };
 
@@ -51,20 +54,10 @@ export default function BloggIndex() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
-
       <div className="relative mx-auto max-w-4xl px-6 pb-24">
-        {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-foreground/70">
-            Hem
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <span className="text-muted">Blogg</span>
-        </nav>
+        <Breadcrumbs items={[{ name: "Blogg" }]} className="mb-8" />
 
-        <p className="eyebrow">Blogg</p>
+        <p className="studio-eyebrow">Blogg</p>
         <h1 className="font-display mt-3 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
           Guider om hemsidor & webbutveckling
         </h1>

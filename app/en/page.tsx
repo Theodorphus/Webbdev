@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Home from '../components/Home';
+import { sharedOpenGraph } from '../lib/metadata';
 
 // Engelsk version av startsidan. Samma sida, men routen sätter språket till
 // 'en' och får egna engelska metadata + canonical/hreflang.
@@ -13,6 +14,12 @@ export const metadata: Metadata = {
       'sv-SE': '/',
       'en-US': '/en',
     },
+  },
+  openGraph: {
+    ...sharedOpenGraph('en'),
+    title: 'Web Design & Development in Gothenburg — Webbdev Studio',
+    description: 'Thoughtful websites for businesses ready to grow. Personal contact from the first sketch to launch, with a fixed price for the agreed scope.',
+    url: '/en',
   },
 };
 

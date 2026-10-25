@@ -2,6 +2,14 @@ export const GOOGLE_ADS_ID = 'AW-18237659170';
 export const ADS_CONSENT_KEY = 'webbdev.ads-consent.v1';
 const conversionLabel = 'XZ4aCMWl2sMcEKKwsvhD';
 
+// Länkarna "Cookieinställningar" (footer, integritetspolicy) öppnar
+// samtyckesrutan i <GoogleAds> via den här händelsen.
+export const COOKIE_SETTINGS_EVENT = 'webbdev:cookie-settings';
+
+export function openCookieSettings() {
+  window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT));
+}
+
 type Gtag = (...args: unknown[]) => void;
 declare global {
   interface Window {

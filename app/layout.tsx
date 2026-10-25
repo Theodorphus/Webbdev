@@ -6,6 +6,7 @@ import SiteShell from "./components/SiteShell";
 import DeferredWidgets from "./components/DeferredWidgets";
 import "./globals.css";
 import { themeInitScript } from "./lib/theme";
+import { sharedOpenGraph } from "./lib/metadata";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 
@@ -50,7 +51,16 @@ export const metadata: Metadata = {
       "en-US": "/en",
     },
   },
-  // Statisk OG-bild finns i app/opengraph-image.jpg (1200×630).
+  // Statisk OG-bild finns i app/opengraph-image.jpg (1200×630). Sidor som
+  // sätter egen openGraph sprider in sharedOpenGraph() för att behålla den.
+  openGraph: {
+    ...sharedOpenGraph(),
+    title: "Webbutveckling i Göteborg — Webbdev Studio",
+    description:
+      "Genomtänkt webbdesign och webbutveckling i Göteborg. Personlig kontakt från första skiss till lansering och fast pris för överenskommen omfattning.",
+    url: "/",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {

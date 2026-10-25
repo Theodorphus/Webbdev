@@ -89,7 +89,7 @@ export default function PriceCalculator() {
       <div className="relative grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
         {/* Vänster: val */}
         <div>
-          <p className="eyebrow">{c.etikett}</p>
+          <p className="studio-eyebrow">{c.etikett}</p>
           <h3 className="font-display mt-2 text-2xl font-bold text-foreground md:text-3xl">{c.rubrik}</h3>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">{c.ingress}</p>
 
@@ -178,11 +178,12 @@ export default function PriceCalculator() {
 
         {/* Höger: resultat */}
         <div className="flex flex-col justify-center rounded-2xl border border-foreground/[0.08] bg-surface-raised p-6 sm:p-7">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-light/80">{c.resultatLabel}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent-light">{c.resultatLabel}</p>
+          {/* Varje belopp hålls ihop så att "kr" aldrig hamnar ensamt på en ny rad. */}
           <p className="font-display mt-2 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
-            {formatPrice(low, lang)}
+            <span className="whitespace-nowrap">{formatPrice(low, lang)}</span>
             <span className="mx-1.5 text-muted">–</span>
-            {formatPrice(high, lang)}
+            <span className="whitespace-nowrap">{formatPrice(high, lang)}</span>
           </p>
           <p className="mt-3 text-xs leading-relaxed text-muted">{c.resultatNote}</p>
           <p className="mt-2 text-xs text-accent-light">{priceTerms[lang].vat}</p>

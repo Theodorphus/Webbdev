@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { sharedOpenGraph } from "../../lib/metadata";
 import { posts, getPost } from "../posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
@@ -24,12 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.description,
     alternates: { canonical: `/blogg/${post.slug}` },
     openGraph: {
+      ...sharedOpenGraph(),
       type: "article",
       title: `${post.title} — Webbdev Studio`,
       description: post.description,
-      url: `${SITE_URL}/blogg/${post.slug}`,
+      url: `/blogg/${post.slug}`,
       publishedTime: post.published,
-      images: [{ url: `${SITE_URL}/opengraph-image.jpg`, width: 1200, height: 630 }],
+      modifiedTime: post.updated ?? post.published,
+      authors: ["Theo Håkansson"],
     },
   };
 }
@@ -80,36 +84,13 @@ export default async function BlogPost({ params }: Props) {
       />
 
       <article className="relative mx-auto max-w-3xl px-6 pb-24">
-        {/* Brödsmula */}
-        <nav className="mb-8 text-xs text-muted" aria-label="Brödsmula">
-          <Link href="/" className="transition-colors hover:text-foreground/70">
-            Hem
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <Link href="/blogg" className="transition-colors hover:text-foreground/70">
-            Blogg
-          </Link>
-          <span className="mx-2" aria-hidden>
-            /
-          </span>
-          <span className="text-muted">{post.tag}</span>
-        </nav>
+        <Breadcrumbs items={[{ name: "Blogg", href: "/blogg" }, { name: post.title }]} className="mb-8" />
 
         {/* Rubrik + meta */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-muted">
           <span className="rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 font-sans text-accent-light">
             {post.tag}
           </span>
-          <time dateTime={post.published}>{formatDate(post.published)}</time>
-          {post.updated && (
-            <>
-              <span aria-hidden>·</span>
-              <span>Uppdaterad <time dateTime={post.updated}>{formatDate(post.updated)}</time></span>
-            </>
-          )}
-          <span aria-hidden>·</span>
           <span>{post.readingMinutes} min läsning</span>
         </div>
         <h1 className="font-display mt-5 text-4xl font-bold leading-[1.12] tracking-tight text-foreground sm:text-5xl">
@@ -124,6 +105,13 @@ export default async function BlogPost({ params }: Props) {
             Theo Håkansson
           </Link>
           , webbutvecklare i Göteborg
+        </p>
+        {/* Löptext i stället för en flexrad — då hamnar inga ensamma skiljetecken sist på raden. */}
+        <p className="mt-1 text-xs text-muted">
+          Publicerad <time dateTime={post.published}>{formatDate(post.published)}</time>
+          {post.updated && (
+            <>, uppdaterad <time dateTime={post.updated}>{formatDate(post.updated)}</time></>
+          )}
         </p>
 
         {/* Brödtext */}

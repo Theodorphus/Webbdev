@@ -12,13 +12,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.webbdev.se";
 const updated = {
   home: "2026-10-25",
   tjanster: "2026-10-25",
-  portfolio: "2026-09-20",
-  priser: "2026-09-20",
+  portfolio: "2026-10-25",
+  priser: "2026-10-25",
   gratisDemo: "2026-09-20",
   webbutveckling: "2026-10-25",
   orter: "2026-10-25",
-  cases: "2026-09-18",
-  integritetspolicy: "2026-10-02",
+  cases: "2026-10-25",
+  integritetspolicy: "2026-10-25",
 } as const;
 
 type Entry = MetadataRoute.Sitemap[number];
