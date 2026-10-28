@@ -71,6 +71,14 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: 'prolink',
+    namn: 'Prolink',
+    url: 'https://www.prolink.se/',
+    img: '/work/prolink.webp',
+    tech: ['Next.js', 'Supabase', 'Vercel'],
+    featured: false,
+  },
+  {
     slug: 'konstbyte',
     namn: 'Konstbyte',
     url: 'https://www.konstbyte.se/',
