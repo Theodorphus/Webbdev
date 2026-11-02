@@ -3,13 +3,13 @@ import Link from 'next/link';
 import { faqByLang } from '../faq';
 import { Reveal } from './animations/Motion';
 import HeroProject from './HeroProject';
+import ClientMarquee from './ClientMarquee';
 import QualityChecklist from './QualityChecklist';
 import ReviewCarousel from './ReviewCarousel';
 import { localizedHref } from '../i18n/routes';
 import ContactForm from './ContactForm';
 import StickyCta from './StickyCta';
-import { projects } from '../portfolio/projects';
-import { ProjectCard } from './ProjectPreview';
+import SelectedWork from './SelectedWork';
 import { LanguageProvider } from '../i18n/LanguageProvider';
 import { dictionary, type Lang } from '../i18n/dictionary';
 import { getHomeSchema } from '../lib/homeSchema';
@@ -33,8 +33,6 @@ function Star() {
     </svg>
   );
 }
-
-const selectedProjects = ['wildkull', 'ockerocement', 'swedensweet'].map(slug => projects.find(project => project.slug === slug)!);
 
 const GOOGLE_REVIEWS_URL = 'https://g.page/r/CVBdAbJ_4hdSEAE';
 
@@ -75,6 +73,8 @@ export default function Home({ lang }: { lang: Lang }) {
         </div>
       </section>
 
+      <ClientMarquee lang={lang} />
+
       <section className="home-testimonial" aria-label={lang === 'sv' ? 'Kundomdöme' : 'Client testimonial'}>
         <div className="studio-container testimonial-layout">
           <p className="studio-eyebrow">{lang === 'sv' ? 'Förtroende som förtjänas' : 'Trust, earned'}</p>
@@ -86,27 +86,15 @@ export default function Home({ lang }: { lang: Lang }) {
       <section id="arbete" className="py-20 md:py-28">
         <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
           <Reveal className="mb-10 flex flex-wrap items-baseline justify-between gap-4 md:mb-14">
-            <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold tracking-[-0.03em] text-foreground">
+            <h2 className="font-display text-[clamp(44px,6vw,84px)] font-semibold tracking-[-0.03em] text-foreground">
               {t.arbete.rubrik}
             </h2>
-            <span className="font-sans text-xs uppercase tracking-[0.1em] text-foreground/70">
+            <span className="font-sans text-sm font-medium text-foreground/70">
               {t.arbete.period}
             </span>
           </Reveal>
 
-          {/* De utvalda — stora kort med webbläsarram och preview */}
-          <div className="selected-work-grid">
-            {selectedProjects.map((p, index) => (
-              <Reveal key={p.slug} className={index === 0 ? 'selected-work-featured' : undefined}>
-                <ProjectCard
-                caseLabel={lang === "sv" ? "Läs kundcaset" : "Read the case study (Swedish)"}
-                  project={p}
-                  text={t.arbete.projekt[p.slug]}
-                  besok={t.arbete.besok}
-                />
-              </Reveal>
-            ))}
-          </div>
+          <SelectedWork lang={lang} />
 
           <Reveal className="mt-12 flex flex-wrap items-center justify-center gap-6">
             <Link
@@ -128,10 +116,10 @@ export default function Home({ lang }: { lang: Lang }) {
       <section id="process" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+            <span className="font-sans text-sm font-medium text-accent-light">
               {t.processIntro.etikett}
             </span>
-            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
+            <h2 className="font-display mt-4 text-[clamp(38px,4.8vw,64px)] font-semibold leading-[1] tracking-[-0.04em] text-foreground">
               {t.processIntro.rubrik}
             </h2>
             <p className="mt-[22px] max-w-[24rem] text-[15.5px] leading-[1.65] text-foreground/70 [text-wrap:pretty]">
@@ -146,6 +134,7 @@ export default function Home({ lang }: { lang: Lang }) {
             </a>
           </Reveal>
           <div>
+            <div className="process-steps">
             {t.process.steg.map((steg, i) => (
               <Reveal key={steg.title}>
                 <div className="grid grid-cols-[36px_minmax(0,1fr)] items-start gap-5 border-b border-foreground/[0.07] py-6 sm:grid-cols-[64px_minmax(0,1fr)] sm:py-8">
@@ -163,6 +152,7 @@ export default function Home({ lang }: { lang: Lang }) {
                 </div>
               </Reveal>
             ))}
+            </div>
             <QualityChecklist lang={lang} />
           </div>
         </div>
@@ -193,7 +183,7 @@ export default function Home({ lang }: { lang: Lang }) {
       <section className="border-t border-foreground/[0.07] py-[88px]">
         <div className="mx-auto flex max-w-[80rem] flex-col items-center gap-8 px-5 sm:px-8 text-center md:flex-row md:justify-between md:gap-12 md:text-left">
           <Reveal>
-            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+            <span className="font-sans text-sm font-medium text-accent-light">
               {t.priser.etikett}
             </span>
             <h2 className="font-display mt-3.5 text-[clamp(26px,3vw,36px)] font-bold leading-[1.1] tracking-[-0.02em] text-foreground">
@@ -221,10 +211,10 @@ export default function Home({ lang }: { lang: Lang }) {
       <section id="om" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+            <span className="font-sans text-sm font-medium text-accent-light">
               {t.omMig.etikett}
             </span>
-            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
+            <h2 className="font-display mt-4 text-[clamp(38px,4.8vw,64px)] font-semibold leading-[1] tracking-[-0.04em] text-foreground">
               {t.omMig2.rubrik}
             </h2>
             <div className="mt-8 flex flex-wrap items-center gap-4 sm:flex-col sm:items-start sm:gap-5">
@@ -238,7 +228,7 @@ export default function Home({ lang }: { lang: Lang }) {
               />
               <p className="flex flex-col gap-1">
                 <span className="font-display text-[17px] font-semibold text-foreground">Theo Håkansson</span>
-                <span className="font-sans text-xs uppercase tracking-[0.1em] text-foreground/70">
+                <span className="font-sans text-sm font-medium text-foreground/70">
                   {t.omMig2.roll}
                 </span>
               </p>
@@ -263,7 +253,7 @@ export default function Home({ lang }: { lang: Lang }) {
               {t.omMig.fakta.map((row) => (
                 <Reveal key={row.label} className="flex">
                   <div className="flex w-full flex-col rounded-2xl border border-foreground/[0.08] bg-surface px-7 py-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/[0.16]">
-                    <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+                    <span className="font-sans text-sm font-medium text-accent-light">
                       {row.label}
                     </span>
                     <span className="mt-1.5 text-[15px] font-medium text-foreground/90">{row.value}</span>
@@ -280,10 +270,10 @@ export default function Home({ lang }: { lang: Lang }) {
       <section id="faq" className="border-t border-foreground/[0.07] py-20 md:py-28">
         <div className="mx-auto grid max-w-[80rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
           <Reveal className="lg:sticky lg:top-[120px]">
-            <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+            <span className="font-sans text-sm font-medium text-accent-light">
               {t.faqIntro.etikett}
             </span>
-            <h2 className="font-display mt-4 text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
+            <h2 className="font-display mt-4 text-[clamp(38px,4.8vw,64px)] font-semibold leading-[1] tracking-[-0.04em] text-foreground">
               {t.faqIntro.rubrik}
             </h2>
             <p className="mt-[22px] max-w-[22rem] text-[15px] leading-[1.65] text-foreground/70">
@@ -317,8 +307,8 @@ export default function Home({ lang }: { lang: Lang }) {
         <div className="studio-container contact-layout">
           <div className="contact-introduction">
           <Reveal>
-            <h2 className="font-display text-[clamp(36px,4.5vw,60px)] font-bold leading-none tracking-[-0.035em] text-foreground">
-              {t.kontakt2.rubrik1} <em className="not-italic text-accent-light">{t.kontakt2.rubrik2}</em>
+            <h2 className="font-display text-[clamp(44px,6vw,84px)] font-semibold leading-none tracking-[-0.035em] text-foreground">
+              {t.kontakt2.rubrik1} <em className="not-italic font-normal">{t.kontakt2.rubrik2}</em>
             </h2>
             <p className="mt-7 max-w-[30rem] text-[17px] leading-[1.6] text-foreground/70 [text-wrap:pretty]">
               {t.kontakt2.ingress}

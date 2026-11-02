@@ -82,7 +82,7 @@ export function ProjectCard({
     <>
       <BrowserPreview project={project} priority={priority} />
       <div className="mt-[22px] px-0.5">
-        <span className="font-sans text-xs uppercase tracking-[0.1em] text-accent-light">
+        <span className="font-sans text-sm font-medium text-accent-light">
           {text.kategori}
         </span>
         <h3 className="font-display mt-2.5 text-[25px] font-bold tracking-[-0.02em] text-foreground">

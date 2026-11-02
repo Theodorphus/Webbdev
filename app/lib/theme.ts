@@ -13,7 +13,7 @@ export function applyTheme(preference: ThemePreference) {
   document.documentElement.dataset.theme = resolved;
   document.documentElement.dataset.themePreference = preference;
   document.documentElement.style.colorScheme = resolved;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', resolved === 'dark' ? '#211d1a' : '#f7f3ed');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', resolved === 'dark' ? '#0e2026' : '#ebeee9');
   window.dispatchEvent(new Event(eventName));
 }
 

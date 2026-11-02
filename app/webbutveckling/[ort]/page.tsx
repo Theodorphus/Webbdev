@@ -99,7 +99,7 @@ export default async function OrtPage({ params }: Props) {
         <Breadcrumbs items={[{ name: "Webbutveckling", href: "/webbutveckling" }, { name: ort.namn }]} className="mb-8" />
 
         {/* Hero */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em] text-accent-light">
+        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-[13px] font-medium text-accent-light">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           {ort.namn} · {ort.region}
         </div>
@@ -166,7 +166,7 @@ export default async function OrtPage({ params }: Props) {
                   />
                 </div>
                 <div className="p-5">
-                  <p className="text-xs uppercase tracking-[0.1em] text-accent-light">{item.category}</p>
+                  <p className="text-sm font-medium text-accent-light">{item.category}</p>
                   <h3 className="font-display mt-2 text-base font-bold text-foreground">{item.name}</h3>
                   <span className="mt-3 inline-flex text-sm font-semibold text-accent-light">Läs kundcaset →</span>
                 </div>

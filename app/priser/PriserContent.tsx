@@ -57,7 +57,7 @@ export default function PriserContent() {
 
         {/* Sidhuvud */}
         <Reveal className="mt-12 max-w-[46rem]">
-          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
+          <span className="font-sans text-[13px] font-medium text-accent-light">
             {t.priser.etikett}
           </span>
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -82,14 +82,14 @@ export default function PriserContent() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span
-                      className={`font-sans text-xs uppercase tracking-[0.1em] ${
+                      className={`font-sans text-sm font-medium ${
                         p.populer ? 'text-accent-light' : 'text-muted'
                       }`}
                     >
                       {p.tier}
                     </span>
                     {p.populer && (
-                      <span className="rounded-full border border-accent/40 bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent-light">
+                      <span className="rounded-full border border-accent/40 bg-surface px-3 py-1 text-xs font-semibold text-accent-light">
                         {t.priser2.badge}
                       </span>
                     )}

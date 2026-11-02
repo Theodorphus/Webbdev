@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import BrandMark from './BrandMark';
 import { localizedHref } from '../i18n/routes';
 import { useLang } from '../i18n/LanguageProvider';
 import { business } from '../lib/business';
@@ -11,12 +12,12 @@ export default function SiteFooter() {
   const { t, lang } = useLang();
   const home = lang === 'en' ? '/en' : '/';
   return (
-      <footer className="border-t border-foreground/10 bg-[var(--surface-1)] py-16">
+      <footer className="site-footer border-t border-foreground/10 py-16">
         <div className="mx-auto max-w-[80rem] px-5 sm:px-8">
           <div className="grid gap-12 xl:grid-cols-[1fr_2.5fr]">
             <div>
-              <span className="font-display text-[17px] font-bold text-foreground">
-                Webbdev<span className="text-accent-light">.</span>studio
+              <span className="brand-lockup font-display text-[17px] font-bold text-foreground">
+                <BrandMark className="brand-mark" />Webbdev.studio
               </span>
               <p className="mt-3 max-w-[22rem] text-sm leading-relaxed text-muted">
                 {t.footer.tagline}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Familjen_Grotesk } from "next/font/google";
 import SiteAnalytics from "./components/SiteAnalytics";
 import GoogleAds from "./components/GoogleAds";
 import SiteShell from "./components/SiteShell";
@@ -20,11 +20,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Display-font för rubriker — ger dem egen karaktär mot den neutrala brödtexten.
-const spaceGrotesk = Space_Grotesk({
+// Display-font för rubriker: Familjen Grotesk, ritad av Stockholmsbyrån
+// Familjen. Lite smalare och mer egensinnig än en standardgrotesk — ger
+// rubrikerna karaktär mot den neutrala brödtexten (Geist).
+const familjenGrotesk = Familjen_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f7f3ed",
+  themeColor: "#ebeee9",
 };
 
 export default function RootLayout({
@@ -79,7 +81,7 @@ export default function RootLayout({
       lang="sv"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${familjenGrotesk.variable} h-full antialiased`}
     >
       <head><script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head>
       <body className="min-h-full flex flex-col bg-background text-foreground">

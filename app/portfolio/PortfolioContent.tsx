@@ -31,7 +31,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
         <BrowserPreview project={project} priority={index < 2} />
       </div>
       <div className={reverse ? 'lg:order-1' : ''}>
-        <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
+        <span className="font-sans text-[13px] font-medium text-accent-light">
           {text.kategori}
         </span>
         <h2 className="font-display mt-3.5 text-[30px] font-bold [overflow-wrap:anywhere] tracking-[-0.02em] text-foreground">
@@ -72,7 +72,7 @@ export default function PortfolioContent() {
 
         {/* Sidhuvud */}
         <Reveal className="mt-12 max-w-[46rem]">
-          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
+          <span className="font-sans text-[13px] font-medium text-accent-light">
             {t.portfolioSida.etikett}
           </span>
           <h1 className="font-display mt-4 text-[clamp(36px,4.5vw,60px)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground">
@@ -112,7 +112,7 @@ export default function PortfolioContent() {
                 >
                   <BrowserPreview project={p} />
                   <div className="mt-5">
-                    <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-accent-light">
+                    <span className="font-sans text-[13px] font-medium text-accent-light">
                       {text.kategori}
                     </span>
                     <h3 className="font-display mt-2.5 text-[22px] font-bold tracking-[-0.02em] text-foreground">

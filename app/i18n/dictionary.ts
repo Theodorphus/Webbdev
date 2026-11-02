@@ -31,7 +31,7 @@ export const dictionary = {
       ctaSekundar: 'Se hur det funkar',
       stats: [
         { to: 7, prefix: '3–', suffix: ' dagar', label: 'Snabb leverans' },
-        { to: 3, prefix: '', suffix: ' år', label: 'Erfarenhet' },
+        { to: 1, prefix: '', suffix: ' år', label: 'Erfarenhet' },
         { to: 100, prefix: '', suffix: '%', label: 'Fast pris' },
       ],
     },
@@ -71,7 +71,7 @@ export const dictionary = {
     },
     arbete: {
       rubrik: 'Utvalda projekt',
-      period: '2023 — 2026',
+      period: '2025 — 2026',
       besok: 'Besök sajten',
       fler: 'Fler projekt',
       alla: 'Se alla projekt',
@@ -94,7 +94,7 @@ export const dictionary = {
     portfolioSida: {
       etikett: 'Portfolio',
       rubrik: 'Sajter jag har byggt',
-      ingress: 'Kundprojekt från 2023 och framåt — e-handel, plattformar och företagswebbplatser. Klicka på ett projekt för att läsa kundcaset eller besöka sajten.',
+      ingress: 'Kundprojekt från 2025 och framåt — e-handel, plattformar och företagswebbplatser. Klicka på ett projekt för att läsa kundcaset eller besöka sajten.',
       utvalda: 'Utvalda projekt',
       fler: 'Fler projekt',
       resultat: 'Resultat',
@@ -104,7 +104,7 @@ export const dictionary = {
     },
     processIntro: {
       etikett: 'Processen',
-      rubrik: 'Från idé till live — utan omvägar',
+      rubrik: 'Från idé till live\u00a0— utan omvägar',
       text: 'Designförslaget godkänns innan en rad kod skrivs. Därför går det snabbt — och därför blir det rätt.',
       cta: 'Berätta om ditt projekt',
     },
@@ -270,7 +270,7 @@ export const dictionary = {
       etikett: 'Om mig',
       fakta: [
         { label: 'Utbildning', value: 'Systemvetenskap, GU', tag: 'EDU' },
-        { label: 'Erfarenhet', value: '3 år webbutveckling', tag: 'EXP' },
+        { label: 'Erfarenhet', value: '1 år webbutveckling', tag: 'EXP' },
         { label: 'Teknikstack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
         { label: 'Leveranstid', value: '3–7 arbetsdagar', tag: 'SPEED' },
       ],
@@ -373,7 +373,7 @@ export const dictionary = {
       ctaSekundar: 'See how it works',
       stats: [
         { to: 7, prefix: '3–', suffix: ' days', label: 'Fast delivery' },
-        { to: 3, prefix: '', suffix: ' yrs', label: 'Experience' },
+        { to: 1, prefix: '', suffix: ' yr', label: 'Experience' },
         { to: 100, prefix: '', suffix: '%', label: 'Fixed price' },
       ],
     },
@@ -413,7 +413,7 @@ export const dictionary = {
     },
     arbete: {
       rubrik: 'Selected work',
-      period: '2023 — 2026',
+      period: '2025 — 2026',
       besok: 'Visit site',
       fler: 'More projects',
       alla: 'See all projects',
@@ -434,7 +434,7 @@ export const dictionary = {
     portfolioSida: {
       etikett: 'Portfolio',
       rubrik: 'Sites I have built',
-      ingress: 'Client projects from 2023 onwards — e-commerce, platforms and corporate websites. Click a project to read the case study or visit the site.',
+      ingress: 'Client projects from 2025 onwards — e-commerce, platforms and corporate websites. Click a project to read the case study or visit the site.',
       utvalda: 'Selected work',
       fler: 'More projects',
       resultat: 'Result',
@@ -444,7 +444,7 @@ export const dictionary = {
     },
     processIntro: {
       etikett: 'The process',
-      rubrik: 'From idea to live — no detours',
+      rubrik: 'From idea to live\u00a0— no detours',
       text: 'The design proposal is approved before a single line of code is written. That’s why it’s fast — and why it turns out right.',
       cta: 'Tell me about your project',
     },
@@ -611,7 +611,7 @@ export const dictionary = {
       etikett: 'About',
       fakta: [
         { label: 'Education', value: 'Information Systems, GU', tag: 'EDU' },
-        { label: 'Experience', value: '3 years web development', tag: 'EXP' },
+        { label: 'Experience', value: '1 year web development', tag: 'EXP' },
         { label: 'Tech stack', value: 'Next.js · React · TypeScript', tag: 'TECH' },
         { label: 'Delivery time', value: '3–7 working days', tag: 'SPEED' },
       ],

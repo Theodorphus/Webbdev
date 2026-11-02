@@ -95,7 +95,7 @@ export default function PriceCalculator() {
 
           {/* Typ av sida */}
           <fieldset className="mt-7">
-            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
+            <legend className="mb-3 text-sm font-semibold text-muted">
               {c.typLabel}
             </legend>
             <div className="grid gap-2.5 sm:grid-cols-3">
@@ -126,7 +126,7 @@ export default function PriceCalculator() {
           {/* Antal sidor */}
           <div className="mt-7">
             <div className="mb-3 flex items-center justify-between">
-              <label htmlFor="calc-pages" className="text-xs font-semibold uppercase tracking-wider text-muted">
+              <label htmlFor="calc-pages" className="text-sm font-semibold text-muted">
                 {c.sidorLabel}
               </label>
               <span className="rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1 font-sans text-xs text-accent-light">
@@ -147,7 +147,7 @@ export default function PriceCalculator() {
 
           {/* Extra funktioner */}
           <fieldset className="mt-7">
-            <legend className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
+            <legend className="mb-3 text-sm font-semibold text-muted">
               {c.funktionerLabel}
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -178,7 +178,7 @@ export default function PriceCalculator() {
 
         {/* Höger: resultat */}
         <div className="flex flex-col justify-center rounded-2xl border border-foreground/[0.08] bg-surface-raised p-6 sm:p-7">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-light">{c.resultatLabel}</p>
+          <p className="text-sm font-semibold text-accent-light">{c.resultatLabel}</p>
           {/* Varje belopp hålls ihop så att "kr" aldrig hamnar ensamt på en ny rad. */}
           <p className="font-display mt-2 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
             <span className="whitespace-nowrap">{formatPrice(low, lang)}</span>
