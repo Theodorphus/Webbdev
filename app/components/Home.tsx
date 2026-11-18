@@ -217,14 +217,14 @@ export default function Home({ lang }: { lang: Lang }) {
             <h2 className="font-display mt-4 text-[clamp(38px,4.8vw,64px)] font-semibold leading-[1] tracking-[-0.04em] text-foreground">
               {t.omMig2.rubrik}
             </h2>
-            <div className="mt-8 flex flex-wrap items-center gap-4 sm:flex-col sm:items-start sm:gap-5">
+            <div className="mt-8 flex items-center gap-4 sm:gap-5">
               <Image
                 src="/pp3.webp"
                 alt="Theo Håkansson"
-                width={336}
-                height={336}
-                sizes="(max-width: 639px) 168px, 336px"
-                className="aspect-square h-auto w-[42vw] max-w-[168px] rounded-[32px] border border-foreground/10 object-cover [filter:saturate(0.9)_contrast(1.02)] sm:w-[336px] sm:max-w-full sm:rounded-[64px]"
+                width={100}
+                height={100}
+                sizes="(max-width: 639px) 50px, 100px"
+                className="aspect-square h-auto w-[50px] shrink-0 rounded-[12px] border border-foreground/10 object-cover [filter:saturate(0.9)_contrast(1.02)] sm:w-[100px] sm:rounded-[20px]"
               />
               <p className="flex flex-col gap-1">
                 <span className="font-display text-[17px] font-semibold text-foreground">Theo Håkansson</span>
